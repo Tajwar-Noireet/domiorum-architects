@@ -1,6 +1,67 @@
 import { expect, test } from "@playwright/test";
 import path from "node:path";
 
+test("gallery stays visible throughout its reserved scroll space", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+  await page.goto("/");
+
+  for (const phase of ["initial", "reload", "resize", "reenable"]) {
+    if (phase === "reload") await page.reload();
+    if (phase === "resize") {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await expect(page.locator(".pin-spacer")).toHaveCount(1);
+      await page.setViewportSize({ width: 1440, height: 900 });
+    }
+    if (phase === "reenable") {
+      await page.evaluate(() =>
+        window.scrollTo({ top: 0, behavior: "instant" }),
+      );
+      await page
+        .getByRole("button", { name: /Disable scroll animation/ })
+        .click();
+      await expect(page.locator(".pin-spacer")).toHaveCount(0);
+      await page
+        .getByRole("button", { name: /Enable scroll animation/ })
+        .click();
+    }
+    await expect(page.locator(".pin-spacer")).toHaveCount(2);
+    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    const space = await page.locator(".interior-pin").evaluate((el) => {
+      const spacer = el.closest(".interior-scroll") as HTMLElement;
+      return {
+        start: spacer.getBoundingClientRect().top + scrollY,
+        travel: spacer.offsetHeight - (el as HTMLElement).offsetHeight,
+      };
+    });
+    for (const progress of [0.15, 0.5, 0.85]) {
+      await page.evaluate(
+        (top) => window.scrollTo({ top, behavior: "instant" }),
+        space.start + space.travel * progress,
+      );
+      if (phase === "initial" && progress === 0.5) {
+        await page.screenshot({
+          path: "../output/website-review/homepage-gallery-gap-check.png",
+        });
+      }
+      await expect
+        .poll(
+          () =>
+            page.locator(".interior-pin").evaluate((el) => {
+              const rect = el.getBoundingClientRect();
+              return Math.abs(rect.top) < 2 && rect.bottom > innerHeight * 0.75;
+            }),
+          {
+            message: `${phase}: gallery must fill its pin space at ${progress}`,
+          },
+        )
+        .toBe(true);
+    }
+  }
+});
+
 test("brand composition fits phones, tablets and desktop", async ({
   page,
 }, testInfo) => {
@@ -33,7 +94,7 @@ test("brand composition fits phones, tablets and desktop", async ({
     ).toBe("rgb(8, 24, 46)");
     expect(
       await page
-        .locator("h1 span")
+        .locator("h1 .hero-line-second")
         .evaluate((el) => getComputedStyle(el).color),
     ).toBe("rgb(225, 191, 119)");
     expect(
@@ -42,9 +103,7 @@ test("brand composition fits phones, tablets and desktop", async ({
       ),
     ).toBe(true);
     const previewBounds = await page.locator(".cinema-preview").boundingBox();
-    expect(previewBounds!.y).toBeGreaterThanOrEqual(
-      size.width >= 900 ? 100 : 78,
-    );
+    expect(previewBounds!.y).toBeGreaterThanOrEqual(0);
     await page.screenshot({
       path: `../output/website-review/homepage-${size.name}.png`,
     });

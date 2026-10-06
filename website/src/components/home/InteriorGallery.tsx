@@ -28,6 +28,7 @@ const rooms = [
 
 export function InteriorGallery() {
   const section = useRef<HTMLElement>(null);
+  const scrollSpace = useRef<HTMLDivElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const trigger = useRef<ScrollTriggerType | undefined>(undefined);
@@ -53,6 +54,15 @@ export function InteriorGallery() {
         "(min-width: 900px)",
         () => {
           viewport.current!.scrollLeft = 0;
+          const reserve = () => {
+            gsap.set(scrollSpace.current, {
+              height:
+                section.current!.offsetHeight +
+                track.current!.scrollWidth -
+                viewport.current!.clientWidth,
+            });
+          };
+          reserve();
           const tween = gsap.to(track.current, {
             x: () =>
               -(track.current!.scrollWidth - viewport.current!.clientWidth),
@@ -62,7 +72,10 @@ export function InteriorGallery() {
               start: "top top",
               end: () =>
                 `+=${track.current!.scrollWidth - viewport.current!.clientWidth}`,
+              refreshPriority: 1,
               pin: true,
+              pinSpacing: false,
+              onRefreshInit: reserve,
               scrub: 0.7,
               invalidateOnRefresh: true,
             },
@@ -127,64 +140,66 @@ export function InteriorGallery() {
   }
 
   return (
-    <section
-      ref={section}
-      className="interior-pin"
-      aria-label="Explore interior spaces"
-    >
-      <div className="interior-heading">
-        <div>
-          <p className="eyebrow">02 / Inside the home</p>
-          <h2>Life, room by room.</h2>
-        </div>
-        <p>
-          Scroll through the spaces.
-          <br />
-          <span>Design visualizations</span>
-        </p>
-      </div>
-      <div
-        className="interior-viewport"
-        ref={viewport}
-        tabIndex={0}
-        aria-label="Interior image gallery"
+    <div className="interior-scroll" ref={scrollSpace}>
+      <section
+        ref={section}
+        className="interior-pin"
+        aria-label="Explore interior spaces"
       >
-        <div ref={track} className="interior-track">
-          {rooms.map((room, index) => (
-            <figure key={room.src} className="interior-room">
-              <div className="interior-room-image">
-                <Image
-                  src={room.src}
-                  alt={room.alt}
-                  fill
-                  sizes="(max-width: 899px) 90vw, 72vw"
-                  quality={85}
-                />
-              </div>
-              <figcaption>
-                <span className="interior-room-number">0{index + 1}</span>
-                <div>
-                  <h3>{room.title}</h3>
-                  <p>{room.text}</p>
+        <div className="interior-heading">
+          <div>
+            <p className="eyebrow">02 / Inside the home</p>
+            <h2>Life, room by room.</h2>
+          </div>
+          <p>
+            Scroll through the spaces.
+            <br />
+            <span>Design visualizations</span>
+          </p>
+        </div>
+        <div
+          className="interior-viewport"
+          ref={viewport}
+          tabIndex={0}
+          aria-label="Interior image gallery"
+        >
+          <div ref={track} className="interior-track">
+            {rooms.map((room, index) => (
+              <figure key={room.src} className="interior-room">
+                <div className="interior-room-image">
+                  <Image
+                    src={room.src}
+                    alt={room.alt}
+                    fill
+                    sizes="(max-width: 899px) 90vw, 72vw"
+                    quality={85}
+                  />
                 </div>
-              </figcaption>
-            </figure>
+                <figcaption>
+                  <span className="interior-room-number">0{index + 1}</span>
+                  <div>
+                    <h3>{room.title}</h3>
+                    <p>{room.text}</p>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+        <div className="interior-controls" aria-label="Choose an interior view">
+          {rooms.map((room, index) => (
+            <button
+              key={room.title}
+              type="button"
+              onClick={() => showRoom(index)}
+            >
+              0{index + 1}
+              <span>{room.title}</span>
+              <span aria-hidden="true">↗</span>
+            </button>
           ))}
         </div>
-      </div>
-      <div className="interior-controls" aria-label="Choose an interior view">
-        {rooms.map((room, index) => (
-          <button
-            key={room.title}
-            type="button"
-            onClick={() => showRoom(index)}
-          >
-            0{index + 1}
-            <span>{room.title}</span>
-            <span aria-hidden="true">↗</span>
-          </button>
-        ))}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

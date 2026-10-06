@@ -31,6 +31,7 @@ const scenes = [
 
 export function ScrollHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { enabled, toggle } = useHomeMotion();
   useLayoutEffect(() => {
     if (!enabled) return;
@@ -54,13 +55,24 @@ export function ScrollHero() {
           const desktop = context.conditions?.desktop;
           const frames = section.querySelectorAll(".cinema-scene");
           const labels = section.querySelectorAll(".cinema-scene-copy");
+          const reserve = () => {
+            gsap.set(scrollRef.current, {
+              height:
+                section.offsetHeight + innerHeight * (desktop ? 2.2 : 1.5),
+            });
+          };
+          reserve();
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
               trigger: section,
               start: "top top",
               end: desktop ? "+=220%" : "+=150%",
+              // The outer wrapper preserves travel while GSAP reverts pins during refresh.
+              refreshPriority: 2,
               pin: true,
+              pinSpacing: false,
+              onRefreshInit: reserve,
               scrub: 0.6,
               invalidateOnRefresh: true,
             },
@@ -68,9 +80,7 @@ export function ScrollHero() {
           tl.fromTo(
             section.querySelector(".cinema-frame"),
             {
-              clipPath: desktop
-                ? "inset(16% 5.5% 18% 47%)"
-                : "inset(14% 5.5% 46% 5.5%)",
+              clipPath: "inset(0% 0% 0% 0%)",
             },
             { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9 },
             0,
@@ -155,93 +165,95 @@ export function ScrollHero() {
   }, [enabled]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="cinema-hero"
-      aria-label="Architecture and interiors by Domiorum"
-    >
-      <div className="cinema-preview">
-        <Image
-          src={scenes[0].src}
-          alt=""
-          fill
-          sizes="(max-width: 899px) 90vw, 47vw"
-          preload
-          quality={85}
-        />
-      </div>
-      <div className="cinema-frame">
-        {scenes.map((scene, i) => (
-          <div
-            className={`cinema-scene cinema-scene-${i}`}
-            key={scene.src}
-            aria-hidden={i > 0 ? true : undefined}
-          >
-            <Image
-              src={scene.src}
-              alt={scene.alt}
-              fill
-              sizes="100vw"
-              loading={i === 0 ? "eager" : "lazy"}
-              fetchPriority={i === 0 ? "high" : "auto"}
-              quality={85}
-              style={{ objectPosition: scene.position }}
-            />
-          </div>
-        ))}
-        <div className="cinema-shade" />
-      </div>
-      <div className="cinema-opening">
-        <p className="eyebrow">Domiorum Architects · Dhaka</p>
-        <h1>
-          Imagined <br />
-          with you.
-          <br />
-          <span>Built for you.</span>
-        </h1>
-        <div className="cinema-intro-bottom">
-          <p>
-            Architecture & interiors <br />
-            for the way you live.
-          </p>
-          <Link href="/projects" className="cinema-work-link">
-            Explore our work <span aria-hidden="true">↗</span>
-          </Link>
+    <div ref={scrollRef} className="cinema-scroll">
+      <section
+        ref={sectionRef}
+        className="cinema-hero"
+        aria-label="Architecture and interiors by Domiorum"
+      >
+        <div className="cinema-preview">
+          <Image
+            src={scenes[0].src}
+            alt=""
+            fill
+            sizes="100vw"
+            preload
+            quality={85}
+          />
         </div>
-      </div>
-      <div className="cinema-scene-titles" aria-hidden="true">
-        {scenes.map((scene) => (
-          <div className="cinema-scene-copy" key={scene.label}>
-            <span className="eyebrow">{scene.label}</span>
-            <p>{scene.title}</p>
+        <div className="cinema-frame">
+          {scenes.map((scene, i) => (
+            <div
+              className={`cinema-scene cinema-scene-${i}`}
+              key={scene.src}
+              aria-hidden={i > 0 ? true : undefined}
+            >
+              <Image
+                src={scene.src}
+                alt={scene.alt}
+                fill
+                sizes="100vw"
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
+                quality={85}
+                style={{ objectPosition: scene.position }}
+              />
+            </div>
+          ))}
+          <div className="cinema-shade" />
+        </div>
+        <div className="cinema-opening">
+          <p className="eyebrow">Domiorum Architects · Dhaka</p>
+          <h1>
+            <span className="hero-line hero-line-first">
+              Imagined with you.
+            </span>
+            <span className="hero-line hero-line-second">Built for you.</span>
+          </h1>
+          <div className="cinema-intro-bottom">
+            <p>
+              Architecture & interiors <br />
+              for the way you live.
+            </p>
+            <Link href="/projects" className="cinema-work-link">
+              Explore our work <span aria-hidden="true">↗</span>
+            </Link>
           </div>
-        ))}
-      </div>
-      <span className="cinema-frame-note">A closer look at home</span>
-      <div className="cinema-controls">
-        <a href="#introduction" className="cinema-scroll-link">
-          Scroll to explore <span aria-hidden="true">↓</span>
-        </a>
-        <button
-          type="button"
-          onClick={toggle}
-          aria-pressed={enabled}
-          aria-label={
-            enabled
-              ? "Motion on: Disable scroll animation"
-              : "Enable motion: Enable scroll animation"
-          }
-        >
-          <span className="motion-symbol" aria-hidden="true">
-            {enabled ? "Ⅱ" : "▷"}
-          </span>
-          {enabled ? "Motion on" : "Enable motion"}
-        </button>
-        <span className="cinema-credit">Design visualizations</span>
-      </div>
-      <div className="cinema-progress" aria-hidden="true">
-        <div className="cinema-progress-fill" />
-      </div>
-    </section>
+        </div>
+        <div className="cinema-scene-titles" aria-hidden="true">
+          {scenes.map((scene) => (
+            <div className="cinema-scene-copy" key={scene.label}>
+              <span className="eyebrow">{scene.label}</span>
+              <p>{scene.title}</p>
+            </div>
+          ))}
+        </div>
+        <span className="cinema-frame-note">01 - A closer look at home</span>
+        <div className="cinema-controls">
+          <a href="#introduction" className="cinema-scroll-link">
+            Scroll to explore <span aria-hidden="true">↓</span>
+          </a>
+          <button
+            type="button"
+            onClick={toggle}
+            aria-pressed={enabled}
+            aria-label={
+              enabled
+                ? "Motion on: Disable scroll animation"
+                : "Enable motion: Enable scroll animation"
+            }
+          >
+            <span className="motion-symbol" aria-hidden="true">
+              {enabled ? "Ⅱ" : "▷"}
+            </span>
+            {enabled ? "Motion on" : "Enable motion"}
+          </button>
+          <span className="cinema-credit">Design visualizations</span>
+        </div>
+        <div className="cinema-progress" aria-hidden="true">
+          <div className="cinema-progress-fill" />
+        </div>
+      </section>
+    </div>
   );
 }

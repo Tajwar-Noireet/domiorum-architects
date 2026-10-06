@@ -679,3 +679,113 @@ body:has(.cinema-hero) .site-header {
     min-height: 240px;
   }
 }
+
+/* Photo-led opening: the room remains the main visual at every breakpoint. */
+.cinema-scroll,
+.interior-scroll {
+  position: relative;
+  background: var(--navy);
+}
+.cinema-preview {
+  inset: 0;
+}
+.cinema-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #08182e38 10%,
+    #08182e45 42%,
+    #08182ef2 100%
+  );
+}
+.cinema-preview img {
+  object-position: 60% 62%;
+}
+.cinema-frame {
+  clip-path: inset(0);
+}
+.cinema-opening {
+  inset: auto var(--gutter) 19%;
+}
+.cinema-opening h1 {
+  font-size: clamp(64px, 7.8vw, 150px);
+  max-width: none;
+  line-height: 1.05;
+}
+.cinema-opening h1 .hero-line {
+  display: block;
+}
+.cinema-opening h1 .hero-line-first {
+  color: var(--ivory);
+}
+.cinema-opening h1 .hero-line-second {
+  text-align: right;
+  color: var(--gold);
+}
+.cinema-intro-bottom {
+  justify-content: space-between;
+  margin-top: 38px;
+}
+.cinema-frame-note {
+  top: 145px;
+  left: var(--gutter);
+  right: auto;
+  border-left: 1px solid var(--gold);
+  padding: 8px 16px;
+  background: var(--navy);
+}
+.cinema-opening .eyebrow {
+  margin-bottom: 22px;
+}
+@media (max-width: 899px) {
+  .cinema-opening {
+    bottom: 20%;
+  }
+  .cinema-opening h1 {
+    font-size: clamp(48px, 8.8vw, 90px);
+  }
+  .cinema-opening h1 .hero-line-second {
+    text-align: left;
+    margin-top: 12px;
+  }
+  .cinema-preview {
+    inset: 0;
+  }
+  .cinema-frame {
+    clip-path: inset(0);
+  }
+  .cinema-frame-note {
+    top: 112px;
+  }
+}
+@media (max-width: 600px) {
+  .cinema-opening h1 {
+    font-size: clamp(44px, 12vw, 70px);
+    line-height: 1.02;
+  }
+  .cinema-opening {
+    bottom: 19%;
+  }
+  .cinema-intro-bottom {
+    margin-top: 24px;
+  }
+  .cinema-preview img {
+    object-position: 61% 50%;
+  }
+  .cinema-frame-note {
+    font-size: 10px;
+  }
+}
+@media (max-height: 599px) and (max-width: 899px) {
+  .cinema-opening h1 {
+    font-size: 52px;
+  }
+  .cinema-opening {
+    bottom: 20%;
+  }
+  .cinema-intro-bottom {
+    flex-direction: row;
+  }
+}

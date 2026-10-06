@@ -25,3 +25,10 @@ The operating system's reduced-motion setting is respected by default. Visitors 
 Browser checks cover expansion, both scene transitions, release, navigation cleanup, resizing, motion preferences, preference persistence and room-button destinations. Visual checks cover phone, tablet, desktop and landscape widths. Screenshots of three scroll positions are saved under `output/website-review/`.
 
 This is an animated sequence of supplied renderings. A continuous 3D camera path needs suitable sequential frames or an optimized model.
+
+
+## 6 October: photographic hero and stable scroll layout
+
+The opening is now full-screen interior imagery with offset headline lines, using the approved brand palette. The opening dissolves into the existing image wipes and detail scenes. No 21st component code was imported; the researched perspective-card component was unsuitable for the chosen composition.
+
+The hero and desktop gallery each reserve their own scroll height in outer wrappers. GSAP pins use pinSpacing: false, and refresh initialization updates the reserved height for the viewport and gallery track. This prevents downstream offsets from collapsing while generated pin spacers are temporarily reverted. Match-media cleanup restores ordinary wrapper height when motion is disabled or the gallery switches to mobile. Regression checks cover initial loading, reload, responsive resizing and motion re-enabling; the affected gallery was also verified in the in-app browser.

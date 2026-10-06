@@ -109,3 +109,12 @@ Domiorum opportunity: explain the specific value and deliverables of the paid co
 ### Founder presentation
 
 Use the approved title Zarin Nawar - Founder & CEO. Add a concise founder introduction to the homepage rather than adding a standalone Studio page without client agreement. Her portrait, education, and previous architecture experience are available in the portfolio. Earlier Innova Architects projects must retain appropriate firm/project architect credits; her experience is distinct from Domiorum's company history.
+
+
+## Hero replacement and scroll layout repair - 6 October 2026
+
+Revisited https://dsgninterior.se/en in the live browser: a full-screen interior photograph, oversized typography and restrained navigation. Adopted the photographic opening principle using Domiorum's supplied living room render, the approved headline and navy/ivory/gold palette. The two headline lines sit at opposing edges on desktop and stack on phones. Existing GSAP scene wipes and close-up motion continue after the opening.
+
+Also reviewed the 21st.dev Container Scroll Animation listing at https://21st.dev/@manuarora700/components/container-scroll-animation. Its perspective-card pattern did not fit this photographic direction; no component code was copied and no additional animation dependency was added. The 21st CLI catalog lookup could not reach npm in the restricted environment, so official web listings and the live reference were used.
+
+The live in-app browser exposed an incorrect downstream pin position: the gallery ended before its physical scroll space, leaving an empty viewport. Both animated sections now keep their travel in independent outer wrappers, with GSAP pinSpacing disabled. This keeps page geometry stable while ScrollTrigger refreshes its generated pin spacers. Checked the gallery in the live browser and added regression coverage for reload, responsive resizing, and motion toggling.

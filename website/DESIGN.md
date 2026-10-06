@@ -17,7 +17,7 @@ The latest completed questionnaire, page 2, specifies midnight navy and warm ivo
 
 Fourteen of the newly supplied `Pics/` images are used across the homepage, room gallery, Selim project gallery, services and careers. The three hero scenes show an overview, timber detail and open stair. Building imagery and the rejected living-room view are excluded. The remaining Selim project and founder portrait retain their source records. Asset provenance is recorded in `src/content/asset-manifest.json`; originals are preserved.
 
-The opening room expands from an inset into a full-screen scene as the visitor scrolls. Directional wipes, image movement and changing scene titles lead through three views. A second desktop pin moves through large room images horizontally. Other sections use image reveals and small parallax movements. Motion is concentrated in these spatial sequences.
+The opening uses a full-screen interior photograph with the approved headline spread across two opposing lines on desktop, stacked on phones. The photographic composition draws on the live DSGN Interior reference. Scrolling moves from the opening typography into the room scenes. Directional wipes, image movement and changing scene titles lead through three views. A second desktop pin moves through large room images horizontally. Other sections use image reveals and small parallax movements. Motion is concentrated in these spatial sequences.
 
 The UI/UX Pro Max guidance informed native scroll binding, limited pinning, responsive fallbacks, reduced-motion handling, stable dimensions and cleanup. Generic palette suggestions from the skill do not replace the client's approved colours.
 
