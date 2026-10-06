@@ -15,8 +15,10 @@ const routes = [
 
 test("all pages load with usable images and no overflow or runtime errors", async ({
   page,
+  request,
 }) => {
   const errors: string[] = [];
+  const checkedAssets = new Set<string>();
   page.on("pageerror", (error) => errors.push(error.message));
   for (const route of routes) {
     const response = await page.goto(route);
@@ -26,6 +28,13 @@ test("all pages load with usable images and no overflow or runtime errors", asyn
     const images = page.locator("main img");
     for (const image of await images.all()) {
       if (await image.isVisible()) {
+        const source = new URL((await image.getAttribute("src"))!, page.url());
+        const asset = source.searchParams.get("url") ?? source.pathname;
+        if (!checkedAssets.has(asset)) {
+          const assetResponse = await request.get(asset);
+          expect(assetResponse.status(), asset).toBe(200);
+          checkedAssets.add(asset);
+        }
         await image.scrollIntoViewIfNeeded();
         await expect
           .poll(() =>
@@ -131,50 +140,113 @@ test("mobile menu works with keyboard dismissal and route navigation", async ({
   await expect(page.locator("#mobile-navigation")).toBeHidden();
 });
 
-test("scroll scenes change, release cleanly and survive route navigation", async ({
+test("scroll scenes expand, change, release and survive route navigation", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop");
+  test.skip(testInfo.project.name === "reduced-motion");
   await page.goto("/");
-  await expect(page.locator(".pin-spacer")).toHaveCount(1);
-  await page.evaluate(() => window.scrollTo({ top: 900, behavior: "instant" }));
-  await expect
-    .poll(() =>
-      page
-        .locator(".hero-scene-1")
-        .evaluate((el) => Number(getComputedStyle(el).opacity)),
-    )
-    .toBeGreaterThan(0.95);
-  await page.evaluate(() =>
-    window.scrollTo({ top: 1450, behavior: "instant" }),
+  await expect(page.locator(".pin-spacer")).toHaveCount(
+    testInfo.project.name === "desktop" ? 2 : 1,
+  );
+  const travel = await page.evaluate(
+    () => window.innerHeight * (window.innerWidth >= 900 ? 2.2 : 1.5),
+  );
+  await page.evaluate(
+    (top) => window.scrollTo({ top, behavior: "instant" }),
+    travel * 0.55,
   );
   await expect
     .poll(() =>
       page
-        .locator(".hero-scene-2")
-        .evaluate((el) => Number(getComputedStyle(el).opacity)),
+        .locator(".cinema-scene-1")
+        .evaluate((el) => getComputedStyle(el).clipPath),
     )
-    .toBeGreaterThan(0.95);
-  await page.evaluate(() =>
-    window.scrollTo({ top: 2300, behavior: "instant" }),
+    .toBe("inset(0%)");
+  await expect
+    .poll(() =>
+      page
+        .locator(".cinema-frame")
+        .evaluate((el) => getComputedStyle(el).clipPath),
+    )
+    .toBe("inset(0%)");
+  await page.evaluate(
+    (top) => window.scrollTo({ top, behavior: "instant" }),
+    travel * 0.91,
+  );
+  await expect
+    .poll(() =>
+      page
+        .locator(".cinema-scene-2")
+        .evaluate((el) => getComputedStyle(el).clipPath),
+    )
+    .toBe("inset(0%)");
+  await page.evaluate(
+    (top) =>
+      window.scrollTo({ top: top + innerHeight * 0.65, behavior: "instant" }),
+    travel,
   );
   await expect(page.locator("#introduction")).toBeInViewport();
   await page.getByRole("link", { name: "View all projects" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.getByRole("link", { name: "Domiorum Architects home" }).click();
-  await expect(page.locator(".pin-spacer")).toHaveCount(1);
+  await expect(page.locator(".pin-spacer")).toHaveCount(
+    testInfo.project.name === "desktop" ? 2 : 1,
+  );
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator(".pin-spacer")).toHaveCount(1);
 });
 
-test("small screens and reduced motion keep ordinary scrolling", async ({
+test("reduced motion is respected and visitors can enable or disable it", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name === "desktop");
+  test.skip(testInfo.project.name !== "reduced-motion");
   await page.goto("/");
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await page.getByRole("button", { name: /Enable scroll animation/ }).click();
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
+  await page.reload();
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
+  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.getByRole("link", { name: "Scroll to explore" }).click();
   await expect(page.locator("#introduction")).toBeInViewport();
+});
+
+test("gallery buttons reach each room with and without animation", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: /03.*Kitchens & storage/ }).click();
+  await expect
+    .poll(() =>
+      page
+        .locator(".interior-room")
+        .nth(2)
+        .evaluate((el) => {
+          const bounds = el.getBoundingClientRect();
+          return (
+            bounds.left >= -1 &&
+            bounds.left < window.innerWidth * 0.4 &&
+            bounds.right <= window.innerWidth + 1
+          );
+        }),
+    )
+    .toBe(true);
+  await page.getByRole("button", { name: /01.*Living & dining/ }).click();
+  await expect
+    .poll(() =>
+      page
+        .locator(".interior-room")
+        .nth(0)
+        .evaluate((el) => el.getBoundingClientRect().left >= -1),
+    )
+    .toBe(true);
+  if (testInfo.project.name === "desktop") {
+    await page.getByRole("button", { name: /03.*Kitchens & storage/ }).click();
+    await page.screenshot({
+      path: "../output/website-review/interior-gallery.png",
+    });
+  }
 });
 
 test("unknown project has a recoverable 404", async ({ page }) => {

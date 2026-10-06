@@ -1,31 +1,55 @@
 [
   {
-    "asset": "images/home/space.webp",
+    "asset": "images/home/living-overview.webp",
     "source": "Pics/11a.png",
     "width": 1920,
     "height": 1334
   },
   {
-    "asset": "images/home/detail.webp",
-    "source": "Pics/115.png",
+    "asset": "images/home/living-detail.webp",
+    "source": "Pics/6.png",
     "width": 1920,
-    "height": 1334
+    "height": 1278
   },
   {
-    "asset": "images/home/quiet.webp",
-    "source": "Pics/48.png",
+    "asset": "images/home/stair.webp",
+    "source": "Pics/201.png",
     "width": 1920,
-    "height": 1333
+    "height": 1280
   },
   {
-    "asset": "images/projects/selim/living.webp",
-    "source": "Pics/r.jpg",
+    "asset": "images/home/living-dining.webp",
+    "source": "Pics/24A.png",
+    "width": 1920,
+    "height": 1388
+  },
+  {
+    "asset": "images/projects/selim/living-entry.webp",
+    "source": "Pics/8f.jpg",
     "width": 1920,
     "height": 1080
   },
   {
-    "asset": "images/projects/selim/dining.webp",
-    "source": "Pics/15.jpg",
+    "asset": "images/projects/selim/dining-view.webp",
+    "source": "Pics/11c.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/selim/shared.webp",
+    "source": "Pics/14bb.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/selim/study.webp",
+    "source": "Pics/6d.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/selim/kitchen.webp",
+    "source": "Pics/1d.jpg",
     "width": 1920,
     "height": 1080
   },
@@ -34,6 +58,36 @@
     "source": "Pics/24.jpeg",
     "width": 1600,
     "height": 900
+  },
+  {
+    "asset": "images/interiors/bedroom.webp",
+    "source": "Pics/3A.png",
+    "width": 1920,
+    "height": 1333
+  },
+  {
+    "asset": "images/interiors/bedroom-angle.webp",
+    "source": "Pics/6D.png",
+    "width": 1920,
+    "height": 1334
+  },
+  {
+    "asset": "images/interiors/kitchen.webp",
+    "source": "Pics/7a.png",
+    "width": 1920,
+    "height": 1334
+  },
+  {
+    "asset": "images/interiors/utility.webp",
+    "source": "Pics/13A.png",
+    "width": 1920,
+    "height": 1458
+  },
+  {
+    "asset": "images/interiors/dining.webp",
+    "source": "Pics/25.png",
+    "width": 1920,
+    "height": 1388
   },
   {
     "asset": "images/projects/doctors/exterior.webp",

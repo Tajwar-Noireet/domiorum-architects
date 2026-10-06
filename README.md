@@ -4,7 +4,7 @@ Project briefs, brand assets, client questionnaire, and implementation plan for 
 
 ## Current status
 
-The first working website is in `website/`. It includes the homepage, a portfolio with three source-identified projects, individual project galleries, services, founder introduction, contact, consultation requests, careers and privacy. Selected client images have been optimized; source originals are preserved.
+The working website is in `website/`. The revised homepage uses the client's midnight navy, warm ivory and gold palette, fifteen newly supplied interior images, an expanding three-scene scroll sequence and a desktop horizontal room gallery. It includes a portfolio with three source-identified projects, individual galleries, services, founder introduction, contact, consultation requests, careers and privacy. Optimized image copies preserve the source originals.
 
 ## Website plan
 

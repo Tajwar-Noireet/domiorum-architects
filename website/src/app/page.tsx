@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollHero } from "@/components/home/ScrollHero";
+import { HomeMotion } from "@/components/home/HomeMotion";
+import { InteriorGallery } from "@/components/home/InteriorGallery";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { projects, experienceCredit } from "@/content/projects";
@@ -8,44 +10,65 @@ import { services, process } from "@/content/services";
 
 export default function Home() {
   return (
-    <>
+    <HomeMotion>
       <ScrollHero />
-      <section id="introduction" className="section intro-section">
+      <section id="introduction" className="section home-perspective">
         <div className="section-label">
           <span className="eyebrow">01 / Our perspective</span>
-          <span className="small-note">
-            Architecture. Interiors. Everyday life.
-          </span>
+          <span className="small-note">Architecture · Interiors · Dhaka</span>
         </div>
-        <div className="intro-grid">
-          <h2>
+        <div className="perspective-grid">
+          <h2 data-reveal>
             A home begins
             <br />
-            with <span className="muted">you.</span>
+            with <span>you.</span>
           </h2>
-          <div className="intro-copy">
+          <div data-reveal>
+            <p className="perspective-lead">How you live comes first.</p>
             <p>
-              The way you gather. The things you keep. The quiet moments in
-              between.
-            </p>
-            <p>
-              At Domiorum, we start with the people who will live in a space. We
-              bring together architecture and interiors to shape homes that feel
-              considered, personal and comfortable.
+              Where you gather, how you work, what you need to store. We begin
+              with the everyday details and build the design around them.
             </p>
             <Link href="/services" className="text-link">
               How we work <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>
+        <div className="perspective-images">
+          <figure className="perspective-wide" data-image-reveal data-parallax>
+            <Image
+              src="/images/interiors/dining.webp"
+              alt="Interior visualization connecting dining, kitchen and fitted storage"
+              fill
+              sizes="(max-width: 600px) 100vw, 65vw"
+              quality={85}
+            />
+          </figure>
+          <figure
+            className="perspective-detail"
+            data-image-reveal
+            data-parallax
+          >
+            <Image
+              src="/images/interiors/bedroom-angle.webp"
+              alt="Bedroom visualization with layered curtains, built-in timber shelving and a dressing area"
+              fill
+              sizes="(max-width: 600px) 65vw, 32vw"
+              quality={85}
+            />
+            <figcaption>Space for the everyday.</figcaption>
+          </figure>
+        </div>
       </section>
-      <section className="section selected-section">
-        <div className="section-heading">
+      <InteriorGallery />
+      <section className="section home-selected">
+        <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">02 / Selected work & experience</p>
+            <p className="eyebrow">03 / Selected work & experience</p>
             <h2>
-              Spaces with
-              <br />a point of view.
+              From the inside
+              <br />
+              to the outside.
             </h2>
           </div>
           <Link href="/projects" className="text-link">
@@ -54,44 +77,58 @@ export default function Home() {
         </div>
         <div className="featured-grid">
           {projects.slice(0, 2).map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
+            <div key={project.slug} data-image-reveal>
+              <ProjectCard project={project} index={index} />
+            </div>
           ))}
         </div>
         <p className="portfolio-credit">
           {experienceCredit} Images shown are design visualizations.
         </p>
       </section>
-      <section className="services-section section">
-        <div className="services-intro">
-          <p className="eyebrow">03 / What we do</p>
+      <section className="section home-services">
+        <div className="home-services-heading" data-reveal>
+          <p className="eyebrow">04 / What we do</p>
           <h2>
-            From the whole
+            One home.
             <br />
-            to the detail.
+            <span>Every scale.</span>
           </h2>
           <p>
-            A new home, a different layout, or a room ready for change. Our
-            scope starts with what your project needs.
+            From the building and its layout to the surfaces you touch every
+            day.
           </p>
-          <LinkButton href="/services">Explore our services</LinkButton>
+          <LinkButton href="/services" light>
+            Explore our services
+          </LinkButton>
         </div>
-        <div className="service-list">
+        <div className="home-service-links">
           {services.map((service, index) => (
-            <Link href={`/services#service-${index + 1}`} key={service.title}>
-              <span className="service-number">0{index + 1}</span>
+            <Link
+              data-reveal
+              href={`/services#service-${index + 1}`}
+              key={service.title}
+            >
+              <span className="eyebrow">0{index + 1}</span>
               <div>
                 <h3>{service.title}</h3>
                 <p>{service.items[0]}</p>
               </div>
-              <span className="service-link-arrow" aria-hidden="true">
-                ↗
-              </span>
+              <span aria-hidden="true">↗</span>
             </Link>
           ))}
         </div>
+        <div className="home-service-image" data-image-reveal data-parallax>
+          <Image
+            src="/images/interiors/utility.webp"
+            alt="Kitchen and utility visualization with concealed cabinetry and dark stone worktops"
+            fill
+            sizes="(max-width: 600px) 100vw, 75vw"
+          />
+        </div>
       </section>
-      <section id="studio" className="studio-section section">
-        <div className="studio-photo">
+      <section id="studio" className="studio-section section home-studio">
+        <div className="studio-photo" data-image-reveal>
           <Image
             src="/images/studio/zarin-nawar.webp"
             alt="Zarin Nawar, founder and CEO of Domiorum Architects"
@@ -100,48 +137,44 @@ export default function Home() {
           />
           <span className="studio-photo-note">Zarin Nawar / Founder & CEO</span>
         </div>
-        <div className="studio-copy">
-          <p className="eyebrow">04 / The studio</p>
+        <div className="studio-copy" data-reveal>
+          <p className="eyebrow">05 / The studio</p>
           <h2>
-            A personal approach.
-            <br />A considered home.
+            Let’s make
+            <br />
+            your home
+            <br />
+            <span>your own.</span>
           </h2>
           <p>
-            Domiorum Architects is a new architecture and interiors practice
+            Domiorum Architects is an architecture and interiors practice
             founded by Zarin Nawar, based in Bashundhara R/A, Dhaka.
           </p>
           <p>
-            Zarin brings a background in residential architecture and interior
-            design, with previous professional experience at Innova Architects.
-            The studio begins each project with a conversation about the people,
-            routines and ambitions behind it.
+            With a background in residential design and previous professional
+            experience at Innova Architects, Zarin brings architecture,
+            interiors and the way people live into one conversation.
           </p>
           <Link href="/contact" className="text-link">
-            Meet us over a conversation <span aria-hidden="true">↗</span>
+            Meet the studio <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>
-      <section className="section process-section">
-        <div className="section-heading">
+      <section className="section process-section home-process">
+        <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">05 / A shared process</p>
-            <h2>
-              Good design starts
-              <br />
-              with listening.
-            </h2>
+            <p className="eyebrow">06 / Working together</p>
+            <h2>First, we listen.</h2>
           </div>
           <p className="section-aside">
-            Clear conversations.
+            A clear path from your first
             <br />
-            Thoughtful decisions.
-            <br />
-            One step at a time.
+            idea to an agreed design.
           </p>
         </div>
         <ol className="process-grid">
           {process.map((step, index) => (
-            <li key={step.title}>
+            <li key={step.title} data-reveal>
               <span className="process-number">0{index + 1}</span>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
@@ -149,6 +182,6 @@ export default function Home() {
           ))}
         </ol>
       </section>
-    </>
+    </HomeMotion>
   );
 }

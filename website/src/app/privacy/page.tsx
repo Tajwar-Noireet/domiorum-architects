@@ -24,6 +24,11 @@ export default function Privacy() {
       </p>
       <h2>Website services</h2>
       <p>
+        Your motion preference is kept in your browser for the current tab’s
+        session. It contains no personal information and is not sent to the
+        studio.
+      </p>
+      <p>
         This version uses no advertising trackers or analytics cookies. Hosting
         infrastructure may process technical request data to deliver the
         website. If online booking, payments or analytics are added, this page

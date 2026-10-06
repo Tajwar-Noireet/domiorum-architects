@@ -1,194 +1,246 @@
 "use client";
 
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
+import { useHomeMotion } from "./HomeMotion";
 
 const scenes = [
   {
-    src: "/images/home/space.webp",
-    alt: "Residential living room design visualization with pale seating and warm timber details",
-    name: "Space",
-    caption: "Room for everyday life.",
+    src: "/images/home/living-overview.webp",
+    alt: "Living room visualization with a pale sofa, warm timber and illuminated shelving",
+    title: "Room to gather.",
+    label: "01 / Living",
+    position: "60% 65%",
   },
   {
-    src: "/images/home/detail.webp",
-    alt: "Interior visualization showing a marble counter, timber detailing and integrated lighting",
-    name: "Detail",
-    caption: "Considered, down to the detail.",
+    src: "/images/home/living-detail.webp",
+    alt: "A closer living room view of timber panelling, integrated storage and soft seating",
+    title: "Every detail, considered.",
+    label: "02 / Material",
+    position: "55% 65%",
   },
   {
-    src: "/images/home/quiet.webp",
-    alt: "Quiet interior visualization with pale built-in storage and warm finishes",
-    name: "Balance",
-    caption: "A sense of balance.",
+    src: "/images/home/stair.webp",
+    alt: "Open stair and double-height interior with white steps, glass balustrade and timber cabinetry",
+    title: "A new perspective.",
+    label: "03 / Connection",
+    position: "65% 60%",
   },
 ];
 
-const { props: mobileHero } = getImageProps({
-  src: "/images/projects/selim/living.webp",
-  alt: scenes[0].alt,
-  width: 1920,
-  height: 1080,
-  sizes: "180vh",
-  quality: 85,
-});
-
 export function ScrollHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { enabled, toggle } = useHomeMotion();
   useLayoutEffect(() => {
+    if (!enabled) return;
     let disposed = false;
     let revert: (() => void) | undefined;
-    const media = window.matchMedia(
-      "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
-    );
-    let started = false;
-    async function animate() {
+    async function start() {
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
         import("gsap/ScrollTrigger"),
       ]);
       if (disposed || !sectionRef.current) return;
       gsap.registerPlugin(ScrollTrigger);
-      const mm = gsap.matchMedia();
-      mm.add(
-        "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
-        () => {
+      const media = gsap.matchMedia();
+      media.add(
+        {
+          desktop: "(min-width: 900px)",
+          small: "(max-width: 899px) and (min-height: 600px)",
+        },
+        (context) => {
           const section = sectionRef.current!;
-          const layers = section.querySelectorAll(".hero-scene");
-          const captions = section.querySelectorAll(".scene-caption");
-          const indicators = section.querySelectorAll(".scene-index");
-          const line = section.querySelector(".hero-progress-fill");
+          const desktop = context.conditions?.desktop;
+          const frames = section.querySelectorAll(".cinema-scene");
+          const labels = section.querySelectorAll(".cinema-scene-copy");
           const tl = gsap.timeline({
+            defaults: { ease: "none" },
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: "+=150%",
+              end: desktop ? "+=220%" : "+=150%",
               pin: true,
-              scrub: 0.7,
+              scrub: 0.6,
               invalidateOnRefresh: true,
             },
           });
-          tl.to(layers[0], { scale: 1.06, duration: 1.5, ease: "none" }, 0)
-            .to(layers[1], { opacity: 1, duration: 0.35 }, 0.5)
-            .to(captions[0], { opacity: 0, duration: 0.15 }, 0.5)
-            .to(captions[1], { opacity: 1, duration: 0.15 }, 0.65)
-            .to(indicators[0], { color: "#d5d9dd", duration: 0.15 }, 0.5)
-            .to(indicators[1], { color: "#E1BF77", duration: 0.15 }, 0.65)
-            .fromTo(
-              layers[1],
-              { scale: 1.02 },
-              { scale: 1.08, duration: 1, ease: "none" },
-              0.5,
+          tl.fromTo(
+            section.querySelector(".cinema-frame"),
+            {
+              clipPath: desktop
+                ? "inset(16% 5.5% 18% 47%)"
+                : "inset(14% 5.5% 46% 5.5%)",
+            },
+            { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9 },
+            0,
+          )
+            .to(
+              section.querySelector(".cinema-frame"),
+              { autoAlpha: 1, duration: 0.4 },
+              0.05,
             )
-            .to(layers[2], { opacity: 1, duration: 0.35 }, 1.1)
-            .to(captions[1], { opacity: 0, duration: 0.15 }, 1.1)
-            .to(captions[2], { opacity: 1, duration: 0.15 }, 1.25)
-            .to(indicators[1], { color: "#d5d9dd", duration: 0.15 }, 1.1)
-            .to(indicators[2], { color: "#E1BF77", duration: 0.15 }, 1.25)
-            .fromTo(
-              layers[2],
-              { scale: 1.02 },
-              { scale: 1.07, duration: 0.55, ease: "none" },
-              1.1,
+            .to(
+              section.querySelector(".cinema-preview"),
+              { scale: 1.16, autoAlpha: 0, duration: 0.55 },
+              0,
             )
-            .to(line, { scaleX: 1, duration: 1.65, ease: "none" }, 0);
+            .to(
+              section.querySelector(".cinema-frame-note"),
+              { autoAlpha: 0, duration: 0.15 },
+              0.05,
+            )
+            .to(
+              section.querySelector(".cinema-opening"),
+              {
+                xPercent: desktop ? -12 : 0,
+                y: desktop ? 0 : 45,
+                autoAlpha: 0,
+                duration: 0.5,
+              },
+              0.15,
+            )
+            .fromTo(
+              frames[0].querySelector("img"),
+              { scale: 1.08 },
+              { scale: 1, duration: 1.5 },
+              0,
+            )
+            .to(labels[0], { autoAlpha: 1, y: 0, duration: 0.35 }, 0.65)
+            .fromTo(
+              frames[1],
+              { clipPath: "inset(0% 0% 0% 100%)", opacity: 1 },
+              { clipPath: "inset(0% 0% 0% 0%)", duration: 0.65 },
+              1.2,
+            )
+            .fromTo(
+              frames[1].querySelector("img"),
+              { scale: 1.18, xPercent: 3 },
+              { scale: 1, xPercent: 0, duration: 1.3 },
+              1.2,
+            )
+            .to(labels[0], { autoAlpha: 0, y: -25, duration: 0.2 }, 1.2)
+            .to(labels[1], { autoAlpha: 1, y: 0, duration: 0.35 }, 1.5)
+            .fromTo(
+              frames[2],
+              { clipPath: "inset(100% 0% 0% 0%)", opacity: 1 },
+              { clipPath: "inset(0% 0% 0% 0%)", duration: 0.65 },
+              2.5,
+            )
+            .fromTo(
+              frames[2].querySelector("img"),
+              { scale: 1.14, yPercent: 3 },
+              { scale: 1, yPercent: 0, duration: 1.25 },
+              2.5,
+            )
+            .to(labels[1], { autoAlpha: 0, y: -25, duration: 0.2 }, 2.5)
+            .to(labels[2], { autoAlpha: 1, y: 0, duration: 0.35 }, 2.85)
+            .to(
+              section.querySelector(".cinema-progress-fill"),
+              { scaleX: 1, duration: 3.75 },
+              0,
+            );
         },
         sectionRef,
       );
-      revert = () => mm.revert();
-      ScrollTrigger.refresh();
+      revert = () => media.revert();
+      await document.fonts.ready;
+      if (!disposed) ScrollTrigger.refresh();
     }
-    const start = () => {
-      if (media.matches && !started) {
-        started = true;
-        void animate();
-      }
-    };
-    start();
-    media.addEventListener("change", start);
+    void start();
     return () => {
       disposed = true;
-      media.removeEventListener("change", start);
       revert?.();
     };
-  }, []);
+  }, [enabled]);
 
   return (
     <section
       ref={sectionRef}
-      className="scroll-hero"
-      aria-label="Imagined with you. Built for you."
+      className="cinema-hero"
+      aria-label="Architecture and interiors by Domiorum"
     >
-      <div className="hero-visual">
+      <div className="cinema-preview">
+        <Image
+          src={scenes[0].src}
+          alt=""
+          fill
+          sizes="(max-width: 899px) 90vw, 47vw"
+          preload
+          quality={85}
+        />
+      </div>
+      <div className="cinema-frame">
         {scenes.map((scene, i) => (
           <div
-            className={`hero-scene hero-scene-${i}`}
+            className={`cinema-scene cinema-scene-${i}`}
             key={scene.src}
             aria-hidden={i > 0 ? true : undefined}
           >
-            <picture>
-              {i === 0 ? (
-                <source
-                  media="(max-width: 600px)"
-                  srcSet={mobileHero.srcSet}
-                  sizes={mobileHero.sizes}
-                />
-              ) : null}
-              <Image
-                src={scene.src}
-                alt={scene.alt}
-                fill
-                sizes="100vw"
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                quality={85}
-              />
-            </picture>
+            <Image
+              src={scene.src}
+              alt={scene.alt}
+              fill
+              sizes="100vw"
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : "auto"}
+              quality={85}
+              style={{ objectPosition: scene.position }}
+            />
           </div>
         ))}
+        <div className="cinema-shade" />
       </div>
-      <div className="hero-shade" />
-      <div className="hero-content">
-        <p className="eyebrow">Domiorum Architects / Dhaka</p>
+      <div className="cinema-opening">
+        <p className="eyebrow">Domiorum Architects · Dhaka</p>
         <h1>
-          Imagined with you.
+          Imagined <br />
+          with you.
           <br />
           <span>Built for you.</span>
         </h1>
-        <div className="hero-bottom">
+        <div className="cinema-intro-bottom">
           <p>
-            Architecture & interiors
-            <br />
+            Architecture & interiors <br />
             for the way you live.
           </p>
-          <Link href="/projects" className="hero-link">
+          <Link href="/projects" className="cinema-work-link">
             Explore our work <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>
-      <div className="hero-notes">
-        <div className="scene-captions" aria-hidden="true">
-          {scenes.map((scene, i) => (
-            <span className={`scene-caption caption-${i}`} key={scene.name}>
-              {scene.caption}
-            </span>
-          ))}
-        </div>
-        <a href="#introduction" className="scroll-hint">
+      <div className="cinema-scene-titles" aria-hidden="true">
+        {scenes.map((scene) => (
+          <div className="cinema-scene-copy" key={scene.label}>
+            <span className="eyebrow">{scene.label}</span>
+            <p>{scene.title}</p>
+          </div>
+        ))}
+      </div>
+      <span className="cinema-frame-note">A closer look at home</span>
+      <div className="cinema-controls">
+        <a href="#introduction" className="cinema-scroll-link">
           Scroll to explore <span aria-hidden="true">↓</span>
         </a>
-        <span className="hero-image-credit">Design visualization</span>
-      </div>
-      <div className="hero-progress" aria-hidden="true">
-        <div className="hero-progress-fill" />
-      </div>
-      <div className="scene-indices" aria-hidden="true">
-        {scenes.map((scene, i) => (
-          <span key={scene.name} className={`scene-index index-${i}`}>
-            0{i + 1} / {scene.name}
+        <button
+          type="button"
+          onClick={toggle}
+          aria-pressed={enabled}
+          aria-label={
+            enabled
+              ? "Motion on: Disable scroll animation"
+              : "Enable motion: Enable scroll animation"
+          }
+        >
+          <span className="motion-symbol" aria-hidden="true">
+            {enabled ? "Ⅱ" : "▷"}
           </span>
-        ))}
+          {enabled ? "Motion on" : "Enable motion"}
+        </button>
+        <span className="cinema-credit">Design visualizations</span>
+      </div>
+      <div className="cinema-progress" aria-hidden="true">
+        <div className="cinema-progress-fill" />
       </div>
     </section>
   );

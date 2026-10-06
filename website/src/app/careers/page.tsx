@@ -20,7 +20,7 @@ export default function Careers() {
       <div className="careers-grid">
         <div className="careers-image">
           <Image
-            src="/images/home/quiet.webp"
+            src="/images/home/living-dining.webp"
             alt="Residential interior design visualization with integrated joinery"
             fill
             sizes="(max-width: 700px) 100vw, 50vw"

@@ -20,8 +20,8 @@ export default function Services() {
       </section>
       <div className="services-banner">
         <Image
-          src="/images/home/detail.webp"
-          alt="Interior design visualization of a marble counter and warm integrated lighting"
+          src="/images/interiors/kitchen.webp"
+          alt="Kitchen visualization with warm stone surfaces, integrated lighting and fitted cabinetry"
           fill
           sizes="100vw"
         />

@@ -1,19 +1,28 @@
 # Domiorum website direction
 
-Design read: a Dhaka architecture and interiors practice; an editorial portfolio shaped around residential spaces, the founder and direct enquiries.
+A residential architecture and interiors practice in Dhaka, introduced through its spaces, founder and direct enquiries.
 
-The client supplied the navy/ivory/gold palette, horizontal banner logo, geometric typography preference and the headline “Imagined with you. Built for you.” The client supplied the architecture references, direct competitors and scroll-animation reference. This document records their direction and the implementation choices based on it.
+The latest completed questionnaire, page 2, specifies midnight navy and warm ivory as primary colours, with warm gold as the accent. The supplied horizontal banner logo and the headline “Imagined with you. Built for you.” remain the basis of the design.
 
-- Navy `#08182E`, ivory `#F6F3ED`, gold `#E1BF77`, graphite `#29313A`.
-- Jost: a geometric sans-serif with proportions suited to the supplied wordmark and Century Gothic preference. Font files are served by Next.js after the build.
-- Large full-screen images and two-line type draw on the inspected DSGN Interior reference.
-- Asymmetric project image proportions and offset placement give the portfolio an editorial rhythm.
-- Shared project templates expose location, area, design reasoning and credits, informed by local architecture reference research.
-- GSAP ties three selected interior views to native desktop scrolling. Subtle scale changes and crossfades interpret the supplied video with available renders. These are image transitions, not an interactive 3D model or a continuous camera reconstruction.
-- Phone layouts and reduced-motion users have an ordinary static hero. There is no scroll hijacking, loading screen or decorative cursor.
-- The new studio's founder is introduced separately from her previous professional work.
-- Enquiries prepare an email for review; no unconnected submission, booking or payment success state.
+## Brand and composition
 
-Working dials: ENERGY 2 / RHYTHM 3 / MOTION 2. Typography and image scale provide energy; project proportions and section composition provide rhythm; movement is concentrated in the homepage hero.
+- Midnight navy `#08182E`: opening hero, room gallery, services, shared page headings and footer.
+- Warm ivory `#F6F3ED`: reading surfaces and text on navy.
+- Warm gold `#E1BF77`: headline emphasis, section labels, links and progress indicators on navy. Graphite `#29313A` supports body text on ivory.
+- Jost provides the geometric sans-serif proportions requested by the client. Typography scales with the viewport; navigation and controls retain readable sizes.
+- Large images, asymmetric placement and generous spacing draw on the inspected DSGN Interior reference. Project facts, reasoning and credits use one consistent template.
+- The homepage alternates navy and ivory sections. The new practice's founder is introduced separately from her previous professional experience.
 
-References and observations: `../docs/website-reference-research.md`. Motion rationale: `../docs/homepage-scroll-animation.md`.
+## Images and movement
+
+Fifteen of the newly supplied `Pics/` images are used across the homepage, room gallery, Selim project gallery, services and careers. The three hero scenes show an overview, timber detail and open stair. Exterior project imagery and the founder portrait stay connected to their source records. Asset provenance is recorded in `src/content/asset-manifest.json`; originals are preserved.
+
+The opening room expands from an inset into a full-screen scene as the visitor scrolls. Directional wipes, image movement and changing scene titles lead through three views. A second desktop pin moves through large room images horizontally. Other sections use image reveals and small parallax movements. Motion is concentrated in these spatial sequences.
+
+The UI/UX Pro Max guidance informed native scroll binding, limited pinning, responsive fallbacks, reduced-motion handling, stable dimensions and cleanup. Generic palette suggestions from the skill do not replace the client's approved colours.
+
+Portrait phones use a shorter hero sequence and a swipeable room gallery. Short landscape screens use an ordinary hero. Reduced-motion users initially get a static presentation; the visible motion control allows an explicit choice, stored for this browser session. Disabling motion restores ordinary scrolling. No wheel or touch input is intercepted.
+
+These transitions animate supplied renderings. A continuous 3D camera path would require sequential renders or a suitable model. Enquiries still prepare email drafts for visitors to review and send.
+
+References: `../docs/website-reference-research.md`. Implementation: `../docs/homepage-scroll-animation.md`.

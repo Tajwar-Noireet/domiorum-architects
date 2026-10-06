@@ -1,22 +1,27 @@
-# Homepage scroll animation direction
+# Homepage scroll animation
 
 Client reference, reviewed 5 October 2026: https://www.youtube.com/shorts/pZDguVNu-C0
 Title: I Built a 3D Real Estate Website Using Claude AI — @codingwithmoji.
 
-## Observed sequence
+## Reference and adaptation
 
-The clip shows an elevated exterior house overview, closer facade/interior views, a terrace/pool view, and an elevated overview again. Headings change with the scene; the top navigation remains present. A glowing path/line is visible in several frames. The clip demonstrates the visual result; it does not establish whether the original uses WebGL, pre-rendered frames, video, or actual scroll binding.
+The clip shows an elevated house overview, closer facade/interior views and a terrace/pool view, with headings changing alongside the scene. The clip establishes the visual result; it does not establish whether the original uses WebGL, pre-rendered frames, video or scroll binding.
 
-## Domiorum adaptation
+The 6 October revision uses the supplied interior renderings to create a sequence of spatial views. The inset living room expands to full screen, a horizontal wipe reveals timber and cabinetry, and a vertical wipe introduces the open stair. Image scale and position change with the scene. The opening headline exits and short scene titles appear. The header belongs to the opening layout and scrolls away; bottom motion and exploration controls remain available during the sequence.
 
-Use one prominent scroll-controlled hero sequence. Pin its visual while normal page scrolling advances a short narrative: an overview, a closer spatial view, then a material/detail view. Synchronize short heading changes with the scene. Release the section into the ivory selected-projects area. Preserve the horizontal logo and visible navigation/consultation access.
+## Components
 
-Choose GSAP ScrollTrigger for pinning and a scrubbed timeline. Scope animations to a small client component and clean up on unmount. Keep the rest of the Next.js application server-rendered where appropriate. Official reference: https://gsap.com/docs/v3/Plugins/ScrollTrigger/.
+- `website/src/components/home/HomeMotion.tsx`: motion preference, session storage and shared section reveals. Server-rendered page sections are passed through this small client boundary.
+- `website/src/components/home/ScrollHero.tsx`: three scenes, pinned scrubbed GSAP timeline, directional image masks, changing captions and progress. Desktop travel is 2.2 viewport heights; portrait phone travel is 1.5 viewport heights. The section then releases into the introduction.
+- `website/src/components/home/InteriorGallery.tsx`: second desktop pin translates the three room views horizontally. Room buttons move to the relevant position. Phone and static layouts use native horizontal scrolling and the same buttons.
+- `website/src/styles/experience.css`: reserved visual dimensions, responsive composition and initial static states.
 
-Initial framework: use clearly labeled placeholders and modest image scale/position changes with crossfades. Do not represent static-photo crossfades as a true 3D walkthrough. The final cinematic treatment needs either approved sequential renders/frames from a single project, or a suitable optimized 3D model. Select the asset method after reviewing client materials; do not add Three.js merely to imitate the video's title.
+GSAP ScrollTrigger binds motion to native scroll: https://gsap.com/docs/v3/Plugins/ScrollTrigger/. At most two sections are pinned on desktop, one on portrait phones and none on short phone landscape screens. Scoped layout-effect cleanup restores the DOM before route removal. Font loading and viewport changes refresh measurements. Pending gallery selections are resolved after initial measurements.
 
-## Accessibility and performance
+## Accessibility and verification
 
-Keep ordinary scrolling and navigable links; do not intercept wheel or touch input. Provide a static hero for reduced-motion users. Use a shorter/simpler mobile sequence, reserve visual dimensions, optimize and preload only essential assets, and avoid allocating a large frame sequence before it is needed. The content must remain readable when animation or assets are unavailable. Test forward/reverse scroll, touch, resize, reduced motion, slow loading, and transition into the project section.
+The operating system's reduced-motion setting is respected by default. Visitors can enable or disable motion using the visible control; their explicit choice lasts for the browser session. Disabled motion restores ordinary scrolling, visible content and a native room gallery. There are no wheel or touch interception handlers.
 
-Implemented 6 October 2026 in `website/src/components/home/ScrollHero.tsx`. Three supplied interior visualizations move from space to detail to balance. Desktop native scroll controls crossfades, subtle image scale and captions; the main client headline stays fixed. The hero releases after 1.5 viewport heights of scroll. Small screens and reduced-motion users have a static scene. Browser tests verify scene transitions, release, route cleanup and resizing. A true 3D camera path still requires suitable sequential renders or a model.
+Browser checks cover expansion, both scene transitions, release, navigation cleanup, resizing, motion preferences, preference persistence and room-button destinations. Visual checks cover phone, tablet, desktop and landscape widths. Screenshots of three scroll positions are saved under `output/website-review/`.
+
+This is an animated sequence of supplied renderings. A continuous 3D camera path needs suitable sequential frames or an optimized model.
