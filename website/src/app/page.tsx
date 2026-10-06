@@ -66,9 +66,9 @@ export default function Home() {
           <div>
             <p className="eyebrow">03 / Selected work & experience</p>
             <h2>
-              From the inside
+              Designed for
               <br />
-              to the outside.
+              everyday living.
             </h2>
           </div>
           <Link href="/projects" className="text-link">
@@ -78,7 +78,11 @@ export default function Home() {
         <div className="featured-grid">
           {projects.slice(0, 2).map((project, index) => (
             <div key={project.slug} data-image-reveal>
-              <ProjectCard project={project} index={index} />
+              <ProjectCard
+                project={project}
+                index={index}
+                wide={projects.length === 1}
+              />
             </div>
           ))}
         </div>

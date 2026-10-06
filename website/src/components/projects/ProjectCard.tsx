@@ -5,9 +5,11 @@ import type { Project } from "@/types/project";
 export function ProjectCard({
   project,
   index = 0,
+  wide = false,
 }: {
   project: Project;
   index?: number;
+  wide?: boolean;
 }) {
   return (
     <article className="project-card">
@@ -17,7 +19,11 @@ export function ProjectCard({
             src={project.cover}
             alt={project.coverAlt}
             fill
-            sizes="(max-width: 700px) 100vw, (max-width: 1000px) 70vw, 50vw"
+            sizes={
+              wide
+                ? "89vw"
+                : "(max-width: 700px) 100vw, (max-width: 1000px) 70vw, 50vw"
+            }
           />
           <span className="project-image-note">Design visualization</span>
           <span className="project-arrow" aria-hidden="true">

@@ -13,8 +13,8 @@ export default function Projects() {
           at the work.
         </h1>
         <p>
-          Residential architecture and interiors from Zarin Nawar’s previous
-          professional experience.
+          Residential interiors from Zarin Nawar’s previous professional
+          experience.
         </p>
       </div>
       <ProjectBrowser projects={projects} />
@@ -22,8 +22,8 @@ export default function Projects() {
         <p className="eyebrow">About this selection</p>
         <p>{experienceCredit}</p>
         <p>
-          These projects illustrate the founder’s experience before establishing
-          Domiorum. All project images are design visualizations.
+          This interior project illustrates the founder’s experience before
+          establishing Domiorum. All project images are design visualizations.
         </p>
       </div>
     </div>

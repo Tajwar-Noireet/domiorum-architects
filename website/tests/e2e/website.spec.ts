@@ -4,8 +4,6 @@ const routes = [
   "/",
   "/projects",
   "/projects/selim-residence",
-  "/projects/abed-residence",
-  "/projects/doctors-residence",
   "/services",
   "/contact",
   "/book-consultation",
@@ -30,6 +28,9 @@ test("all pages load with usable images and no overflow or runtime errors", asyn
       if (await image.isVisible()) {
         const source = new URL((await image.getAttribute("src"))!, page.url());
         const asset = source.searchParams.get("url") ?? source.pathname;
+        expect(asset).not.toMatch(
+          /\/projects\/(abed|doctors)\/|living-entry\.webp/,
+        );
         if (!checkedAssets.has(asset)) {
           const assetResponse = await request.get(asset);
           expect(assetResponse.status(), asset).toBe(200);
@@ -55,23 +56,27 @@ test("all pages load with usable images and no overflow or runtime errors", asyn
   expect(errors).toEqual([]);
 });
 
-test("project filters and the shared project template work", async ({
+test("interior portfolio and project navigation work without removed imagery", async ({
   page,
+  request,
 }) => {
   await page.goto("/projects");
-  await expect(page.locator(".project-card")).toHaveCount(3);
-  await page.getByRole("button", { name: /^Interiors/ }).click();
   await expect(page.locator(".project-card")).toHaveCount(1);
+  await expect(page.locator(".project-filters")).toHaveCount(0);
   await page.getByRole("link", { name: /Selim Residence/ }).click();
   await expect(page).toHaveURL(/\/projects\/selim-residence$/);
   await expect(page.locator(".project-facts")).toContainText(
     "Innova Architects",
   );
-  await page.getByRole("link", { name: /Next project/ }).click();
-  await expect(page.locator("h1")).toHaveText("Abed Residence");
-  await page.getByRole("link", { name: "All projects" }).click();
-  await page.getByRole("button", { name: /^Architecture/ }).click();
-  await expect(page.locator(".project-card")).toHaveCount(2);
+  await page.getByRole("link", { name: /Back to selected work/ }).click();
+  await expect(page).toHaveURL("/projects");
+  await expect(page.locator(".project-card")).toHaveCount(1);
+  for (const slug of ["abed-residence", "doctors-residence"]) {
+    expect((await request.get(`/projects/${slug}`)).status()).toBe(404);
+  }
+  expect(
+    (await request.get("/images/projects/selim/living-entry.webp")).status(),
+  ).toBe(404);
 });
 
 test("enquiry validation and email draft preserve the supplied details", async ({
@@ -267,7 +272,7 @@ test("narrow phones keep page headings and forms inside the viewport", async ({
     "/contact",
     "/book-consultation",
     "/careers",
-    "/projects/doctors-residence",
+    "/projects/selim-residence",
   ]) {
     await page.goto(route);
     await expect(page.locator("main h1")).toBeVisible();

@@ -15,7 +15,7 @@ The latest completed questionnaire, page 2, specifies midnight navy and warm ivo
 
 ## Images and movement
 
-Fifteen of the newly supplied `Pics/` images are used across the homepage, room gallery, Selim project gallery, services and careers. The three hero scenes show an overview, timber detail and open stair. Exterior project imagery and the founder portrait stay connected to their source records. Asset provenance is recorded in `src/content/asset-manifest.json`; originals are preserved.
+Fourteen of the newly supplied `Pics/` images are used across the homepage, room gallery, Selim project gallery, services and careers. The three hero scenes show an overview, timber detail and open stair. Building imagery and the rejected living-room view are excluded. The remaining Selim project and founder portrait retain their source records. Asset provenance is recorded in `src/content/asset-manifest.json`; originals are preserved.
 
 The opening room expands from an inset into a full-screen scene as the visitor scrolls. Directional wipes, image movement and changing scene titles lead through three views. A second desktop pin moves through large room images horizontally. Other sections use image reveals and small parallax movements. Motion is concentrated in these spatial sequences.
 

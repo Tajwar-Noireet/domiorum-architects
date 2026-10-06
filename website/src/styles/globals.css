@@ -633,6 +633,14 @@ p {
 .projects-grid .project-card:nth-child(2) {
   padding-top: 100px;
 }
+.featured-grid > div:only-child,
+.projects-grid > .project-card:only-child {
+  grid-column: 1 / -1;
+}
+.featured-grid > div:only-child .project-card-image,
+.projects-grid > .project-card:only-child .project-card-image {
+  aspect-ratio: 16 / 9;
+}
 .project-credit-panel {
   border-top: 1px solid var(--line);
   margin-top: 90px;

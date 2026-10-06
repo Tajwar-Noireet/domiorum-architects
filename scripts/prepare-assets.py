@@ -21,7 +21,6 @@ images = {
     '6.png': 'images/home/living-detail.webp',
     '201.png': 'images/home/stair.webp',
     '24A.png': 'images/home/living-dining.webp',
-    '8f.jpg': 'images/projects/selim/living-entry.webp',
     '11c.jpg': 'images/projects/selim/dining-view.webp',
     '14bb.jpg': 'images/projects/selim/shared.webp',
     '6d.jpg': 'images/projects/selim/study.webp',
@@ -32,18 +31,12 @@ images = {
     '7a.png': 'images/interiors/kitchen.webp',
     '13A.png': 'images/interiors/utility.webp',
     '25.png': 'images/interiors/dining.webp',
-    '31d.jpg': 'images/projects/doctors/exterior.webp',
-    'ss.jpg': 'images/projects/doctors/roof.webp',
-    'rr22.jpg': 'images/projects/doctors/facade.webp',
 }
 for name, dest in images.items():
     export(Image.open(root / 'Pics' / name), dest, f'Pics/{name}')
 
 pdf = PdfReader(root / 'Zarin Nawar_Portfolio 2026_Large.pdf')
-for page, index, dest in [(1, 0, 'images/studio/zarin-nawar.webp'),
-                          (10, 0, 'images/projects/abed/exterior.webp'),
-                          (10, 1, 'images/projects/abed/side.webp'),
-                          (12, 0, 'images/projects/abed/garden.webp')]:
+for page, index, dest in [(1, 0, 'images/studio/zarin-nawar.webp')]:
     im = list(pdf.pages[page].images)[index]
     export(im.image, dest, f'Zarin Nawar_Portfolio 2026_Large.pdf, page {page+1}, {im.name}')
 

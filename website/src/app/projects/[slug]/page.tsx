@@ -102,10 +102,15 @@ export default async function Project({
         ))}
         <p className="portfolio-credit">{experienceCredit}</p>
       </section>
-      <Link href={`/projects/${next.slug}`} className="next-project section">
+      <Link
+        href={projects.length > 1 ? `/projects/${next.slug}` : "/projects"}
+        className="next-project section"
+      >
         <div>
-          <p className="eyebrow">Next project</p>
-          <h2>{next.title}</h2>
+          <p className="eyebrow">
+            {projects.length > 1 ? "Next project" : "The portfolio"}
+          </p>
+          <h2>{projects.length > 1 ? next.title : "Back to selected work"}</h2>
         </div>
         <span aria-hidden="true">↗</span>
       </Link>

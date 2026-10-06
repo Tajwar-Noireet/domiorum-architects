@@ -42,7 +42,7 @@ HomeMotion wraps server-rendered homepage sections with a motion preference cont
 
 Desktop uses an expanding three-scene hero and a horizontal gallery. Portrait phones use the shorter hero and a native horizontal gallery. Short phone landscape screens use an ordinary hero. Reduced-motion users start with ordinary scrolling and may explicitly enable animation using the visible control. The preference is stored in session storage for this browser session.
 
-The current portfolio uses three projects identified in Zarin's supplied portfolio, with real design visualizations and previous-practice credits. The six projects named in the questionnaire remain the eventual target portfolio; completing that list needs image-to-project mapping. The anonymous room sequence does not invent project locations, client names or ownership claims.
+The current portfolio features Selim Residence, identified in Zarin's supplied portfolio, with interior design visualizations and previous-practice credits. Abed and Doctors' Residence are excluded because the user removed building imagery. The six projects named in the questionnaire remain the eventual target portfolio; completing that list needs image-to-project mapping. The anonymous room sequence does not invent project locations, client names or ownership claims.
 
 Semantic colour tokens, responsive typography, keyboard-accessible navigation, visible focus, labelled forms and meaningful alt text support usability. ESLint, TypeScript, production builds, Playwright flow checks and visual reviews verify changes. The asset manifest records every optimized source copy; the originals are preserved.
 

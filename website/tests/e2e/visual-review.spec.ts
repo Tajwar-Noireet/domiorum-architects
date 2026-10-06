@@ -49,6 +49,21 @@ test("brand composition fits phones, tablets and desktop", async ({
       path: `../output/website-review/homepage-${size.name}.png`,
     });
   }
+  await page.setViewportSize({ width: 1440, height: 1600 });
+  await page.goto("/projects");
+  await expect(page.locator(".project-card")).toHaveCount(1);
+  await expect
+    .poll(() =>
+      page
+        .locator(".project-card-image img")
+        .evaluate(
+          (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+        ),
+    )
+    .toBe(true);
+  await page.locator(".projects-grid").screenshot({
+    path: "../output/website-review/interior-project-preview.png",
+  });
 });
 
 test("capture the motion sequence and check accessible controls", async ({
