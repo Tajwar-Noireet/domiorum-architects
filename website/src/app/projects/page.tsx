@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { ProjectBrowser } from "@/components/projects/ProjectBrowser";
 import { projects, experienceCredit } from "@/content/projects";
@@ -8,9 +9,11 @@ export default function Projects() {
       <div className="page-heading">
         <p className="eyebrow">The portfolio</p>
         <h1>
-          A closer look
-          <br />
-          at the work.
+          <HoverText>
+            A closer look
+            <br />
+            at the work.
+          </HoverText>
         </h1>
         <p>
           Residential interiors from Zarin Nawar’s previous professional

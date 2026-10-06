@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -10,9 +11,11 @@ export function SiteFooter() {
         <p className="eyebrow">Your next chapter</p>
         <div className="footer-title-row">
           <h2>
-            Let’s make room
-            <br />
-            for your ideas.
+            <HoverText>
+              Let’s make room
+              <br />
+              for your ideas.
+            </HoverText>
           </h2>
           <LinkButton href="/contact" light>
             Tell us about your project

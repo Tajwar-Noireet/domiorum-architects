@@ -1,5 +1,30 @@
 import { expect, test } from "@playwright/test";
 
+test("text hover resets and follows live motion preferences", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+  await page.goto("/services");
+  const title = page.locator("h1 .hover-text");
+  const offset = () =>
+    title.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
+  await title.hover();
+  await expect.poll(offset).toBeLessThan(-2);
+  await page.mouse.move(5, 5);
+  await expect.poll(async () => Math.abs(await offset())).toBeLessThan(0.1);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await title.hover();
+  await expect.poll(async () => Math.abs(await offset())).toBeLessThan(0.1);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.mouse.move(5, 5);
+  await title.hover();
+  await expect.poll(offset).toBeLessThan(-2);
+  await page.goto("/");
+  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
+  await title.hover();
+  await expect.poll(offset).toBe(0);
+});
+
 const routes = [
   "/",
   "/projects",

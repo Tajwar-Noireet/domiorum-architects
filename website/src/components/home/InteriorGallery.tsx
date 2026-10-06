@@ -1,5 +1,6 @@
 "use client";
 
+import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
@@ -149,7 +150,9 @@ export function InteriorGallery() {
         <div className="interior-heading">
           <div>
             <p className="eyebrow">02 / Inside the home</p>
-            <h2>Life, room by room.</h2>
+            <h2>
+              <HoverText>Life, room by room.</HoverText>
+            </h2>
           </div>
           <p>
             Scroll through the spaces.
@@ -178,7 +181,9 @@ export function InteriorGallery() {
                 <figcaption>
                   <span className="interior-room-number">0{index + 1}</span>
                   <div>
-                    <h3>{room.title}</h3>
+                    <h3>
+                      <HoverText>{room.title}</HoverText>
+                    </h3>
                     <p>{room.text}</p>
                   </div>
                 </figcaption>

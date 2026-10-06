@@ -62,7 +62,7 @@ body:has(.cinema-hero) .site-header {
   max-width: 760px;
   letter-spacing: -0.05em;
 }
-.cinema-opening h1 span {
+.cinema-opening h1 span:not(.hover-text) {
   color: var(--gold);
 }
 .cinema-intro-bottom {
@@ -189,7 +189,7 @@ body:has(.cinema-hero) .site-header {
 .perspective-grid h2 {
   font-size: clamp(50px, 6vw, 96px);
 }
-.perspective-grid h2 span {
+.perspective-grid h2 span:not(.hover-text) {
   color: var(--navy);
   font-style: italic;
 }
@@ -353,7 +353,7 @@ body:has(.cinema-hero) .site-header {
 .home-services-heading h2 {
   font-size: clamp(54px, 6vw, 98px);
 }
-.home-services-heading h2 span {
+.home-services-heading h2 span:not(.hover-text) {
   color: var(--gold);
 }
 .home-services-heading p:not(.eyebrow) {
@@ -403,7 +403,7 @@ body:has(.cinema-hero) .site-header {
 .home-studio .studio-copy h2 {
   font-size: clamp(48px, 5vw, 80px);
 }
-.home-studio .studio-copy h2 span {
+.home-studio .studio-copy h2 span:not(.hover-text) {
   font-style: italic;
 }
 .home-studio .studio-photo-note {

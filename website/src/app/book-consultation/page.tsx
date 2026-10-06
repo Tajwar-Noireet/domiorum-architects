@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
 export const metadata: Metadata = { title: "Request a consultation" };
@@ -7,9 +8,11 @@ export default function Consultation() {
       <div className="page-heading">
         <p className="eyebrow">The first step</p>
         <h1>
-          Let’s understand
-          <br />
-          your space.
+          <HoverText>
+            Let’s understand
+            <br />
+            your space.
+          </HoverText>
         </h1>
         <p>
           An initial consultation is a chance to talk through your needs,
@@ -19,9 +22,11 @@ export default function Consultation() {
       <div className="contact-grid">
         <aside className="consultation-details">
           <h2>
-            A useful place
-            <br />
-            to begin.
+            <HoverText>
+              A useful place
+              <br />
+              to begin.
+            </HoverText>
           </h2>
           <p>
             Bring your ideas, questions and any floor plans or photographs you

@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/types/project";
@@ -36,7 +37,9 @@ export function ProjectCard({
           </span>
           <span>{project.location.split(",")[0]}</span>
         </div>
-        <h3>{project.title}</h3>
+        <h3>
+          <HoverText>{project.title}</HoverText>
+        </h3>
         <p>{project.summary}</p>
       </Link>
     </article>

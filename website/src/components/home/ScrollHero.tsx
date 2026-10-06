@@ -1,5 +1,6 @@
 "use client";
 
+import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { useLayoutEffect, useRef } from "react";
@@ -205,10 +206,12 @@ export function ScrollHero() {
         <div className="cinema-opening">
           <p className="eyebrow">Domiorum Architects · Dhaka</p>
           <h1>
-            <span className="hero-line hero-line-first">
-              Imagined with you.
-            </span>
-            <span className="hero-line hero-line-second">Built for you.</span>
+            <HoverText>
+              <span className="hero-line hero-line-first">
+                Imagined with you.
+              </span>
+              <span className="hero-line hero-line-second">Built for you.</span>
+            </HoverText>
           </h1>
           <div className="cinema-intro-bottom">
             <p>

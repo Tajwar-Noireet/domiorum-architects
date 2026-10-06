@@ -31,3 +31,8 @@ References: `../docs/website-reference-research.md`. Implementation: `../docs/ho
 ## Flow buttons
 
 The main CTAs use an independent recreation of Kain Xu's public FlowButton preview (https://21st.dev/@xubohuah/components/flow-button): rounded outline, expanding fill, outgoing right arrow and incoming left arrow, with a shifting label. Navy on ivory and gold on navy follow the approved palette. The shared link and native button variants preserve navigation and form semantics. Keyboard focus receives the same visual state; reduced-motion preferences and the homepage motion-off setting remove transitions. Navigation links and utility controls retain their existing styles. Component source was account-locked, so no source code was copied.
+
+
+## Framer Motion text interactions
+
+Framer Motion is installed for hover interactions. Shared HoverText spans give headings a 3px lift and a small spring scale, and key inline links a 4px shift. Text content and semantic heading/link elements stay intact. The inner spans keep hover transforms separate from GSAP's outer scroll reveals. Reduced-motion preferences suppress movement; the homepage's motion-off setting also disables these effects. Touch hover is handled by Motion's gesture recognition rather than CSS sticky hover.

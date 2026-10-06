@@ -115,10 +115,10 @@ p {
   border-bottom: 1px solid currentColor;
   font-size: 17px;
 }
-.text-link span {
+.text-link span:not(.hover-text) {
   transition: transform 0.25s;
 }
-.text-link:hover span {
+.text-link:hover span:not(.hover-text) {
   transform: translate(3px, -3px);
 }
 .button {
@@ -1495,4 +1495,12 @@ p {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.hover-text {
+  display: inline-block;
+  transform-origin: left center;
+}
+.hover-text-title {
+  display: block;
 }

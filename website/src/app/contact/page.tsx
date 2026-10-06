@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
 import { site } from "@/content/site";
@@ -8,8 +9,10 @@ export default function Contact() {
       <div className="page-heading">
         <p className="eyebrow">Contact</p>
         <h1>
-          It starts with
-          <br />a conversation.
+          <HoverText>
+            It starts with
+            <br />a conversation.
+          </HoverText>
         </h1>
         <p>
           A new home, a renovation, or an idea you’re still exploring. We’d like
@@ -21,9 +24,11 @@ export default function Contact() {
           <div>
             <p className="eyebrow">The studio</p>
             <h2>
-              Dhaka,
-              <br />
-              Bangladesh.
+              <HoverText>
+                Dhaka,
+                <br />
+                Bangladesh.
+              </HoverText>
             </h2>
             <p>{site.location}</p>
             <p className="small-note">

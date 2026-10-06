@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { site } from "@/content/site";
@@ -8,9 +9,11 @@ export default function Careers() {
       <div className="page-heading">
         <p className="eyebrow">Careers</p>
         <h1>
-          Care about spaces.
-          <br />
-          Care about people.
+          <HoverText>
+            Care about spaces.
+            <br />
+            Care about people.
+          </HoverText>
         </h1>
         <p>
           We’re building a practice around thoughtful design and open
@@ -28,7 +31,9 @@ export default function Careers() {
         </div>
         <div>
           <p className="eyebrow">Stay in touch</p>
-          <h2>Introduce yourself.</h2>
+          <h2>
+            <HoverText>Introduce yourself.</HoverText>
+          </h2>
           <p>
             We haven’t listed any open roles yet. If you’d like to work with
             Domiorum in the future, you’re welcome to email your CV and a link

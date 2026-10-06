@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +34,9 @@ export default async function Project({
         <p className="eyebrow">
           {project.category} / {project.location}
         </p>
-        <h1>{project.title}</h1>
+        <h1>
+          <HoverText>{project.title}</HoverText>
+        </h1>
         <p className="project-standfirst">{project.summary}</p>
       </section>
       <div className="project-hero-image">
@@ -75,7 +78,9 @@ export default async function Project({
         </dl>
         <div>
           <p className="eyebrow">The brief</p>
-          <h2>{project.summary}</h2>
+          <h2>
+            <HoverText>{project.summary}</HoverText>
+          </h2>
           <p>{project.description}</p>
           <div className="approach-copy">
             <p className="eyebrow">The approach</p>
@@ -110,7 +115,11 @@ export default async function Project({
           <p className="eyebrow">
             {projects.length > 1 ? "Next project" : "The portfolio"}
           </p>
-          <h2>{projects.length > 1 ? next.title : "Back to selected work"}</h2>
+          <h2>
+            <HoverText>
+              {projects.length > 1 ? next.title : "Back to selected work"}
+            </HoverText>
+          </h2>
         </div>
         <span aria-hidden="true">↗</span>
       </Link>

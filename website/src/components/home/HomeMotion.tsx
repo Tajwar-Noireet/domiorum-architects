@@ -16,7 +16,7 @@ function subscribeMotion(callback: () => void) {
   return () => media.removeEventListener("change", callback);
 }
 
-const MotionContext = createContext({ enabled: false, toggle: () => {} });
+const MotionContext = createContext({ enabled: true, toggle: () => {} });
 export const useHomeMotion = () => useContext(MotionContext);
 
 function motionPreference() {

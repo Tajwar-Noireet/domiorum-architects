@@ -1,3 +1,4 @@
+import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollHero } from "@/components/home/ScrollHero";
@@ -19,9 +20,11 @@ export default function Home() {
         </div>
         <div className="perspective-grid">
           <h2 data-reveal>
-            A home begins
-            <br />
-            with <span>you.</span>
+            <HoverText>
+              A home begins
+              <br />
+              with <span>you.</span>
+            </HoverText>
           </h2>
           <div data-reveal>
             <p className="perspective-lead">How you live comes first.</p>
@@ -30,7 +33,9 @@ export default function Home() {
               with the everyday details and build the design around them.
             </p>
             <Link href="/services" className="text-link">
-              How we work <span aria-hidden="true">↗</span>
+              <HoverText variant="link">
+                How we work <span aria-hidden="true">↗</span>
+              </HoverText>
             </Link>
           </div>
         </div>
@@ -66,13 +71,17 @@ export default function Home() {
           <div>
             <p className="eyebrow">03 / Selected work & experience</p>
             <h2>
-              Designed for
-              <br />
-              everyday living.
+              <HoverText>
+                Designed for
+                <br />
+                everyday living.
+              </HoverText>
             </h2>
           </div>
           <Link href="/projects" className="text-link">
-            View all projects <span aria-hidden="true">↗</span>
+            <HoverText variant="link">
+              View all projects <span aria-hidden="true">↗</span>
+            </HoverText>
           </Link>
         </div>
         <div className="featured-grid">
@@ -94,9 +103,11 @@ export default function Home() {
         <div className="home-services-heading" data-reveal>
           <p className="eyebrow">04 / What we do</p>
           <h2>
-            One home.
-            <br />
-            <span>Every scale.</span>
+            <HoverText>
+              One home.
+              <br />
+              <span>Every scale.</span>
+            </HoverText>
           </h2>
           <p>
             From the building and its layout to the surfaces you touch every
@@ -115,7 +126,9 @@ export default function Home() {
             >
               <span className="eyebrow">0{index + 1}</span>
               <div>
-                <h3>{service.title}</h3>
+                <h3>
+                  <HoverText>{service.title}</HoverText>
+                </h3>
                 <p>{service.items[0]}</p>
               </div>
               <span aria-hidden="true">↗</span>
@@ -144,11 +157,13 @@ export default function Home() {
         <div className="studio-copy" data-reveal>
           <p className="eyebrow">05 / The studio</p>
           <h2>
-            Let’s make
-            <br />
-            your home
-            <br />
-            <span>your own.</span>
+            <HoverText>
+              Let’s make
+              <br />
+              your home
+              <br />
+              <span>your own.</span>
+            </HoverText>
           </h2>
           <p>
             Domiorum Architects is an architecture and interiors practice
@@ -160,7 +175,9 @@ export default function Home() {
             interiors and the way people live into one conversation.
           </p>
           <Link href="/contact" className="text-link">
-            Meet the studio <span aria-hidden="true">↗</span>
+            <HoverText variant="link">
+              Meet the studio <span aria-hidden="true">↗</span>
+            </HoverText>
           </Link>
         </div>
       </section>
@@ -168,7 +185,9 @@ export default function Home() {
         <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">06 / Working together</p>
-            <h2>First, we listen.</h2>
+            <h2>
+              <HoverText>First, we listen.</HoverText>
+            </h2>
           </div>
           <p className="section-aside">
             A clear path from your first
@@ -180,7 +199,9 @@ export default function Home() {
           {process.map((step, index) => (
             <li key={step.title} data-reveal>
               <span className="process-number">0{index + 1}</span>
-              <h3>{step.title}</h3>
+              <h3>
+                <HoverText>{step.title}</HoverText>
+              </h3>
               <p>{step.text}</p>
             </li>
           ))}
