@@ -1,0 +1,152 @@
+.exploded-services {
+  grid-template-columns: 1fr 1fr;
+  column-gap: 7%;
+  row-gap: 52px;
+}
+.exploded-services .home-services-heading h2 {
+  font-size: clamp(54px, 5.5vw, 88px);
+}
+.exploded-intro {
+  align-self: end;
+  max-width: 400px;
+  padding-bottom: 8px;
+}
+.exploded-intro p {
+  margin-bottom: 28px;
+}
+.house-figure {
+  margin: -25px 0 0;
+  min-width: 0;
+}
+.house-figure svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.house-layer {
+  fill: none;
+  stroke: var(--ivory);
+  stroke-width: 1;
+  opacity: 0.65;
+  transition:
+    stroke 0.3s,
+    opacity 0.3s;
+}
+.house-layer.is-active {
+  stroke: var(--gold);
+  opacity: 1;
+  stroke-width: 1.3;
+}
+.house-glazing {
+  opacity: 0.55;
+  stroke-width: 0.6;
+}
+.house-guides {
+  fill: none;
+  stroke: var(--ivory);
+  stroke-width: 0.65;
+  stroke-dasharray: 4 7;
+  opacity: 0.2;
+}
+.house-dimensions {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.7;
+  opacity: 0.65;
+}
+.house-dimensions text {
+  fill: var(--gold);
+  stroke: none;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+.house-figure figcaption {
+  border-top: 1px solid #e1bf7755;
+  padding-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.house-figure figcaption .eyebrow {
+  font-size: 10px;
+  opacity: 0.8;
+}
+.house-active-label {
+  color: var(--gold);
+  font-size: 13px;
+}
+.house-layer-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+.house-layer-controls button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e1bf7755;
+  color: var(--ivory);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+.house-layer-controls button[aria-pressed="true"] {
+  background: var(--gold);
+  color: var(--navy);
+}
+.house-layer-controls button:focus-visible {
+  outline: 2px solid var(--ivory);
+  outline-offset: 4px;
+}
+.exploded-services .home-service-links {
+  align-self: center;
+}
+.home-service-links .is-selected h3 {
+  color: var(--gold);
+}
+@media (max-width: 899px) {
+  .exploded-services {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .exploded-services .home-services-heading h2 {
+    font-size: 52px;
+  }
+  .exploded-services .home-service-links h3 {
+    font-size: 25px;
+  }
+  .exploded-services .home-service-links > a {
+    gap: 12px;
+    padding: 25px 0;
+  }
+  .house-figure {
+    margin: 0;
+  }
+}
+@media (max-width: 600px) {
+  .exploded-services {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .exploded-services .home-services-heading h2 {
+    font-size: 60px;
+  }
+  .house-figure {
+    margin: -20px -8px 0;
+  }
+  .house-figure svg {
+    max-height: 540px;
+  }
+  .exploded-services .home-service-links h3 {
+    font-size: 29px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .house-layer {
+    transition: none;
+  }
+}
+[data-motion="off"] .house-layer {
+  transition: none;
+}

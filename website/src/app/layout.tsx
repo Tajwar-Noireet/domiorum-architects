@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import "@/styles/globals.css";
 import "@/styles/experience.css";
 import "@/styles/buttons.css";
+import "@/styles/house.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",

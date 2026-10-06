@@ -36,3 +36,5 @@ The main CTAs use an independent recreation of Kain Xu's public FlowButton previ
 ## Framer Motion text interactions
 
 Framer Motion is installed for hover interactions. Shared HoverText spans give headings a 3px lift and a small spring scale, and key inline links a 4px shift. Text content and semantic heading/link elements stay intact. The inner spans keep hover transforms separate from GSAP's outer scroll reveals. Reduced-motion preferences suppress movement; the homepage's motion-off setting also disables these effects. Touch hover is handled by Motion's gesture recognition rather than CSS sticky hover.
+
+The homepage services section includes an original SVG exploded axonometric house, inspired by the supplied services reference. Interior furniture, structural frames and roof rafters, adaptable extensions, and technical grids correspond to the four services. Service hover/focus and labelled touch controls highlight each layer. Framer Motion respects reduced-motion preferences and the homepage motion setting. This is a conceptual illustration, not a project construction drawing.

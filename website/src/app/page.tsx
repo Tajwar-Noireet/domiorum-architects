@@ -1,3 +1,4 @@
+import { ServicesExplodedHouse } from "@/components/home/ServicesExplodedHouse";
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,9 +6,8 @@ import { ScrollHero } from "@/components/home/ScrollHero";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { InteriorGallery } from "@/components/home/InteriorGallery";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { LinkButton } from "@/components/ui/LinkButton";
 import { projects, experienceCredit } from "@/content/projects";
-import { services, process } from "@/content/services";
+import { process } from "@/content/services";
 
 export default function Home() {
   return (
@@ -99,51 +99,7 @@ export default function Home() {
           {experienceCredit} Images shown are design visualizations.
         </p>
       </section>
-      <section className="section home-services">
-        <div className="home-services-heading" data-reveal>
-          <p className="eyebrow">04 / What we do</p>
-          <h2>
-            <HoverText>
-              One home.
-              <br />
-              <span>Every scale.</span>
-            </HoverText>
-          </h2>
-          <p>
-            From the building and its layout to the surfaces you touch every
-            day.
-          </p>
-          <LinkButton href="/services" light>
-            Explore our services
-          </LinkButton>
-        </div>
-        <div className="home-service-links">
-          {services.map((service, index) => (
-            <Link
-              data-reveal
-              href={`/services#service-${index + 1}`}
-              key={service.title}
-            >
-              <span className="eyebrow">0{index + 1}</span>
-              <div>
-                <h3>
-                  <HoverText>{service.title}</HoverText>
-                </h3>
-                <p>{service.items[0]}</p>
-              </div>
-              <span aria-hidden="true">↗</span>
-            </Link>
-          ))}
-        </div>
-        <div className="home-service-image" data-image-reveal data-parallax>
-          <Image
-            src="/images/interiors/utility.webp"
-            alt="Kitchen and utility visualization with concealed cabinetry and dark stone worktops"
-            fill
-            sizes="(max-width: 600px) 100vw, 75vw"
-          />
-        </div>
-      </section>
+      <ServicesExplodedHouse />
       <section id="studio" className="studio-section section home-studio">
         <div className="studio-photo" data-image-reveal>
           <Image
