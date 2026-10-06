@@ -1,0 +1,17 @@
+{
+  "sources": [
+    {
+      "repo": "21st-dev/skill",
+      "sha": "15c7436c41dc88c54094f1be93ce53bda456b114",
+      "prefix": "21st-"
+    },
+    {
+      "repo": "miqdadbadjuber/anti-slop",
+      "sha": "388cbe3b6c37d5175b9f460015bb092ef9e34894",
+      "prefix": "antislop"
+    }
+  ],
+  "scope": "project",
+  "directory": ".agents/skills",
+  "installed": "2026-10-06"
+}
