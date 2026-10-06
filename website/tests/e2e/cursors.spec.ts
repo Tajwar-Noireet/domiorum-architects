@@ -16,13 +16,13 @@ test("drafting cursors apply to desktop browsing and links with native form curs
   });
   const linkCursor = await link.evaluate((el) => getComputedStyle(el).cursor);
   if (fine) {
-    expect(bodyCursor).toContain("/cursors/set-square.svg");
-    expect(linkCursor).toContain("/cursors/compass.svg");
+    expect(bodyCursor).toContain("/cursors/brass-compass.svg");
+    expect(linkCursor).toContain("/cursors/brass-hand.svg");
     expect(
       await page
         .getByRole("button", { name: "Interior spaces", exact: true })
         .evaluate((el) => getComputedStyle(el).cursor),
-    ).toContain("/cursors/compass.svg");
+    ).toContain("/cursors/brass-hand.svg");
     await page.emulateMedia({ forcedColors: "active" });
     expect(await link.evaluate((el) => getComputedStyle(el).cursor)).toBe(
       "pointer",
@@ -32,10 +32,10 @@ test("drafting cursors apply to desktop browsing and links with native form curs
     expect(bodyCursor).not.toContain("/cursors/");
     expect(linkCursor).not.toContain("/cursors/");
   }
-  for (const file of ["set-square", "compass"]) {
+  for (const file of ["brass-compass", "brass-hand"]) {
     const response = await page.request.get(`/cursors/${file}.svg`);
     expect(response.ok()).toBeTruthy();
-    expect(await response.text()).toContain('width="48" height="48"');
+    expect(await response.text()).toContain('width="64" height="64"');
   }
   await page.goto("/contact");
   const input = page.getByRole("textbox").first();
