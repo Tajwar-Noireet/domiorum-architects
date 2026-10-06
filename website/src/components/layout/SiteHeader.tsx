@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { navigation } from "@/content/site";
 
 export function SiteHeader() {
@@ -72,9 +73,9 @@ export function SiteHeader() {
           </Link>
         ))}
       </nav>
-      <Link href="/book-consultation" className="header-cta">
-        Let’s talk <span aria-hidden="true">↗</span>
-      </Link>
+      <LinkButton href="/book-consultation" light className="header-cta">
+        Let’s talk
+      </LinkButton>
       <button
         ref={triggerRef}
         className="menu-trigger"

@@ -26,3 +26,8 @@ Portrait phones use a shorter hero sequence and a swipeable room gallery. Short 
 These transitions animate supplied renderings. A continuous 3D camera path would require sequential renders or a suitable model. Enquiries still prepare email drafts for visitors to review and send.
 
 References: `../docs/website-reference-research.md`. Implementation: `../docs/homepage-scroll-animation.md`.
+
+
+## Flow buttons
+
+The main CTAs use an independent recreation of Kain Xu's public FlowButton preview (https://21st.dev/@xubohuah/components/flow-button): rounded outline, expanding fill, outgoing right arrow and incoming left arrow, with a shifting label. Navy on ivory and gold on navy follow the approved palette. The shared link and native button variants preserve navigation and form semantics. Keyboard focus receives the same visual state; reduced-motion preferences and the homepage motion-off setting remove transitions. Navigation links and utility controls retain their existing styles. Component source was account-locked, so no source code was copied.

@@ -1,0 +1,116 @@
+/* Independent recreation of the public 21st.dev FlowButton interaction. */
+.flow-button {
+  --flow-ink: var(--navy);
+  --flow-fill: var(--navy);
+  --flow-active-ink: var(--ivory);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 56px;
+  max-width: 100%;
+  padding: 16px 52px 16px 32px;
+  gap: 0;
+  border: 1px solid var(--flow-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--flow-ink);
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+  transition:
+    color 450ms ease,
+    transform 200ms ease;
+}
+.flow-button.button-light {
+  --flow-ink: var(--gold);
+  --flow-fill: var(--gold);
+  --flow-active-ink: var(--navy);
+}
+.flow-button::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--flow-fill);
+  clip-path: circle(0% at calc(100% - 28px) 50%);
+  transition: clip-path 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flow-label {
+  display: block;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flow-arrow {
+  position: absolute;
+  top: calc(50% - 10px);
+  flex-shrink: 0;
+  transition:
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 450ms ease;
+}
+.flow-arrow-in {
+  left: 22px;
+  transform: translateX(-38px);
+  opacity: 0;
+}
+.flow-arrow-out {
+  right: 22px;
+}
+.flow-button:where(:hover, :focus-visible):not(:disabled) {
+  background: transparent;
+  color: var(--flow-active-ink);
+}
+.flow-button:where(:hover, :focus-visible):not(:disabled)::before {
+  clip-path: circle(150% at calc(100% - 28px) 50%);
+}
+.flow-button:where(:hover, :focus-visible):not(:disabled) .flow-label {
+  transform: translateX(18px);
+}
+.flow-button:where(:hover, :focus-visible):not(:disabled) .flow-arrow-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+.flow-button:where(:hover, :focus-visible):not(:disabled) .flow-arrow-out {
+  transform: translateX(38px);
+  opacity: 0;
+}
+.flow-button:focus-visible {
+  outline: 2px solid var(--flow-ink);
+  outline-offset: 5px;
+}
+.flow-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.flow-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.flow-button.header-cta {
+  min-height: 46px;
+  padding-block: 11px;
+  font-size: 15px;
+}
+@media (max-width: 899px) {
+  .flow-button.header-cta {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-button,
+  .flow-button::before,
+  .flow-label,
+  .flow-arrow {
+    transition: none;
+  }
+  .flow-button:active:not(:disabled) {
+    transform: none;
+  }
+}
+.home-experience[data-motion="off"] .flow-button,
+.home-experience[data-motion="off"] .flow-button::before,
+.home-experience[data-motion="off"] .flow-label,
+.home-experience[data-motion="off"] .flow-arrow {
+  transition: none;
+}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { site } from "@/content/site";
 
 export function SiteFooter() {
@@ -13,13 +14,9 @@ export function SiteFooter() {
             <br />
             for your ideas.
           </h2>
-          <Link
-            href="/contact"
-            className="round-link"
-            aria-label="Tell us about your project"
-          >
-            ↗
-          </Link>
+          <LinkButton href="/contact" light>
+            Tell us about your project
+          </LinkButton>
         </div>
       </div>
       <div className="footer-grid">

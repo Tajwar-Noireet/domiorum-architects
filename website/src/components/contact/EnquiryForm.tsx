@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { FlowButton, FlowButtonContent } from "@/components/ui/FlowButton";
 import { site } from "@/content/site";
 
 export function EnquiryForm({
@@ -107,10 +108,7 @@ export function EnquiryForm({
         submitted or stored on this website.{" "}
         <a href="/privacy">Privacy details</a>
       </p>
-      <button className="button" type="submit">
-        <span>Prepare my enquiry</span>
-        <span aria-hidden="true">↗</span>
-      </button>
+      <FlowButton type="submit">Prepare my enquiry</FlowButton>
       {draft !== null ? (
         <div className="email-draft" role="status">
           <h3>Your enquiry is ready to send</h3>
@@ -126,10 +124,10 @@ export function EnquiryForm({
           />
           <div className="draft-actions">
             <a
-              className="button"
+              className="button flow-button"
               href={`mailto:${site.email}?subject=${encodeURIComponent(consultation ? "Consultation request — Domiorum" : "Project enquiry — Domiorum")}&body=${encodeURIComponent(draft)}`}
             >
-              Open email app <span aria-hidden="true">↗</span>
+              <FlowButtonContent>Open email app</FlowButtonContent>
             </a>
             <button className="text-button" onClick={copy} type="button">
               {copied ? "Copied" : "Copy enquiry"}

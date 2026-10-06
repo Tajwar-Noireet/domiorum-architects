@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { useLayoutEffect, useRef } from "react";
 import { useHomeMotion } from "./HomeMotion";
 
@@ -215,9 +215,9 @@ export function ScrollHero() {
               Architecture & interiors <br />
               for the way you live.
             </p>
-            <Link href="/projects" className="cinema-work-link">
-              Explore our work <span aria-hidden="true">↗</span>
-            </Link>
+            <LinkButton href="/projects" light>
+              Explore our work
+            </LinkButton>
           </div>
         </div>
         <div className="cinema-scene-titles" aria-hidden="true">
