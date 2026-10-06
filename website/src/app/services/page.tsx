@@ -1,0 +1,73 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { services, process } from "@/content/services";
+import { LinkButton } from "@/components/ui/LinkButton";
+export const metadata: Metadata = { title: "Our services" };
+export default function Services() {
+  return (
+    <>
+      <section className="section page-heading services-page-heading">
+        <p className="eyebrow">Our services</p>
+        <h1>
+          The big picture.
+          <br />
+          The small details.
+        </h1>
+        <p>
+          Architecture and interiors, considered together. We agree the right
+          scope for your project from the beginning.
+        </p>
+      </section>
+      <div className="services-banner">
+        <Image
+          src="/images/home/detail.webp"
+          alt="Interior design visualization of a marble counter and warm integrated lighting"
+          fill
+          sizes="100vw"
+        />
+        <span className="project-image-note">Design visualization</span>
+      </div>
+      <section className="section service-details">
+        {services.map((service, index) => (
+          <article id={`service-${index + 1}`} key={service.title}>
+            <span className="eyebrow">0{index + 1}</span>
+            <h2>{service.title}</h2>
+            <div>
+              <p>{service.description}</p>
+              <ul>
+                {service.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </section>
+      <section className="section process-section">
+        <p className="eyebrow">Working together</p>
+        <h2>
+          A clear path
+          <br />
+          from the first conversation.
+        </h2>
+        <ol className="process-grid">
+          {process.map((step, index) => (
+            <li key={step.title}>
+              <span className="process-number">0{index + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="consultation-prompt">
+          <h3>Start with a consultation.</h3>
+          <p>
+            Discuss your space, priorities and the next steps before committing
+            to a wider scope.
+          </p>
+          <LinkButton href="/book-consultation">About consultations</LinkButton>
+        </div>
+      </section>
+    </>
+  );
+}

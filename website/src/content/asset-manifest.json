@@ -1,0 +1,86 @@
+[
+  {
+    "asset": "images/home/space.webp",
+    "source": "Pics/11a.png",
+    "width": 1920,
+    "height": 1334
+  },
+  {
+    "asset": "images/home/detail.webp",
+    "source": "Pics/115.png",
+    "width": 1920,
+    "height": 1334
+  },
+  {
+    "asset": "images/home/quiet.webp",
+    "source": "Pics/48.png",
+    "width": 1920,
+    "height": 1333
+  },
+  {
+    "asset": "images/projects/selim/living.webp",
+    "source": "Pics/r.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/selim/dining.webp",
+    "source": "Pics/15.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/selim/bedroom.webp",
+    "source": "Pics/24.jpeg",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "asset": "images/projects/doctors/exterior.webp",
+    "source": "Pics/31d.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/doctors/roof.webp",
+    "source": "Pics/ss.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/doctors/facade.webp",
+    "source": "Pics/rr22.jpg",
+    "width": 791,
+    "height": 1055
+  },
+  {
+    "asset": "images/studio/zarin-nawar.webp",
+    "source": "Zarin Nawar_Portfolio 2026_Large.pdf, page 2, Im0.jpg",
+    "width": 683,
+    "height": 690
+  },
+  {
+    "asset": "images/projects/abed/exterior.webp",
+    "source": "Zarin Nawar_Portfolio 2026_Large.pdf, page 11, Im0.jpg",
+    "width": 1616,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/abed/side.webp",
+    "source": "Zarin Nawar_Portfolio 2026_Large.pdf, page 11, Im1.jpg",
+    "width": 1615,
+    "height": 1080
+  },
+  {
+    "asset": "images/projects/abed/garden.webp",
+    "source": "Zarin Nawar_Portfolio 2026_Large.pdf, page 13, Im0.jpg",
+    "width": 1523,
+    "height": 1076
+  },
+  {
+    "asset": "brand/domiorum-banner.webp",
+    "source": "output/assets/Domiorum_Horizontal_Logo.png",
+    "width": 1000,
+    "height": 280
+  }
+]

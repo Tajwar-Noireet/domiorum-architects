@@ -4,13 +4,13 @@ Project briefs, brand assets, client questionnaire, and implementation plan for 
 
 ## Current status
 
-Planning and brand preparation are complete. Website application code has not been scaffolded. Client project images and final copy will be supplied later.
+The first working website is in `website/`. It includes the homepage, a portfolio with three source-identified projects, individual project galleries, services, founder introduction, contact, consultation requests, careers and privacy. Selected client images have been optimized; source originals are preserved.
 
 ## Website plan
 
-Use Next.js App Router, React, TypeScript, and Tailwind CSS. Deploy to Vercel. Keep content in typed local files initially; choose a CMS and booking integration once requirements are confirmed. Use restrained CSS transitions with reduced-motion support.
+Next.js App Router, React, TypeScript, Tailwind CSS and a GSAP scroll-controlled homepage. Content lives in typed files. Vercel should use the `website` root directory. See [application setup](website/README.md) and [design direction](website/DESIGN.md).
 
-Pages: Home, Projects, individual project pages, Services, Contact, Careers, and consultation information/booking. Do not present a working booking or payment flow until it is integrated and verified.
+Run `npm ci` and `npm run dev` from `website/`. Enquiries currently prepare email drafts for visitors to review and send. Booking and payment integrations remain pending. This client review version is excluded from search indexing.
 
 See [architecture](docs/architecture.md), [client decisions](docs/client-decisions.md), and [design skills](docs/design-skills.md).
 

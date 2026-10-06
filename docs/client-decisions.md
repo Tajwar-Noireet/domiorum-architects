@@ -28,3 +28,9 @@ Midnight navy #08182E; ivory #F6F3ED; gold #E1BF77; graphite #29313A. Use the ho
 ## Later decisions
 
 Asset permissions, final copy, testimonials and affiliations, booking/provider setup, enquiry recipient and response time, domain, content editing, privacy, budget, launch date, and final approver still need confirmation. The questionnaire's testimonials/affiliations selection conflicts with its 'none ready yet' answer. These gaps do not prevent building the initial framework.
+
+## Founder and direct competitors - confirmed 6 October 2026
+
+- Zarin Nawar is the founder and CEO of Domiorum Architects, confirmed by the user. Present her previous professional experience separately from the new company's track record.
+- Client-identified direct competitors: Shibori Design Studio (https://shiboribd.com/) and Minimal Limited (https://www.minimallimited.com/).
+- New source assets: Zarin Nawar_Portfolio 2026_Large.pdf (42 pages) and 54 images in Pics. Project-to-image mapping and publication credits remain pending. Previous statements that no project imagery exists are superseded.
