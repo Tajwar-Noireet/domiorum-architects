@@ -1,9 +1,12 @@
 import type { Project } from "@/types/project";
+import portfolio from "./portfolio.json";
 
 export const experienceCredit =
   "Previous professional experience of Zarin Nawar as Associate Architect at Innova Architects. Project Architect: Ar Sanjida Shams.";
 
-export const projects: Project[] = [
+export const projects: Project[] = portfolio as Project[];
+
+export const legacyProjects: Project[] = [
   {
     slug: "selim-residence",
     title: "Selim Residence",
@@ -48,3 +51,4 @@ export const projects: Project[] = [
     ],
   },
 ];
+export const allProjects = [...projects, ...legacyProjects];

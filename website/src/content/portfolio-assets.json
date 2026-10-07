@@ -1,0 +1,282 @@
+[
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/11a.png",
+    "output": "/images/projects/aftabnagar-interior/01.webp",
+    "originalSize": [2560, 1778],
+    "exportSize": [2400, 1667]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/33.png",
+    "output": "/images/projects/aftabnagar-interior/02.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/45.png",
+    "output": "/images/projects/aftabnagar-interior/03.webp",
+    "originalSize": [2560, 1778],
+    "exportSize": [2400, 1667]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/107.png",
+    "output": "/images/projects/aftabnagar-interior/04.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/115.png",
+    "output": "/images/projects/aftabnagar-interior/05.webp",
+    "originalSize": [2560, 1778],
+    "exportSize": [2400, 1667]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/201.png",
+    "output": "/images/projects/aftabnagar-interior/06.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/26.png",
+    "output": "/images/projects/aftabnagar-interior/07.webp",
+    "originalSize": [2516, 1677],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/28.png",
+    "output": "/images/projects/aftabnagar-interior/08.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/48.png",
+    "output": "/images/projects/aftabnagar-interior/09.webp",
+    "originalSize": [2560, 1777],
+    "exportSize": [2400, 1666]
+  },
+  {
+    "project": "aftabnagar-interior",
+    "source": "Aftabnagar interior/9.png",
+    "output": "/images/projects/aftabnagar-interior/10.webp",
+    "originalSize": [2312, 1541],
+    "exportSize": [2312, 1541]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/uuu.jpg",
+    "output": "/images/projects/doctors-residence/01.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/14bb.jpg",
+    "output": "/images/projects/edison-interior/01.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/6d.jpg",
+    "output": "/images/projects/edison-interior/02.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/24.jpeg",
+    "output": "/images/projects/edison-interior/03.webp",
+    "originalSize": [1600, 900],
+    "exportSize": [1600, 900]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/11c.jpg",
+    "output": "/images/projects/edison-interior/04.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/1d.jpg",
+    "output": "/images/projects/edison-interior/05.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/20a.jpeg",
+    "output": "/images/projects/edison-interior/06.webp",
+    "originalSize": [1600, 900],
+    "exportSize": [1600, 900]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/23a.jpeg",
+    "output": "/images/projects/edison-interior/07.webp",
+    "originalSize": [1600, 900],
+    "exportSize": [1600, 900]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/3b.jpg",
+    "output": "/images/projects/edison-interior/08.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/4c.jpg",
+    "output": "/images/projects/edison-interior/09.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/7.jpg",
+    "output": "/images/projects/edison-interior/10.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "edison-interior",
+    "source": "Edison Interior/26.jpeg",
+    "output": "/images/projects/edison-interior/11.webp",
+    "originalSize": [1600, 900],
+    "exportSize": [1600, 900]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/25.png",
+    "output": "/images/projects/mirpur-dohs-interior/01.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/21.png",
+    "output": "/images/projects/mirpur-dohs-interior/02.webp",
+    "originalSize": [2560, 1777],
+    "exportSize": [2400, 1666]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/6D.png",
+    "output": "/images/projects/mirpur-dohs-interior/03.webp",
+    "originalSize": [2560, 1778],
+    "exportSize": [2400, 1667]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/28a.png",
+    "output": "/images/projects/mirpur-dohs-interior/04.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/30.png",
+    "output": "/images/projects/mirpur-dohs-interior/05.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/34.png",
+    "output": "/images/projects/mirpur-dohs-interior/06.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/3A.png",
+    "output": "/images/projects/mirpur-dohs-interior/07.webp",
+    "originalSize": [2560, 1777],
+    "exportSize": [2400, 1666]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/7a.png",
+    "output": "/images/projects/mirpur-dohs-interior/08.webp",
+    "originalSize": [2560, 1778],
+    "exportSize": [2400, 1667]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/9.png",
+    "output": "/images/projects/mirpur-dohs-interior/09.webp",
+    "originalSize": [2560, 1777],
+    "exportSize": [2400, 1666]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/9A.png",
+    "output": "/images/projects/mirpur-dohs-interior/10.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "mirpur-dohs-interior",
+    "source": "Mirpur Dohs Interior/33.png",
+    "output": "/images/projects/mirpur-dohs-interior/11.webp",
+    "originalSize": [2560, 1707],
+    "exportSize": [2400, 1600]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/26.png",
+    "output": "/images/projects/ruap-interior/01.webp",
+    "originalSize": [2560, 1851],
+    "exportSize": [2400, 1735]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/24A.png",
+    "output": "/images/projects/ruap-interior/02.webp",
+    "originalSize": [2560, 1851],
+    "exportSize": [2400, 1735]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/21.png",
+    "output": "/images/projects/ruap-interior/03.webp",
+    "originalSize": [2560, 1706],
+    "exportSize": [2400, 1599]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/22A.png",
+    "output": "/images/projects/ruap-interior/04.webp",
+    "originalSize": [2560, 1851],
+    "exportSize": [2400, 1735]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/25.png",
+    "output": "/images/projects/ruap-interior/05.webp",
+    "originalSize": [2560, 1851],
+    "exportSize": [2400, 1735]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/13A.png",
+    "output": "/images/projects/ruap-interior/06.webp",
+    "originalSize": [2437, 1851],
+    "exportSize": [2400, 1823]
+  },
+  {
+    "project": "ruap-interior",
+    "source": "RUAP interior/14A.png",
+    "output": "/images/projects/ruap-interior/07.webp",
+    "originalSize": [2301, 1707],
+    "exportSize": [2301, 1707]
+  }
+]

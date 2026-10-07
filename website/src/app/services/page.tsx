@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { services, process } from "@/content/services";
 import { LinkButton } from "@/components/ui/LinkButton";
-export const metadata: Metadata = { title: "Our services" };
+import { ProjectQuestions } from "@/components/home/ProjectQuestions";
+export const metadata: Metadata = {
+  title: "Our services",
+  description:
+    "Residential interiors, architecture, renovations and technical design support in Dhaka. Find the right scope for your home with Domiorum Architects.",
+};
 export default function Services() {
   return (
     <>
@@ -44,6 +49,12 @@ export default function Services() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+              <dl className="service-scope">
+                <dt>A good fit for</dt>
+                <dd>{service.fit}</dd>
+                <dt>The scope we discuss</dt>
+                <dd>{service.scope}</dd>
+              </dl>
             </div>
           </article>
         ))}
@@ -79,6 +90,7 @@ export default function Services() {
           <LinkButton href="/book-consultation">About consultations</LinkButton>
         </div>
       </section>
+      <ProjectQuestions />
     </>
   );
 }

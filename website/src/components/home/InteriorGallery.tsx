@@ -101,7 +101,7 @@ export function InteriorGallery() {
             top:
               start +
               ((end - start) * pendingRoom.current) / (rooms.length - 1),
-            behavior: "smooth",
+            behavior: "instant",
           });
           pendingRoom.current = null;
         }
@@ -130,7 +130,7 @@ export function InteriorGallery() {
       const { start, end } = trigger.current;
       window.scrollTo({
         top: start + ((end - start) * index) / (rooms.length - 1),
-        behavior: "smooth",
+        behavior: "instant",
       });
     } else {
       const card = track.current?.children[index] as HTMLElement | undefined;

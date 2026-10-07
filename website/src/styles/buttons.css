@@ -22,7 +22,7 @@
   text-align: center;
   transition:
     color 450ms ease,
-    transform 200ms ease;
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .flow-button.button-light {
   --flow-ink: var(--gold);
@@ -100,6 +100,7 @@ button:active .directional-arrow-stroke {
 .flow-button:where(:hover, :focus-visible):not(:disabled) {
   background: transparent;
   color: var(--flow-active-ink);
+  transform: translateY(-3px);
 }
 .flow-button:where(:hover, :focus-visible):not(:disabled)::before {
   clip-path: circle(150% at calc(100% - 28px) 50%);
@@ -146,10 +147,7 @@ button:active .directional-arrow-stroke {
   .flow-button:active:not(:disabled) {
     transform: none;
   }
-}
-.home-experience[data-motion="off"] .flow-button,
-.home-experience[data-motion="off"] .flow-button::before,
-.home-experience[data-motion="off"] .flow-label,
-.home-experience[data-motion="off"] .flow-arrow {
-  transition: none;
+  .flow-button:where(:hover, :focus-visible):not(:disabled) {
+    transform: none;
+  }
 }

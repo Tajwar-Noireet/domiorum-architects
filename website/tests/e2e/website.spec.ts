@@ -29,6 +29,11 @@ const routes = [
   "/",
   "/projects",
   "/projects/selim-residence",
+  "/projects/aftabnagar-interior",
+  "/projects/doctors-residence",
+  "/projects/edison-interior",
+  "/projects/mirpur-dohs-interior",
+  "/projects/ruap-interior",
   "/services",
   "/contact",
   "/book-consultation",
@@ -86,17 +91,17 @@ test("interior portfolio and project navigation work without removed imagery", a
   request,
 }) => {
   await page.goto("/projects");
-  await expect(page.locator(".project-card")).toHaveCount(1);
+  await expect(page.locator(".showcase-index button")).toHaveCount(5);
   await expect(page.locator(".project-filters")).toHaveCount(0);
-  await page.getByRole("link", { name: /Selim Residence/ }).click();
-  await expect(page).toHaveURL(/\/projects\/selim-residence$/);
+  await page.getByRole("link", { name: "View project", exact: true }).click();
+  await expect(page).toHaveURL(/\/projects\/aftabnagar-interior$/);
   await expect(page.locator(".project-facts")).toContainText(
-    "Innova Architects",
+    "Design visualizations",
   );
-  await page.getByRole("link", { name: /Back to selected work/ }).click();
+  await page.getByRole("link", { name: /All projects/ }).click();
   await expect(page).toHaveURL("/projects");
-  await expect(page.locator(".project-card")).toHaveCount(1);
-  for (const slug of ["abed-residence", "doctors-residence"]) {
+  await expect(page.locator(".showcase-index button")).toHaveCount(5);
+  for (const slug of ["abed-residence"]) {
     expect((await request.get(`/projects/${slug}`)).status()).toBe(404);
   }
   expect(
@@ -113,6 +118,8 @@ test("enquiry validation and email draft preserve the supplied details", async (
   await page.getByLabel("Your name").fill("Test client");
   await page.getByLabel("Email address").fill("client@example.com");
   await page.getByLabel("Project location").fill("Dhaka");
+  await page.getByLabel("Approximate area").fill("1,800 sq ft");
+  await page.getByLabel("Preferred timing").fill("Early 2027");
   await page
     .getByLabel("I’m interested in")
     .selectOption("Renovation or extension");
@@ -130,6 +137,8 @@ test("enquiry validation and email draft preserve the supplied details", async (
   expect(decodeURIComponent(mail!)).toContain(
     "A family apartment with more storage & natural light.",
   );
+  expect(decodeURIComponent(mail!)).toContain("Approximate area: 1,800 sq ft");
+  expect(decodeURIComponent(mail!)).toContain("Preferred timing: Early 2027");
   await expect(page.locator(".email-draft")).toContainText(
     "Please send the email",
   );
@@ -216,7 +225,7 @@ test("scroll scenes expand, change, release and survive route navigation", async
     travel,
   );
   await expect(page.locator("#introduction")).toBeInViewport();
-  await page.getByRole("link", { name: "View all projects" }).click();
+  await page.getByRole("link", { name: "The portfolio" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.getByRole("link", { name: "Domiorum Architects home" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(

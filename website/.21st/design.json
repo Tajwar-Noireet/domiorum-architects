@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "project": {
+    "name": "domiorum-website",
+    "productType": "Architecture and interiors portfolio",
+    "stack": ["nextjs", "react", "tailwind-v4"]
+  },
+  "sources": {
+    "tokens": ["src/styles/globals.css"],
+    "components": ["src/components/ui"],
+    "assets": ["public/brand", "public/images"],
+    "instructions": ["DESIGN.md", "AGENTS.md", "CLAUDE.md"]
+  },
+  "design": {
+    "colorMode": "unknown",
+    "colors": {
+      "ink": "#29313a",
+      "ivory": "#f6f3ed",
+      "navy": "#08182e",
+      "gold": "#e1bf77"
+    },
+    "typography": {},
+    "spacing": {},
+    "radius": {},
+    "shadows": {},
+    "motion": {
+      "gallery": "Scroll-linked image and title parallax with reduced-motion support"
+    },
+    "density": "unknown"
+  },
+  "components": {
+    "installed": ["DirectionalArrow", "FlowButton", "HoverText", "LinkButton"],
+    "preferredPrimitives": [],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [],
+    "avoid": []
+  },
+  "decisions": [
+    "Portfolio uses the established navy, ivory and gold tokens.",
+    "Retain the supplied Elyse triptych composition and real project assets.",
+    "Use existing Framer Motion primitives for scroll-linked movement; preserve native scrolling."
+  ],
+  "evidence": [
+    {
+      "fact": "components.installed",
+      "source": "src/components/ui"
+    },
+    {
+      "fact": "project.instructions",
+      "source": "AGENTS.md"
+    },
+    {
+      "fact": "project.instructions",
+      "source": "CLAUDE.md"
+    },
+    {
+      "fact": "project.instructions",
+      "source": "DESIGN.md"
+    },
+    {
+      "fact": "project.stack:nextjs",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:react",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:tailwind-v4",
+      "source": "package.json"
+    }
+  ],
+  "generatedAt": "2026-10-07T19:46:01.742Z"
+}

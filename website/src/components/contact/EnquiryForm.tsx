@@ -14,7 +14,7 @@ export function EnquiryForm({
   function prepare(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const message = `${consultation ? "Consultation request" : "Project enquiry"}\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone") || "Not provided"}\nInterest: ${data.get("service")}\nLocation: ${data.get("location") || "To discuss"}\n\n${data.get("message")}`;
+    const message = `${consultation ? "Consultation request" : "Project enquiry"}\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone") || "Not provided"}\nInterest: ${data.get("service")}\nLocation: ${data.get("location") || "To discuss"}\nApproximate area: ${data.get("area") || "To discuss"}\nPreferred timing: ${data.get("timing") || "To discuss"}\n\n${data.get("message")}`;
     setDraft(message);
     setCopied(false);
     setCopyError(false);
@@ -93,6 +93,24 @@ export function EnquiryForm({
           <option>Something else</option>
         </select>
       </label>
+      <div className="form-row">
+        <label>
+          Approximate area <span className="optional">optional</span>
+          <input
+            name="area"
+            maxLength={80}
+            placeholder="e.g. 1,800 sq ft, or two rooms"
+          />
+        </label>
+        <label>
+          Preferred timing <span className="optional">optional</span>
+          <input
+            name="timing"
+            maxLength={100}
+            placeholder="e.g. Planning for next year"
+          />
+        </label>
+      </div>
       <label>
         A little about your project <span aria-hidden="true">*</span>
         <textarea

@@ -6,8 +6,9 @@ import Link from "next/link";
 import { ScrollHero } from "@/components/home/ScrollHero";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { InteriorGallery } from "@/components/home/InteriorGallery";
-import { ProjectCard } from "@/components/projects/ProjectCard";
-import { projects, experienceCredit } from "@/content/projects";
+import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
+import { ProjectQuestions } from "@/components/home/ProjectQuestions";
+import { projects } from "@/content/projects";
 import { process } from "@/content/services";
 
 export default function Home() {
@@ -70,7 +71,7 @@ export default function Home() {
       <section className="section home-selected">
         <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">03 / Selected work & experience</p>
+            <p className="eyebrow">03 / Selected projects</p>
             <h2>
               <HoverText>
                 Designed for
@@ -81,23 +82,13 @@ export default function Home() {
           </div>
           <Link href="/projects" className="text-link">
             <HoverText variant="link">
-              View all projects <DirectionalArrow />
+              The portfolio <DirectionalArrow />
             </HoverText>
           </Link>
         </div>
-        <div className="featured-grid">
-          {projects.slice(0, 2).map((project, index) => (
-            <div key={project.slug} data-image-reveal>
-              <ProjectCard
-                project={project}
-                index={index}
-                wide={projects.length === 1}
-              />
-            </div>
-          ))}
-        </div>
+        <ProjectShowcase projects={projects} />
         <p className="portfolio-credit">
-          {experienceCredit} Images shown are design visualizations.
+          Images shown are design visualizations.
         </p>
       </section>
       <ServicesExplodedHouse />
@@ -164,6 +155,7 @@ export default function Home() {
           ))}
         </ol>
       </section>
+      <ProjectQuestions />
     </HomeMotion>
   );
 }

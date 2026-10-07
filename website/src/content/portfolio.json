@@ -1,0 +1,271 @@
+[
+  {
+    "slug": "aftabnagar-interior",
+    "title": "Aftabnagar",
+    "category": "Interiors",
+    "location": "",
+    "area": "",
+    "areaLabel": "",
+    "summary": "Warm timber, pale stone and connected living spaces.",
+    "description": "Aftabnagar brings together the spaces shown in this selection of residential design visualizations.",
+    "approach": "Warm timber, pale stone and connected living spaces.",
+    "cover": "/images/projects/aftabnagar-interior/01.webp",
+    "coverAlt": "Living room design visualization for Aftabnagar",
+    "images": [
+      {
+        "src": "/images/projects/aftabnagar-interior/01.webp",
+        "alt": "Living room design visualization for Aftabnagar",
+        "caption": "Living room"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/02.webp",
+        "alt": "Dining room design visualization for Aftabnagar",
+        "caption": "Dining room"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/03.webp",
+        "alt": "Bedroom design visualization for Aftabnagar",
+        "caption": "Bedroom"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/04.webp",
+        "alt": "Family lounge design visualization for Aftabnagar",
+        "caption": "Family lounge"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/05.webp",
+        "alt": "Kitchen design visualization for Aftabnagar",
+        "caption": "Kitchen"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/06.webp",
+        "alt": "Staircase and storage design visualization for Aftabnagar",
+        "caption": "Staircase and storage"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/07.webp",
+        "alt": "Bedroom and workspace design visualization for Aftabnagar",
+        "caption": "Bedroom and workspace"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/08.webp",
+        "alt": "Fitted storage design visualization for Aftabnagar",
+        "caption": "Fitted storage"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/09.webp",
+        "alt": "Dressing area design visualization for Aftabnagar",
+        "caption": "Dressing area"
+      },
+      {
+        "src": "/images/projects/aftabnagar-interior/10.webp",
+        "alt": "Living room detail design visualization for Aftabnagar",
+        "caption": "Living room detail"
+      }
+    ]
+  },
+  {
+    "slug": "doctors-residence",
+    "title": "Doctors Residence",
+    "category": "Architecture",
+    "location": "",
+    "area": "",
+    "areaLabel": "",
+    "summary": "A residential building framed by planting and open balconies.",
+    "description": "Doctors Residence brings together the spaces shown in this selection of residential design visualizations.",
+    "approach": "A residential building framed by planting and open balconies.",
+    "cover": "/images/projects/doctors-residence/01.webp",
+    "coverAlt": "Exterior cover design visualization for Doctors Residence",
+    "images": []
+  },
+  {
+    "slug": "edison-interior",
+    "title": "Edison",
+    "category": "Interiors",
+    "location": "",
+    "area": "",
+    "areaLabel": "",
+    "summary": "Rooms for gathering, reading and quieter everyday routines.",
+    "description": "Edison brings together the spaces shown in this selection of residential design visualizations.",
+    "approach": "Rooms for gathering, reading and quieter everyday routines.",
+    "cover": "/images/projects/edison-interior/01.webp",
+    "coverAlt": "Living and dining design visualization for Edison",
+    "images": [
+      {
+        "src": "/images/projects/edison-interior/01.webp",
+        "alt": "Living and dining design visualization for Edison",
+        "caption": "Living and dining"
+      },
+      {
+        "src": "/images/projects/edison-interior/02.webp",
+        "alt": "Study and bookshelves design visualization for Edison",
+        "caption": "Study and bookshelves"
+      },
+      {
+        "src": "/images/projects/edison-interior/03.webp",
+        "alt": "Bedroom design visualization for Edison",
+        "caption": "Bedroom"
+      },
+      {
+        "src": "/images/projects/edison-interior/04.webp",
+        "alt": "Dining room design visualization for Edison",
+        "caption": "Dining room"
+      },
+      {
+        "src": "/images/projects/edison-interior/05.webp",
+        "alt": "Kitchen design visualization for Edison",
+        "caption": "Kitchen"
+      },
+      {
+        "src": "/images/projects/edison-interior/06.webp",
+        "alt": "Bedroom and desk design visualization for Edison",
+        "caption": "Bedroom and desk"
+      },
+      {
+        "src": "/images/projects/edison-interior/07.webp",
+        "alt": "Workspace and storage design visualization for Edison",
+        "caption": "Workspace and storage"
+      },
+      {
+        "src": "/images/projects/edison-interior/08.webp",
+        "alt": "Bedroom with fitted storage design visualization for Edison",
+        "caption": "Bedroom with fitted storage"
+      },
+      {
+        "src": "/images/projects/edison-interior/09.webp",
+        "alt": "Wardrobes design visualization for Edison",
+        "caption": "Wardrobes"
+      },
+      {
+        "src": "/images/projects/edison-interior/10.webp",
+        "alt": "Bedroom library design visualization for Edison",
+        "caption": "Bedroom library"
+      },
+      {
+        "src": "/images/projects/edison-interior/11.webp",
+        "alt": "Bedroom detail design visualization for Edison",
+        "caption": "Bedroom detail"
+      }
+    ]
+  },
+  {
+    "slug": "mirpur-dohs-interior",
+    "title": "Mirpur DOHS",
+    "category": "Interiors",
+    "location": "",
+    "area": "",
+    "areaLabel": "",
+    "summary": "Soft colour and timber detailing connect the private and shared rooms.",
+    "description": "Mirpur DOHS brings together the spaces shown in this selection of residential design visualizations.",
+    "approach": "Soft colour and timber detailing connect the private and shared rooms.",
+    "cover": "/images/projects/mirpur-dohs-interior/01.webp",
+    "coverAlt": "Living room design visualization for Mirpur DOHS",
+    "images": [
+      {
+        "src": "/images/projects/mirpur-dohs-interior/01.webp",
+        "alt": "Living room design visualization for Mirpur DOHS",
+        "caption": "Living room"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/02.webp",
+        "alt": "Dining room design visualization for Mirpur DOHS",
+        "caption": "Dining room"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/03.webp",
+        "alt": "Bedroom design visualization for Mirpur DOHS",
+        "caption": "Bedroom"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/04.webp",
+        "alt": "Sitting room design visualization for Mirpur DOHS",
+        "caption": "Sitting room"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/05.webp",
+        "alt": "Dining and display storage design visualization for Mirpur DOHS",
+        "caption": "Dining and display storage"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/06.webp",
+        "alt": "Media wall design visualization for Mirpur DOHS",
+        "caption": "Media wall"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/07.webp",
+        "alt": "Bedroom detail design visualization for Mirpur DOHS",
+        "caption": "Bedroom detail"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/08.webp",
+        "alt": "Kitchen design visualization for Mirpur DOHS",
+        "caption": "Kitchen"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/09.webp",
+        "alt": "Kitchen storage design visualization for Mirpur DOHS",
+        "caption": "Kitchen storage"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/10.webp",
+        "alt": "Bedroom media and dressing area design visualization for Mirpur DOHS",
+        "caption": "Bedroom media and dressing area"
+      },
+      {
+        "src": "/images/projects/mirpur-dohs-interior/11.webp",
+        "alt": "Vanity design visualization for Mirpur DOHS",
+        "caption": "Vanity"
+      }
+    ]
+  },
+  {
+    "slug": "ruap-interior",
+    "title": "RUAP",
+    "category": "Interiors",
+    "location": "",
+    "area": "",
+    "areaLabel": "",
+    "summary": "Light interiors with sculpted seating and carefully integrated storage.",
+    "description": "RUAP brings together the spaces shown in this selection of residential design visualizations.",
+    "approach": "Light interiors with sculpted seating and carefully integrated storage.",
+    "cover": "/images/projects/ruap-interior/01.webp",
+    "coverAlt": "Living room design visualization for RUAP",
+    "images": [
+      {
+        "src": "/images/projects/ruap-interior/01.webp",
+        "alt": "Living room design visualization for RUAP",
+        "caption": "Living room"
+      },
+      {
+        "src": "/images/projects/ruap-interior/02.webp",
+        "alt": "Dining room and vanity design visualization for RUAP",
+        "caption": "Dining room and vanity"
+      },
+      {
+        "src": "/images/projects/ruap-interior/03.webp",
+        "alt": "Dining room design visualization for RUAP",
+        "caption": "Dining room"
+      },
+      {
+        "src": "/images/projects/ruap-interior/04.webp",
+        "alt": "Media wall design visualization for RUAP",
+        "caption": "Media wall"
+      },
+      {
+        "src": "/images/projects/ruap-interior/05.webp",
+        "alt": "Dining and kitchen connection design visualization for RUAP",
+        "caption": "Dining and kitchen connection"
+      },
+      {
+        "src": "/images/projects/ruap-interior/06.webp",
+        "alt": "Kitchen and laundry design visualization for RUAP",
+        "caption": "Kitchen and laundry"
+      },
+      {
+        "src": "/images/projects/ruap-interior/07.webp",
+        "alt": "Kitchen workspace design visualization for RUAP",
+        "caption": "Kitchen workspace"
+      }
+    ]
+  }
+]

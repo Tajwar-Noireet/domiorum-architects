@@ -7,6 +7,8 @@ import "@/styles/experience.css";
 import "@/styles/buttons.css";
 import "@/styles/house.css";
 import "@/styles/cursors.css";
+import "@/styles/refinements.css";
+import "@/styles/portfolio.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",

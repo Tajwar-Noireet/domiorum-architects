@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects, experienceCredit } from "@/content/projects";
+import { projects, allProjects, experienceCredit } from "@/content/projects";
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return allProjects.map((project) => ({ slug: project.slug }));
 }
 export async function generateMetadata({
   params,
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const project = allProjects.find((p) => p.slug === slug);
   return { title: project?.title || "Project", description: project?.summary };
 }
 export default async function Project({
@@ -23,8 +23,9 @@ export default async function Project({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const project = allProjects.find((p) => p.slug === slug);
   if (!project) notFound();
+  const isLegacy = project.slug === "selim-residence";
   const next = projects[(projects.indexOf(project) + 1) % projects.length];
   return (
     <>
@@ -33,7 +34,8 @@ export default async function Project({
           <DirectionalArrow direction="left" /> All projects
         </Link>
         <p className="eyebrow">
-          {project.category} / {project.location}
+          {project.category}
+          {project.location ? ` / ${project.location}` : ""}
         </p>
         <h1>
           <HoverText>{project.title}</HoverText>
@@ -52,33 +54,41 @@ export default async function Project({
       </div>
       <section className="section project-story">
         <dl className="project-facts">
-          <div>
-            <dt>Location</dt>
-            <dd>{project.location}</dd>
-          </div>
-          <div>
-            <dt>{project.areaLabel}</dt>
-            <dd>{project.area}</dd>
-          </div>
-          <div>
-            <dt>Practice</dt>
-            <dd>Innova Architects</dd>
-          </div>
-          <div>
-            <dt>Zarin’s role</dt>
-            <dd>Associate Architect</dd>
-          </div>
-          <div>
-            <dt>Project Architect</dt>
-            <dd>Ar Sanjida Shams</dd>
-          </div>
+          {project.location && (
+            <div>
+              <dt>Location</dt>
+              <dd>{project.location}</dd>
+            </div>
+          )}
+          {project.area && (
+            <div>
+              <dt>{project.areaLabel}</dt>
+              <dd>{project.area}</dd>
+            </div>
+          )}
+          {isLegacy && (
+            <>
+              <div>
+                <dt>Practice</dt>
+                <dd>Innova Architects</dd>
+              </div>
+              <div>
+                <dt>Zarin’s role</dt>
+                <dd>Associate Architect</dd>
+              </div>
+              <div>
+                <dt>Project Architect</dt>
+                <dd>Ar Sanjida Shams</dd>
+              </div>
+            </>
+          )}
           <div>
             <dt>Image type</dt>
             <dd>Design visualizations</dd>
           </div>
         </dl>
         <div>
-          <p className="eyebrow">The brief</p>
+          <p className="eyebrow">The project</p>
           <h2>
             <HoverText>{project.summary}</HoverText>
           </h2>
@@ -89,25 +99,31 @@ export default async function Project({
           </div>
         </div>
       </section>
-      <section className="section project-gallery" aria-label="Project gallery">
-        {project.images.map((image) => (
-          <figure key={image.src}>
-            <div className="gallery-image">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 700px) 100vw, 85vw"
-              />
-            </div>
-            <figcaption>
-              {image.caption}
-              <span>Design visualization</span>
-            </figcaption>
-          </figure>
-        ))}
-        <p className="portfolio-credit">{experienceCredit}</p>
-      </section>
+      {project.images.length > 0 && (
+        <section
+          id="rooms"
+          className="section project-gallery"
+          aria-label="Project gallery"
+        >
+          {project.images.map((image) => (
+            <figure key={image.src}>
+              <div className="gallery-image">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 700px) 100vw, 85vw"
+                />
+              </div>
+              <figcaption>
+                {image.caption}
+                <span>Design visualization</span>
+              </figcaption>
+            </figure>
+          ))}
+          {isLegacy && <p className="portfolio-credit">{experienceCredit}</p>}
+        </section>
+      )}
       <Link
         href={projects.length > 1 ? `/projects/${next.slug}` : "/projects"}
         className="next-project section"

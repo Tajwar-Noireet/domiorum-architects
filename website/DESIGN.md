@@ -30,7 +30,9 @@ References: `../docs/website-reference-research.md`. Implementation: `../docs/ho
 
 ## Flow buttons
 
-The main CTAs use an independent recreation of Kain Xu's public FlowButton preview (https://21st.dev/@xubohuah/components/flow-button): rounded outline, expanding fill, outgoing right arrow and incoming left arrow, with a shifting label. Navy on ivory and gold on navy follow the approved palette. The shared link and native button variants preserve navigation and form semantics. Keyboard focus receives the same visual state; reduced-motion preferences and the homepage motion-off setting remove transitions. Navigation links and utility controls retain their existing styles. Component source was account-locked, so no source code was copied.
+The main CTAs use an independent recreation of Kain Xu's public FlowButton preview (https://21st.dev/@xubohuah/components/flow-button): rounded outline, expanding fill, outgoing right arrow and incoming left arrow, with a shifting label. Navy on ivory and gold on navy follow the approved palette. The shared link and native button variants preserve navigation and form semantics. Keyboard focus receives the same visual state; reduced-motion preferences remove transitions. Navigation links and utility controls retain their existing styles. Component source was account-locked, so no source code was copied.
+
+Button hover and keyboard focus now add a 3px lift alongside the fill and arrow exchange. Button transitions remain available when homepage scroll animation is disabled; the operating system's reduced-motion preference still removes transitions and lift.
 
 
 ## Framer Motion text interactions
@@ -42,3 +44,11 @@ The homepage services section includes an original SVG exploded axonometric hous
 Original 48px SVG drafting cursors: a set square with pencil for browsing and a brass compass for links and controls. Native CSS cursors use precise tool-tip hotspots with browser fallbacks. Applied only to fine hover pointers; editable fields and disabled controls retain native cursors. Forced-colors mode uses native pointers. No pointer-following JavaScript or cursor trails.
 
 Cursor revision: reference-guided transparent brass compass and articulated tool-hand assets replace the simplified vector icons. Source PNGs are preserved alongside self-contained 64px SVG cursor wrappers. Click hotspots are the compass needle (46,62) and hand crosshair centre (17,10). Generated with the built-in image tool from the client-supplied cursor sheet; artwork closely follows the reference, with small generated detail differences.
+
+## Competitor-informed refinements
+
+The Shibori review is recorded in `../docs/shibori-competitor-review.md`. Services explain suitability and the scope to agree; five homeowner questions use native keyboard-accessible disclosures. Optional project area and timing are included in the reviewable email draft. No stock photographs, invented clients or numerical claims were added.
+
+## Folder-based project showcase
+
+The supplied Elyse Residence reference replaces the single residence feature with a five-project showcase on the homepage and portfolio page. Large serif project titles and three staggered images follow that reference, using the site's navy, ivory and gold palette throughout. Each folder has a project selector and a dedicated route. Four interior galleries use 39 curated images; Doctors Residence uses one exterior cover only, as explicitly requested. Framer Motion provides project transitions plus scroll-linked image parallax, zoom and title drift, with live reduced-motion and homepage motion-off support. Native scrolling remains intact. Original assets are preserved and exports are recorded in `src/content/portfolio-assets.json`. Further design and source details: `../docs/project-showcase.md`.

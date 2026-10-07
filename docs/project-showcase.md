@@ -1,0 +1,15 @@
+# Project portfolio
+
+Reference: [Elyse Residence by Phenomenon Studio](https://dribbble.com/shots/25815603-Elyse-Residence-Luxury-Real-Estate-Website-Design), inspected on 7 October 2026. The project section uses a charcoal canvas, large two-line serif titles, a taller central image between two lower images, small numbered selectors, and a summary with a rounded project link. The implementation recreates that composition using the supplied project images; no reference images or source code were copied.
+
+The homepage and `/projects` share `ProjectShowcase`. Project changes fade the outgoing view and reveal the incoming images from bottom to top with staggered timing. Titles settle into place. Numbered controls, a named project index, and previous/next controls all select the same project. Each project opens its own statically generated page. There is no autoplay.
+
+Five projects come from `drive-download-20261007T190141Z-1-001`: Aftabnagar, Doctors Residence, Edison, Mirpur DOHS and RUAP. Four interior galleries contain 39 selected images. Doctors Residence uses only `uuu.jpg` as its exterior cover, following the client's explicit exception to the earlier interior-only direction. No other exterior images are used. Low-resolution portrait exports, rotated exports, and the previously rejected Edison `8f.jpg` are excluded.
+
+Images are exported as WebP at quality 88, with a maximum dimension of 2400 pixels, without enlarging smaller originals. Original files remain unchanged. `website/src/content/portfolio-assets.json` records each original folder/file, output path, and dimensions. `portfolio.json` contains project names, descriptions and the gallery order. No dates, floor areas, client details or project credits were inferred from filenames. The previous Selim Residence URL and its explicit Innova credits remain available separately from the new selection.
+
+The mobile composition retains three images and wraps the named index. Controls use native buttons and links, visible keyboard focus, pressed states, and a live project announcement. Operating-system reduced-motion changes are observed live; the homepage motion-off setting also removes project transitions. Utility arrows are SVGs and existing custom cursors and button hover effects remain in place.
+
+Validation includes all five selector and gallery routes, one-image Doctors cover, previous/next wrapping, responsive overflow, loaded images, keyboard selection, animation completion, live reduced-motion changes, and homepage/gallery regression checks. Preview captures are in `output/website-review/portfolio-desktop.png` and `portfolio-mobile.png`.
+
+The follow-up restores the site's navy, ivory and gold tokens. Native scrolling now drives image parallax, zoom and title drift using Framer Motion. The 21st UI Build skill informed the token audit and catalog search; existing Motion and FlowButton primitives were reused. The skill's code review was run and design decisions were recorded in website/.21st/design.json.

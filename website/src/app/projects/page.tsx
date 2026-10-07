@@ -1,8 +1,8 @@
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
-import { ProjectBrowser } from "@/components/projects/ProjectBrowser";
-import { projects, experienceCredit } from "@/content/projects";
-export const metadata: Metadata = { title: "Selected work & experience" };
+import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
+import { projects } from "@/content/projects";
+export const metadata: Metadata = { title: "Selected projects" };
 export default function Projects() {
   return (
     <div className="section page-section">
@@ -16,17 +16,16 @@ export default function Projects() {
           </HoverText>
         </h1>
         <p>
-          Residential interiors from Zarin Nawar’s previous professional
-          experience.
+          Explore our residential interiors and architecture, one project at a
+          time.
         </p>
       </div>
-      <ProjectBrowser projects={projects} />
+      <ProjectShowcase projects={projects} />
       <div className="project-credit-panel">
         <p className="eyebrow">About this selection</p>
-        <p>{experienceCredit}</p>
         <p>
-          This interior project illustrates the founder’s experience before
-          establishing Domiorum. All project images are design visualizations.
+          All project images are design visualizations. Select a project to
+          explore its spaces.
         </p>
       </div>
     </div>
