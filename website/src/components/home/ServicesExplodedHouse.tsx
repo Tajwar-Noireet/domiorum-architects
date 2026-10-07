@@ -1,5 +1,7 @@
 "use client";
 
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
+
 import { useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -205,7 +207,7 @@ export function ServicesExplodedHouse() {
               </h3>
               <p>{service.items[0]}</p>
             </div>
-            <span aria-hidden="true">↗</span>
+            <DirectionalArrow />
           </Link>
         ))}
       </div>

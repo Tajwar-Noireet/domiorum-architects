@@ -1,5 +1,7 @@
 "use client";
 
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -101,12 +103,12 @@ export function SiteHeader() {
             >
               <span className="menu-number">0{index + 1}</span>
               {link.label}
-              <span aria-hidden="true">↗</span>
+              <DirectionalArrow />
             </Link>
           ))}
           <Link href="/book-consultation" onClick={() => setOpen(false)}>
             <span className="menu-number">05</span>Let’s talk
-            <span aria-hidden="true">↗</span>
+            <DirectionalArrow />
           </Link>
         </nav>
         <p>Architecture & interiors · Dhaka</p>

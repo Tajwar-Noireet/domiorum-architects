@@ -35,7 +35,7 @@ test("drafting cursors apply to desktop browsing and links with native form curs
   for (const file of ["brass-compass", "brass-hand"]) {
     const response = await page.request.get(`/cursors/${file}.svg`);
     expect(response.ok()).toBeTruthy();
-    expect(await response.text()).toContain('width="35.2" height="35.2"');
+    expect(await response.text()).toContain('width="42.24" height="42.24"');
   }
   await page.goto("/contact");
   const input = page.getByRole("textbox").first();

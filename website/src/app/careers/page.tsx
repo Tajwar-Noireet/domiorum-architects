@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -44,7 +45,7 @@ export default function Careers() {
             href={`mailto:${site.email}?subject=Career%20interest%20%E2%80%94%20Domiorum`}
           >
             <span>Email your portfolio</span>
-            <span aria-hidden="true">↗</span>
+            <DirectionalArrow direction="up-right" />
           </a>
           <p className="small-note">
             Please share your area of interest and availability.

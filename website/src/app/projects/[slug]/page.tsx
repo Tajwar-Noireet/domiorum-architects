@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -29,7 +30,7 @@ export default async function Project({
     <>
       <section className="section project-heading">
         <Link href="/projects" className="back-link">
-          ← All projects
+          <DirectionalArrow direction="left" /> All projects
         </Link>
         <p className="eyebrow">
           {project.category} / {project.location}
@@ -121,7 +122,7 @@ export default async function Project({
             </HoverText>
           </h2>
         </div>
-        <span aria-hidden="true">↗</span>
+        <DirectionalArrow />
       </Link>
     </>
   );

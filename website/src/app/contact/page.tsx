@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
@@ -46,7 +47,7 @@ export default function Contact() {
             rel="noreferrer"
             className="text-link"
           >
-            Follow on Facebook <span aria-hidden="true">↗</span>
+            Follow on Facebook <DirectionalArrow direction="up-right" />
           </a>
         </aside>
         <EnquiryForm />

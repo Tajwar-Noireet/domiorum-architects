@@ -1,5 +1,7 @@
 "use client";
 
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
+
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -234,7 +236,7 @@ export function ScrollHero() {
         <span className="cinema-frame-note">01 - A closer look at home</span>
         <div className="cinema-controls">
           <a href="#introduction" className="cinema-scroll-link">
-            Scroll to explore <span aria-hidden="true">↓</span>
+            Scroll to explore <DirectionalArrow direction="down" />
           </a>
           <button
             type="button"

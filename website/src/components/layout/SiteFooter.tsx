@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +42,7 @@ export function SiteFooter() {
           <span className="eyebrow">Find us</span>
           <p>{site.location}</p>
           <a href={site.facebook} target="_blank" rel="noreferrer">
-            Facebook ↗
+            Facebook <DirectionalArrow direction="up-right" />
           </a>
         </div>
         <div>

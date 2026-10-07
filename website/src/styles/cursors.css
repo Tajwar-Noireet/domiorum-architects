@@ -1,7 +1,7 @@
 @media (hover: hover) and (pointer: fine) {
   :root {
-    --drafting-cursor: url("/cursors/brass-compass.svg?v=2") 4 1, default;
-    --drafting-link-cursor: url("/cursors/brass-hand.svg?v=2") 9 0, pointer;
+    --drafting-cursor: url("/cursors/brass-compass.svg?v=3") 5 1, default;
+    --drafting-link-cursor: url("/cursors/brass-hand.svg?v=3") 11 0, pointer;
   }
   body {
     cursor: var(--drafting-cursor);

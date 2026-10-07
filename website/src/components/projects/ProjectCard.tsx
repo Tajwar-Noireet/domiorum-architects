@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export function ProjectCard({
           />
           <span className="project-image-note">Design visualization</span>
           <span className="project-arrow" aria-hidden="true">
-            ↗
+            <DirectionalArrow />
           </span>
         </div>
         <div className="project-card-meta">

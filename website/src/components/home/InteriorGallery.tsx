@@ -1,5 +1,7 @@
 "use client";
 
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
+
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
@@ -200,7 +202,7 @@ export function InteriorGallery() {
             >
               0{index + 1}
               <span>{room.title}</span>
-              <span aria-hidden="true">↗</span>
+              <DirectionalArrow />
             </button>
           ))}
         </div>

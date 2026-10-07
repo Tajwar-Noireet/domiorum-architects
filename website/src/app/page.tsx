@@ -1,3 +1,4 @@
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { ServicesExplodedHouse } from "@/components/home/ServicesExplodedHouse";
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
@@ -34,7 +35,7 @@ export default function Home() {
             </p>
             <Link href="/services" className="text-link">
               <HoverText variant="link">
-                How we work <span aria-hidden="true">↗</span>
+                How we work <DirectionalArrow />
               </HoverText>
             </Link>
           </div>
@@ -80,7 +81,7 @@ export default function Home() {
           </div>
           <Link href="/projects" className="text-link">
             <HoverText variant="link">
-              View all projects <span aria-hidden="true">↗</span>
+              View all projects <DirectionalArrow />
             </HoverText>
           </Link>
         </div>
@@ -132,7 +133,7 @@ export default function Home() {
           </p>
           <Link href="/contact" className="text-link">
             <HoverText variant="link">
-              Meet the studio <span aria-hidden="true">↗</span>
+              Meet the studio <DirectionalArrow />
             </HoverText>
           </Link>
         </div>
