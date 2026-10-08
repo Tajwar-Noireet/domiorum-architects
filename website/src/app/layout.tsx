@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { InteractionMotion } from "@/components/ui/InteractionMotion";
 import "@/styles/globals.css";
 import "@/styles/experience.css";
 import "@/styles/buttons.css";
@@ -12,6 +13,7 @@ import "@/styles/portfolio.css";
 import "@/styles/project-gallery-motion.css";
 import "@/styles/project-hero-motion.css";
 import "@/styles/editorial-motion.css";
+import "@/styles/discover-interactions.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",
@@ -37,6 +39,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteHeader />
+        <InteractionMotion />
         <main id="main">{children}</main>
         <SiteFooter />
       </body>

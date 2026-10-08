@@ -2,6 +2,16 @@
 import { useState } from "react";
 import { FlowButton, FlowButtonContent } from "@/components/ui/FlowButton";
 import { site } from "@/content/site";
+import { AnimatedSelect } from "@/components/ui/AnimatedSelect";
+
+const services = [
+  "Interior design",
+  "Residential architecture",
+  "Renovation or extension",
+  "Technical & delivery support",
+  "Initial consultation",
+  "Something else",
+];
 
 export function EnquiryForm({
   consultation = false,
@@ -77,22 +87,20 @@ export function EnquiryForm({
           <input name="location" maxLength={150} placeholder="Area or city" />
         </label>
       </div>
-      <label>
-        I’m interested in
-        <select
+      <div className="form-choice">
+        <label htmlFor="service-choice" id="service-label">
+          I’m interested in
+        </label>
+        <AnimatedSelect
+          id="service-choice"
+          labelId="service-label"
           name="service"
           defaultValue={
             consultation ? "Initial consultation" : "Interior design"
           }
-        >
-          <option>Interior design</option>
-          <option>Residential architecture</option>
-          <option>Renovation or extension</option>
-          <option>Technical & delivery support</option>
-          <option>Initial consultation</option>
-          <option>Something else</option>
-        </select>
-      </label>
+          options={services}
+        />
+      </div>
       <div className="form-row">
         <label>
           Approximate area <span className="optional">optional</span>

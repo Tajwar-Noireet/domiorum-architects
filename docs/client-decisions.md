@@ -1,5 +1,11 @@
 # Latest client decisions
 
+## Discover us - confirmed 8 October 2026
+
+- Move the CEO/founder profile from the homepage to a Discover us page, with project associations and room for future employees.
+- Show current studio projects and previous Innova work, with separate credits.
+- Apply hover motion to every clickable button/link and motion to dropdown menus, using the supplied 21st Menu Button and Flame Button references.
+
 Source: Domiorum Website Client Questionnaire.pdf, reviewed 5 October 2026.
 
 - Initial audience: interior clients in Dhaka; preference for apartments over 1,200 square feet needs interpretation before publishing.

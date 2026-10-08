@@ -107,11 +107,13 @@ test("reduced motion exposes all content, explicit opt-in works and disabling cl
   );
   await page
     .locator("#studio")
-    .getByRole("link", { name: "Meet the studio" })
+    .getByRole("link", { name: "Discover us" })
     .click();
-  await expect(page).toHaveURL(/\/contact$/);
+  await expect(page).toHaveURL(/\/discover$/);
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await expect(page.getByLabel("Your name")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Zarin Nawar" }),
+  ).toBeVisible();
 });
 
 test("narrow and landscape layouts reveal intact headings without overflow", async ({

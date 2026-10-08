@@ -35,6 +35,7 @@ const routes = [
   "/projects/mirpur-dohs-interior",
   "/projects/ruap-interior",
   "/services",
+  "/discover",
   "/contact",
   "/book-consultation",
   "/careers",
@@ -120,9 +121,8 @@ test("enquiry validation and email draft preserve the supplied details", async (
   await page.getByLabel("Project location").fill("Dhaka");
   await page.getByLabel("Approximate area").fill("1,800 sq ft");
   await page.getByLabel("Preferred timing").fill("Early 2027");
-  await page
-    .getByLabel("I’m interested in")
-    .selectOption("Renovation or extension");
+  await page.getByRole("combobox", { name: "I’m interested in" }).click();
+  await page.getByRole("option", { name: "Renovation or extension" }).click();
   await page
     .getByLabel("A little about your project")
     .fill("A family apartment with more storage & natural light.");
@@ -151,9 +151,9 @@ test("consultation request makes its booking status clear", async ({
   await expect(page.locator(".consultation-note")).toContainText(
     "Consultations are paid",
   );
-  await expect(page.getByLabel("I’m interested in")).toHaveValue(
-    "Initial consultation",
-  );
+  await expect(
+    page.getByRole("combobox", { name: "I’m interested in" }),
+  ).toHaveText("Initial consultation");
   await expect(page.locator(".consultation-note")).toContainText(
     "does not confirm a booking",
   );
@@ -303,6 +303,7 @@ test("narrow phones keep page headings and forms inside the viewport", async ({
   for (const route of [
     "/",
     "/services",
+    "/discover",
     "/contact",
     "/book-consultation",
     "/careers",

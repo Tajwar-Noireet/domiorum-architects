@@ -6,12 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { navigation } from "@/content/site";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const reducedMotion = useReducedMotion();
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -40,10 +42,20 @@ export function SiteHeader() {
     const onResize = () => {
       if (window.innerWidth >= 900) setOpen(false);
     };
+    const onOutside = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !menuRef.current?.contains(event.target) &&
+        !triggerRef.current?.contains(event.target)
+      )
+        setOpen(false);
+    };
     document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onOutside);
     window.addEventListener("resize", onResize);
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onOutside);
       window.removeEventListener("resize", onResize);
     };
   }, [open]);
@@ -86,33 +98,58 @@ export function SiteHeader() {
         onClick={() => setOpen(!open)}
       >
         {open ? "Close" : "Menu"}
-        <span aria-hidden="true">{open ? "−" : "+"}</span>
+        <svg
+          className="menu-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          aria-hidden="true"
+        >
+          <path d="M4 12H20" />
+          <path d="M4 12H20" />
+          <path d="M4 12H20" />
+        </svg>
       </button>
-      <div
+      <motion.div
         id="mobile-navigation"
         ref={menuRef}
         className="mobile-navigation"
-        hidden={!open}
+        inert={!open}
+        aria-hidden={!open}
+        initial={false}
+        animate={
+          open
+            ? { height: "auto", opacity: 1, visibility: "visible" }
+            : { height: 0, opacity: 0, transitionEnd: { visibility: "hidden" } }
+        }
+        transition={{
+          duration: reducedMotion ? 0 : 0.28,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        style={{ overflow: "hidden", pointerEvents: open ? "auto" : "none" }}
       >
-        <nav aria-label="Mobile navigation">
-          {navigation.map((link, index) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-            >
-              <span className="menu-number">0{index + 1}</span>
-              {link.label}
+        <div className="mobile-navigation-inner">
+          <nav aria-label="Mobile navigation">
+            {navigation.map((link, index) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+              >
+                <span className="menu-number">0{index + 1}</span>
+                {link.label}
+                <DirectionalArrow />
+              </Link>
+            ))}
+            <Link href="/book-consultation" onClick={() => setOpen(false)}>
+              <span className="menu-number">05</span>Let’s talk
               <DirectionalArrow />
             </Link>
-          ))}
-          <Link href="/book-consultation" onClick={() => setOpen(false)}>
-            <span className="menu-number">05</span>Let’s talk
-            <DirectionalArrow />
-          </Link>
-        </nav>
-        <p>Architecture & interiors · Dhaka</p>
-      </div>
+          </nav>
+          <p>Architecture & interiors · Dhaka</p>
+        </div>
+      </motion.div>
     </header>
   );
 }

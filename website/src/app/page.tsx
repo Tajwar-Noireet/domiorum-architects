@@ -94,12 +94,14 @@ export default function Home() {
       <section id="studio" className="studio-section section home-studio">
         <div className="studio-photo" data-scroll-frame>
           <Image
-            src="/images/studio/zarin-nawar.webp"
-            alt="Zarin Nawar, founder and CEO of Domiorum Architects"
+            src="/images/interiors/bedroom-angle.webp"
+            alt="Residential interior with timber shelving and a dressing area"
             fill
             sizes="(max-width: 700px) 100vw, 40vw"
           />
-          <span className="studio-photo-note">Zarin Nawar / Founder & CEO</span>
+          <span className="studio-photo-note">
+            Architecture & interiors / Dhaka
+          </span>
         </div>
         <div className="studio-copy">
           <p className="eyebrow">05 / The studio</p>
@@ -111,17 +113,17 @@ export default function Home() {
           <p>
             <ScrollWords>
               Domiorum Architects is an architecture and interiors practice
-              founded by Zarin Nawar, based in Bashundhara R/A, Dhaka.
+              based in Bashundhara R/A, Dhaka. We bring architecture, interiors
+              and the way you live into one conversation.
             </ScrollWords>
           </p>
           <p>
-            With a background in residential design and previous professional
-            experience at Innova Architects, Zarin brings architecture,
-            interiors and the way people live into one conversation.
+            Meet the people behind the practice and explore the projects that
+            shape our work.
           </p>
-          <Link href="/contact" className="text-link">
+          <Link href="/discover" className="text-link">
             <HoverText variant="link">
-              Meet the studio <DirectionalArrow />
+              Discover us <DirectionalArrow />
             </HoverText>
           </Link>
         </div>

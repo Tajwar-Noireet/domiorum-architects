@@ -11,7 +11,7 @@ The latest completed questionnaire, page 2, specifies midnight navy and warm ivo
 - Warm gold `#E1BF77`: headline emphasis, section labels, links and progress indicators on navy. Graphite `#29313A` supports body text on ivory.
 - Jost provides the geometric sans-serif proportions requested by the client. Typography scales with the viewport; navigation and controls retain readable sizes.
 - Large images, asymmetric placement and generous spacing draw on the inspected DSGN Interior reference. Project facts, reasoning and credits use one consistent template.
-- The homepage alternates navy and ivory sections. The new practice's founder is introduced separately from her previous professional experience.
+- The homepage alternates navy and ivory sections. The founder's profile lives on Discover us, where current studio projects and previous Innova experience have separate credits.
 
 ## Images and movement
 

@@ -54,6 +54,7 @@ export function SiteFooter() {
           <span className="eyebrow">Explore</span>
           <Link href="/projects">Projects</Link>
           <Link href="/services">Services</Link>
+          <Link href="/discover">Discover us</Link>
           <Link href="/careers">Careers</Link>
         </div>
       </div>
