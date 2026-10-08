@@ -68,7 +68,7 @@ test("native scrolling reveals titles, opens photo frames and reads the paragrap
   expect(errors).toEqual([]);
 });
 
-test("reduced motion exposes all content, explicit opt-in works and disabling clears the effects", async ({
+test("live device preferences enable editorial motion and restore readable content", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -84,7 +84,7 @@ test("reduced motion exposes all content, explicit opt-in works and disabling cl
   await expect(
     page.locator("#introduction [data-scroll-word]").last(),
   ).toHaveCSS("color", "rgb(41, 49, 58)");
-  await page.getByRole("button", { name: /Enable scroll animation/ }).click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".home-experience")).toHaveAttribute(
     "data-motion",
     "on",
@@ -92,7 +92,7 @@ test("reduced motion exposes all content, explicit opt-in works and disabling cl
   await placeAt(page, "#introduction [data-scroll-title]", 0.97);
   await expect.poll(() => titleOffset(page)).toBeGreaterThan(10);
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator(".perspective-wide")).toHaveCSS(
     "clip-path",

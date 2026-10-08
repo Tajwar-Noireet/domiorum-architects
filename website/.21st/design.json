@@ -24,7 +24,7 @@
     "radius": {},
     "shadows": {},
     "motion": {
-      "gallery": "Elyse-inspired native sticky scenes, horizontal-strip image wipes, overlapping image parallax and masked room titles; project covers expand on scroll; reduced-motion fallback with explicit session opt-in",
+      "gallery": "Elyse-inspired native sticky scenes, horizontal-strip image wipes, overlapping image parallax and masked room titles; project covers expand on scroll; automatic motion with a reduced-motion fallback",
       "homepage": "Opposing hero title drift, masked heading lines, readable word-by-word colour progression and expanding photo frames inspired by Wiemer and Eladio Dieste; native scrolling and existing pin counts retained"
     },
     "density": "unknown"

@@ -3,13 +3,12 @@
 import {
   createContext,
   useContext,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { useHomeMotion } from "@/components/home/HomeMotion";
 
-const MotionContext = createContext({ enabled: false, toggle: () => {} });
+const MotionContext = createContext({ enabled: false });
 export const useProjectMotion = () => useContext(MotionContext);
 
 function subscribeMotion(callback: () => void) {
@@ -19,10 +18,6 @@ function subscribeMotion(callback: () => void) {
 }
 
 function preference() {
-  try {
-    const choice = sessionStorage.getItem("domiorum-project-motion");
-    if (choice === "on" || choice === "off") return choice === "on";
-  } catch {}
   return window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
 }
 
@@ -32,39 +27,11 @@ export function ProjectMotionProvider({ children }: { children: ReactNode }) {
     preference,
     () => false,
   );
-  const [override, setOverride] = useState<boolean | null>(null);
   const { enabled: homeEnabled } = useHomeMotion();
-  const enabled = homeEnabled && (override ?? preferred);
+  const enabled = homeEnabled && preferred;
   return (
-    <MotionContext.Provider
-      value={{
-        enabled,
-        toggle: () => {
-          setOverride(!enabled);
-          try {
-            sessionStorage.setItem(
-              "domiorum-project-motion",
-              enabled ? "off" : "on",
-            );
-          } catch {}
-        },
-      }}
-    >
+    <MotionContext.Provider value={{ enabled }}>
       {children}
     </MotionContext.Provider>
-  );
-}
-
-export function ProjectMotionToggle() {
-  const { enabled, toggle } = useProjectMotion();
-  return (
-    <button
-      className="project-motion-toggle"
-      onClick={toggle}
-      aria-pressed={enabled}
-    >
-      <span className="project-motion-indicator" aria-hidden="true" />
-      {enabled ? "Disable scroll effects" : "Enable scroll effects"}
-    </button>
   );
 }

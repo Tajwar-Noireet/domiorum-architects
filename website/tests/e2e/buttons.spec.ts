@@ -1,14 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-test("button hover animates independently of scroll motion and resets", async ({
+test("button hover animates and resets with automatic scroll motion", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop");
   await page.goto("/");
-  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
-  const button = page
-    .getByRole("link", { name: "View project", exact: true })
-    .first();
+  const button = page.getByRole("link", {
+    name: "Explore our work",
+    exact: true,
+  });
   await button.hover();
   await expect
     .poll(() =>

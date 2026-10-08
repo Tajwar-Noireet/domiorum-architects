@@ -5,7 +5,6 @@ import {
   useContext,
   useLayoutEffect,
   useRef,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -16,14 +15,10 @@ function subscribeMotion(callback: () => void) {
   return () => media.removeEventListener("change", callback);
 }
 
-const MotionContext = createContext({ enabled: true, toggle: () => {} });
+const MotionContext = createContext({ enabled: true });
 export const useHomeMotion = () => useContext(MotionContext);
 
 function motionPreference() {
-  try {
-    const choice = window.sessionStorage.getItem("domiorum-motion");
-    if (choice === "on" || choice === "off") return choice === "on";
-  } catch {}
   return window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
 }
 
@@ -33,8 +28,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
     motionPreference,
     () => false,
   );
-  const [override, setOverride] = useState<boolean | null>(null);
-  const enabled = override ?? prefersMotion;
+  const enabled = prefersMotion;
   const root = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -186,20 +180,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
   }, [enabled]);
 
   return (
-    <MotionContext.Provider
-      value={{
-        enabled,
-        toggle: () => {
-          setOverride(!enabled);
-          try {
-            window.sessionStorage.setItem(
-              "domiorum-motion",
-              enabled ? "off" : "on",
-            );
-          } catch {}
-        },
-      }}
-    >
+    <MotionContext.Provider value={{ enabled }}>
       <div
         ref={root}
         className="home-experience"

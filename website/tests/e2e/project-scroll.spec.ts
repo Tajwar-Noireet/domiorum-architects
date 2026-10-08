@@ -265,33 +265,25 @@ test("project cover opens and zooms with scroll while reduced motion stays stati
   await expect(photo).toHaveCSS("transform", "none");
 });
 
-test("visitors can enable scroll effects despite reduced motion and keep the session choice", async ({
+test("project motion follows device preferences and ignores retired session choices", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/projects/mirpur-dohs-interior");
-  const heading = page.locator(".project-heading");
   const gallery = page.locator("#rooms");
   const cover = page.locator(".project-scroll-hero");
   await expectNaturalGallery(page);
   await expect(cover).toHaveAttribute("data-animated", "false");
 
-  await heading
-    .getByRole("button", { name: "Enable scroll effects", exact: true })
-    .click();
+  await expect(page.locator(".project-motion-toggle")).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(gallery).toHaveAttribute("data-animated", "true");
   await expect(cover).toHaveAttribute("data-animated", "true");
-  await expect(
-    heading.getByRole("button", {
-      name: "Disable scroll effects",
-      exact: true,
-    }),
-  ).toHaveAttribute("aria-pressed", "true");
   expect(
     await page.evaluate(
       () => matchMedia("(prefers-reduced-motion: reduce)").matches,
     ),
-  ).toBe(true);
+  ).toBe(false);
   await scrollTo(page, 0);
   await expect(cover.locator(".project-hero-aperture")).not.toHaveCSS(
     "clip-path",
@@ -307,25 +299,18 @@ test("visitors can enable scroll effects despite reduced motion and keep the ses
     )
     .toBeGreaterThan(1.01);
 
-  await gallery
-    .locator(".project-gallery-toolbar")
-    .getByRole("button", { name: "Disable scroll effects", exact: true })
-    .click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(cover).toHaveAttribute("data-animated", "false");
   await expectNaturalGallery(page);
 
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.evaluate(() => {
+    sessionStorage.setItem("domiorum-motion", "off");
+    sessionStorage.setItem("domiorum-project-motion", "off");
+  });
   await page.reload();
   await expect(gallery).toHaveAttribute("data-animated", "false");
   await expect(cover).toHaveAttribute("data-animated", "false");
-  await expect(
-    heading.getByRole("button", { name: "Enable scroll effects", exact: true }),
-  ).toHaveAttribute("aria-pressed", "false");
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await heading
-    .getByRole("button", { name: "Enable scroll effects", exact: true })
-    .click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(gallery).toHaveAttribute("data-animated", "true");
   await page.locator(".next-project").click();
   await expect(page).toHaveURL("/projects/ruap-interior");
@@ -335,12 +320,6 @@ test("visitors can enable scroll effects despite reduced motion and keep the ses
   await page.reload();
   await expect(gallery).toHaveAttribute("data-animated", "true");
   await expect(cover).toHaveAttribute("data-animated", "true");
-  await expect(
-    heading.getByRole("button", {
-      name: "Disable scroll effects",
-      exact: true,
-    }),
-  ).toHaveAttribute("aria-pressed", "true");
 });
 
 test("Doctors Residence retains its exterior cover without an interior gallery", async ({

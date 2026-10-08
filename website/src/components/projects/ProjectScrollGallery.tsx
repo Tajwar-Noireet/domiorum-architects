@@ -11,7 +11,7 @@ import {
   type MotionStyle,
   type MotionValue,
 } from "framer-motion";
-import { useProjectMotion, ProjectMotionToggle } from "./ProjectMotion";
+import { useProjectMotion } from "./ProjectMotion";
 import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import type { Project } from "@/types/project";
 
@@ -195,7 +195,6 @@ export function ProjectScrollGallery({
             <p className="project-gallery-kicker">
               {project.title} / Inside the project
             </p>
-            <ProjectMotionToggle />
             {animate && (
               <div
                 className="project-gallery-controls"

@@ -19,10 +19,6 @@ test("text hover resets and follows live motion preferences", async ({
   await page.mouse.move(5, 5);
   await title.hover();
   await expect.poll(offset).toBeLessThan(-2);
-  await page.goto("/");
-  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
-  await title.hover();
-  await expect.poll(offset).toBe(0);
 });
 
 const routes = [
@@ -242,17 +238,20 @@ test("scroll scenes expand, change, release and survive route navigation", async
   await expect(page.locator(".pin-spacer")).toHaveCount(1);
 });
 
-test("reduced motion is respected and visitors can enable or disable it", async ({
+test("reduced motion follows the device preference without a site toggle", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "reduced-motion");
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await page.getByRole("button", { name: /Enable scroll animation/ }).click();
+  await expect(
+    page.getByRole("button", { name: /Enable motion|Motion on/ }),
+  ).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".pin-spacer")).toHaveCount(2);
   await page.reload();
   await expect(page.locator(".pin-spacer")).toHaveCount(2);
-  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.getByRole("link", { name: "Scroll to explore" }).click();
   await expect(page.locator("#introduction")).toBeInViewport();

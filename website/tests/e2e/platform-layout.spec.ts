@@ -4,6 +4,10 @@ test("key layouts fit portrait, landscape and PC sizes", async ({
   page,
 }, info) => {
   test.skip(info.project.name === "reduced-motion");
+  await page.addInitScript(() => {
+    sessionStorage.setItem("domiorum-motion", "off");
+    sessionStorage.setItem("domiorum-project-motion", "off");
+  });
   const phone = ["mobile", "android"].includes(info.project.name);
   const sizes = phone
     ? [
@@ -30,6 +34,21 @@ test("key layouts fit portrait, landscape and PC sizes", async ({
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
       await expect(page.locator("main h1")).toBeVisible();
+      await expect(
+        page.getByRole("button", {
+          name: /Motion on|Enable motion|Pause project motion|Enable project motion|Enable scroll effects|Disable scroll effects/,
+        }),
+      ).toHaveCount(0);
+      if (route === "/" || route === "/projects")
+        await expect(page.locator(".home-experience")).toHaveAttribute(
+          "data-motion",
+          "on",
+        );
+      if (route === "/projects/mirpur-dohs-interior")
+        await expect(page.locator("#rooms")).toHaveAttribute(
+          "data-animated",
+          "true",
+        );
       await expect
         .poll(
           () =>

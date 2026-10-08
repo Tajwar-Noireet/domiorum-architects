@@ -18,13 +18,9 @@ test("gallery stays visible throughout its reserved scroll space", async ({
       await page.evaluate(() =>
         window.scrollTo({ top: 0, behavior: "instant" }),
       );
-      await page
-        .getByRole("button", { name: /Disable scroll animation/ })
-        .click();
+      await page.emulateMedia({ reducedMotion: "reduce" });
       await expect(page.locator(".pin-spacer")).toHaveCount(0);
-      await page
-        .getByRole("button", { name: /Enable scroll animation/ })
-        .click();
+      await page.emulateMedia({ reducedMotion: "no-preference" });
     }
     await expect(page.locator(".pin-spacer")).toHaveCount(2);
     await page.evaluate(() => document.fonts.ready);

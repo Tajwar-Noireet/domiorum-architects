@@ -24,7 +24,7 @@ function subscribeStack(callback: () => void) {
 
 export function ProjectShowcase({ projects }: { projects: Project[] }) {
   const section = useRef<HTMLDivElement>(null);
-  const { enabled, toggle } = useHomeMotion();
+  const { enabled } = useHomeMotion();
   const wideScreen = useSyncExternalStore(
     subscribeStack,
     () => matchMedia(stackQuery).matches,
@@ -196,33 +196,6 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
           <p className="showcase-kicker">
             Our projects / {String(projects.length).padStart(2, "0")}
           </p>
-          <button
-            className="showcase-motion"
-            onClick={toggle}
-            aria-pressed={enabled}
-          >
-            {enabled ? "Pause project motion" : "Enable project motion"}
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              aria-hidden="true"
-              focusable="false"
-            >
-              {enabled ? (
-                <path
-                  d="M7 5v10M13 5v10"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              ) : (
-                <path
-                  d="m7 4 9 6-9 6V4Z"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                />
-              )}
-            </svg>
-          </button>
         </div>
         <nav className="showcase-index" aria-label="Project index">
           {projects.map((project, index) => (

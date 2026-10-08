@@ -55,21 +55,19 @@ test("hero lines drift in opposite directions without adding scroll pins", async
   ).toBe(true);
 });
 
-test("reduced motion keeps hero lines static and explicit opt-in enables the drift", async ({
-  page,
-}) => {
+test("hero drift follows live device motion preferences", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.evaluate(() => window.scrollTo({ top: 160, behavior: "instant" }));
   await expectStaticLines(page);
-  await page.getByRole("button", { name: /Enable scroll animation/ }).click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".pin-spacer")).toHaveCount(
     (await page.evaluate(() => innerWidth)) >= 900 ? 2 : 1,
   );
   await scrollOpening(page);
   await expectOpposingDrift(page);
-  await page.getByRole("button", { name: /Disable scroll animation/ }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expectStaticLines(page);
   for (const line of await page.locator(".hero-line").all()) {

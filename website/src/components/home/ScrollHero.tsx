@@ -35,7 +35,7 @@ const scenes = [
 export function ScrollHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { enabled, toggle } = useHomeMotion();
+  const { enabled } = useHomeMotion();
   useLayoutEffect(() => {
     if (!enabled) return;
     let disposed = false;
@@ -250,21 +250,6 @@ export function ScrollHero() {
           <a href="#introduction" className="cinema-scroll-link">
             Scroll to explore <DirectionalArrow direction="down" />
           </a>
-          <button
-            type="button"
-            onClick={toggle}
-            aria-pressed={enabled}
-            aria-label={
-              enabled
-                ? "Motion on: Disable scroll animation"
-                : "Enable motion: Enable scroll animation"
-            }
-          >
-            <span className="motion-symbol" aria-hidden="true">
-              {enabled ? "Ⅱ" : "▷"}
-            </span>
-            {enabled ? "Motion on" : "Enable motion"}
-          </button>
           <span className="cinema-credit">Design visualizations</span>
         </div>
         <div className="cinema-progress" aria-hidden="true">

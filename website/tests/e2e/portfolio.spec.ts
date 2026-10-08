@@ -150,7 +150,7 @@ test("all projects stay in page flow and keyboard index links reach each gallery
   }
 });
 
-test("motion pause, live reduced motion and explicit opt-in keep every project readable", async ({
+test("live device motion preferences keep every project readable without toggles", async ({
   page,
 }, info) => {
   await page.goto("/projects", { waitUntil: "domcontentloaded" });
@@ -170,9 +170,10 @@ test("motion pause, live reduced motion and explicit opt-in keep every project r
         .evaluate((el) => getComputedStyle(el).transform),
     ).toBe("none");
   }
-  await page.getByRole("button", { name: "Enable project motion" }).click();
+  await expect(page.locator(".showcase-motion")).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(showcase).toHaveAttribute("data-animated", "true");
-  await page.getByRole("button", { name: "Pause project motion" }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(showcase).toHaveAttribute("data-animated", "false");
   await page.reload();
   await expect(showcase).toHaveAttribute("data-animated", "false");
@@ -198,7 +199,9 @@ test("the selection and project index work without JavaScript", async ({
     .getByRole("link", { name: /Doctors Residence/ })
     .click();
   await expect(page.locator("#selected-doctors-residence h2")).toBeInViewport();
-  await page.locator("#selected-doctors-residence .showcase-link").press("Enter");
+  await page
+    .locator("#selected-doctors-residence .showcase-link")
+    .press("Enter");
   await expect(page.locator("h1")).toHaveText("Doctors Residence");
   await context.close();
 });

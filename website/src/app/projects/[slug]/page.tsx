@@ -7,10 +7,7 @@ import { notFound } from "next/navigation";
 import { projects, allProjects, experienceCredit } from "@/content/projects";
 import { ProjectScrollHero } from "@/components/projects/ProjectScrollHero";
 import { ProjectScrollGallery } from "@/components/projects/ProjectScrollGallery";
-import {
-  ProjectMotionProvider,
-  ProjectMotionToggle,
-} from "@/components/projects/ProjectMotion";
+import { ProjectMotionProvider } from "@/components/projects/ProjectMotion";
 export function generateStaticParams() {
   return allProjects.map((project) => ({ slug: project.slug }));
 }
@@ -39,7 +36,6 @@ export default async function Project({
         <Link href="/projects" className="back-link">
           <DirectionalArrow direction="left" /> All projects
         </Link>
-        {project.images.length > 0 && <ProjectMotionToggle />}
         <p className="eyebrow">
           {project.category}
           {project.location ? ` / ${project.location}` : ""}
