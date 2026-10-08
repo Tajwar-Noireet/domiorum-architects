@@ -1,0 +1,41 @@
+.scroll-title,
+.scroll-title-mask,
+.scroll-title-line {
+  display: block;
+}
+.scroll-title-mask {
+  overflow: clip;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.scroll-title-line {
+  transform-origin: left bottom;
+}
+.home-perspective .perspective-grid h2 .scroll-title,
+.home-perspective .perspective-grid h2 .scroll-title-mask,
+.home-perspective .perspective-grid h2 .scroll-title-line,
+.home-studio .studio-copy h2 .scroll-title,
+.home-studio .studio-copy h2 .scroll-title-mask,
+.home-studio .studio-copy h2 .scroll-title-line {
+  color: inherit;
+  font-style: normal;
+}
+.scroll-title em {
+  font-style: italic;
+}
+.scroll-words {
+  color: var(--ink);
+}
+[data-scroll-frame] {
+  overflow: hidden;
+}
+.home-experience[data-motion="off"] [data-title-line],
+.home-experience[data-motion="off"] [data-scroll-frame] img {
+  transform: none;
+}
+.home-experience[data-motion="off"] [data-scroll-frame] {
+  clip-path: none;
+}
+.home-experience[data-motion="off"] [data-scroll-word] {
+  color: var(--ink);
+}

@@ -5,6 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, allProjects, experienceCredit } from "@/content/projects";
+import { ProjectScrollHero } from "@/components/projects/ProjectScrollHero";
+import { ProjectScrollGallery } from "@/components/projects/ProjectScrollGallery";
+import {
+  ProjectMotionProvider,
+  ProjectMotionToggle,
+} from "@/components/projects/ProjectMotion";
 export function generateStaticParams() {
   return allProjects.map((project) => ({ slug: project.slug }));
 }
@@ -28,11 +34,12 @@ export default async function Project({
   const isLegacy = project.slug === "selim-residence";
   const next = projects[(projects.indexOf(project) + 1) % projects.length];
   return (
-    <>
+    <ProjectMotionProvider>
       <section className="section project-heading">
         <Link href="/projects" className="back-link">
           <DirectionalArrow direction="left" /> All projects
         </Link>
+        {project.images.length > 0 && <ProjectMotionToggle />}
         <p className="eyebrow">
           {project.category}
           {project.location ? ` / ${project.location}` : ""}
@@ -42,16 +49,20 @@ export default async function Project({
         </h1>
         <p className="project-standfirst">{project.summary}</p>
       </section>
-      <div className="project-hero-image">
-        <Image
-          src={project.cover}
-          alt={project.coverAlt}
-          fill
-          sizes="100vw"
-          preload
-        />
-        <span className="project-image-note">Design visualization</span>
-      </div>
+      {project.images.length > 0 ? (
+        <ProjectScrollHero project={project} />
+      ) : (
+        <div className="project-hero-image">
+          <Image
+            src={project.cover}
+            alt={project.coverAlt}
+            fill
+            sizes="100vw"
+            preload
+          />
+          <span className="project-image-note">Design visualization</span>
+        </div>
+      )}
       <section className="section project-story">
         <dl className="project-facts">
           {project.location && (
@@ -100,29 +111,10 @@ export default async function Project({
         </div>
       </section>
       {project.images.length > 0 && (
-        <section
-          id="rooms"
-          className="section project-gallery"
-          aria-label="Project gallery"
-        >
-          {project.images.map((image) => (
-            <figure key={image.src}>
-              <div className="gallery-image">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(max-width: 700px) 100vw, 85vw"
-                />
-              </div>
-              <figcaption>
-                {image.caption}
-                <span>Design visualization</span>
-              </figcaption>
-            </figure>
-          ))}
-          {isLegacy && <p className="portfolio-credit">{experienceCredit}</p>}
-        </section>
+        <ProjectScrollGallery
+          project={project}
+          credit={isLegacy ? experienceCredit : undefined}
+        />
       )}
       <Link
         href={projects.length > 1 ? `/projects/${next.slug}` : "/projects"}
@@ -140,6 +132,6 @@ export default async function Project({
         </div>
         <DirectionalArrow />
       </Link>
-    </>
+    </ProjectMotionProvider>
   );
 }

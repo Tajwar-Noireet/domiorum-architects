@@ -1,10 +1,12 @@
 import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { ServicesExplodedHouse } from "@/components/home/ServicesExplodedHouse";
 import { HoverText } from "@/components/ui/HoverText";
+import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollHero } from "@/components/home/ScrollHero";
 import { HomeMotion } from "@/components/home/HomeMotion";
+import { ScrollTitle, ScrollWords } from "@/components/home/ScrollTypography";
 import { InteriorGallery } from "@/components/home/InteriorGallery";
 import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
 import { ProjectQuestions } from "@/components/home/ProjectQuestions";
@@ -21,18 +23,23 @@ export default function Home() {
           <span className="small-note">Architecture · Interiors · Dhaka</span>
         </div>
         <div className="perspective-grid">
-          <h2 data-reveal>
-            <HoverText>
-              A home begins
-              <br />
-              with <span>you.</span>
-            </HoverText>
+          <h2>
+            <ScrollTitle
+              lines={[
+                "A home begins",
+                <Fragment key="you">
+                  with <em>you.</em>
+                </Fragment>,
+              ]}
+            />
           </h2>
           <div data-reveal>
             <p className="perspective-lead">How you live comes first.</p>
             <p>
-              Where you gather, how you work, what you need to store. We begin
-              with the everyday details and build the design around them.
+              <ScrollWords>
+                Where you gather, how you work, what you need to store. We begin
+                with the everyday details and build the design around them.
+              </ScrollWords>
             </p>
             <Link href="/services" className="text-link">
               <HoverText variant="link">
@@ -42,7 +49,7 @@ export default function Home() {
           </div>
         </div>
         <div className="perspective-images">
-          <figure className="perspective-wide" data-image-reveal data-parallax>
+          <figure className="perspective-wide" data-scroll-frame>
             <Image
               src="/images/interiors/dining.webp"
               alt="Interior visualization connecting dining, kitchen and fitted storage"
@@ -51,11 +58,7 @@ export default function Home() {
               quality={85}
             />
           </figure>
-          <figure
-            className="perspective-detail"
-            data-image-reveal
-            data-parallax
-          >
+          <figure className="perspective-detail" data-scroll-frame>
             <Image
               src="/images/interiors/bedroom-angle.webp"
               alt="Bedroom visualization with layered curtains, built-in timber shelving and a dressing area"
@@ -73,11 +76,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">03 / Selected projects</p>
             <h2>
-              <HoverText>
-                Designed for
-                <br />
-                everyday living.
-              </HoverText>
+              <ScrollTitle lines={["Designed for", "everyday living."]} />
             </h2>
           </div>
           <Link href="/projects" className="text-link">
@@ -93,7 +92,7 @@ export default function Home() {
       </section>
       <ServicesExplodedHouse />
       <section id="studio" className="studio-section section home-studio">
-        <div className="studio-photo" data-image-reveal>
+        <div className="studio-photo" data-scroll-frame>
           <Image
             src="/images/studio/zarin-nawar.webp"
             alt="Zarin Nawar, founder and CEO of Domiorum Architects"
@@ -102,20 +101,18 @@ export default function Home() {
           />
           <span className="studio-photo-note">Zarin Nawar / Founder & CEO</span>
         </div>
-        <div className="studio-copy" data-reveal>
+        <div className="studio-copy">
           <p className="eyebrow">05 / The studio</p>
           <h2>
-            <HoverText>
-              Let’s make
-              <br />
-              your home
-              <br />
-              <span>your own.</span>
-            </HoverText>
+            <ScrollTitle
+              lines={["Let’s make", "your home", <em key="own">your own.</em>]}
+            />
           </h2>
           <p>
-            Domiorum Architects is an architecture and interiors practice
-            founded by Zarin Nawar, based in Bashundhara R/A, Dhaka.
+            <ScrollWords>
+              Domiorum Architects is an architecture and interiors practice
+              founded by Zarin Nawar, based in Bashundhara R/A, Dhaka.
+            </ScrollWords>
           </p>
           <p>
             With a background in residential design and previous professional
@@ -134,7 +131,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">06 / Working together</p>
             <h2>
-              <HoverText>First, we listen.</HoverText>
+              <ScrollTitle lines={["First, we listen."]} />
             </h2>
           </div>
           <p className="section-aside">

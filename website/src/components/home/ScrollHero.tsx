@@ -114,6 +114,18 @@ export function ScrollHero() {
               0.15,
             )
             .fromTo(
+              section.querySelector(".hero-line-first"),
+              { xPercent: 0 },
+              { xPercent: desktop ? -8 : -3, duration: 0.5 },
+              0.15,
+            )
+            .fromTo(
+              section.querySelector(".hero-line-second"),
+              { xPercent: 0 },
+              { xPercent: desktop ? 8 : 3, duration: 0.5 },
+              0.15,
+            )
+            .fromTo(
               frames[0].querySelector("img"),
               { scale: 1.08 },
               { scale: 1, duration: 1.5 },

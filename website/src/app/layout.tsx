@@ -9,6 +9,9 @@ import "@/styles/house.css";
 import "@/styles/cursors.css";
 import "@/styles/refinements.css";
 import "@/styles/portfolio.css";
+import "@/styles/project-gallery-motion.css";
+import "@/styles/project-hero-motion.css";
+import "@/styles/editorial-motion.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",

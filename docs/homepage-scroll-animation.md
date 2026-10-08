@@ -32,3 +32,16 @@ This is an animated sequence of supplied renderings. A continuous 3D camera path
 The opening is now full-screen interior imagery with offset headline lines, using the approved brand palette. The opening dissolves into the existing image wipes and detail scenes. No 21st component code was imported; the researched perspective-card component was unsuitable for the chosen composition.
 
 The hero and desktop gallery each reserve their own scroll height in outer wrappers. GSAP pins use pinSpacing: false, and refresh initialization updates the reserved height for the viewport and gallery track. This prevents downstream offsets from collapsing while generated pin spacers are temporarily reverted. Match-media cleanup restores ordinary wrapper height when motion is disabled or the gallery switches to mobile. Regression checks cover initial loading, reload, responsive resizing and motion re-enabling; the affected gallery was also verified in the in-app browser.
+
+## 8 October: Wiemer and Eladio Dieste references
+
+Reviewed https://www.wiemer.store/ and https://www.eladiodieste.com/. Wiemer uses large masked headings and photographic zoom; Dieste combines opposing oversized title movement with progressive word reveals and layered images. The homepage adapts these patterns with the existing GSAP dependency and supplied assets.
+
+- The opening headline lines drift in opposite directions during the existing exit, with smaller travel on phones.
+- Introduction, selected-project, studio and process headings rise through individual line masks as they enter the viewport.
+- Introduction and studio paragraphs move word by word from the readable muted token to graphite.
+- Introduction photographs and the founder portrait expand through inset masks while their image crop eases from 1.22 to 1.04 scale.
+
+`ScrollTypography.tsx` renders the complete text on the server, preserving heading semantics and whitespace. `HomeMotion.tsx` owns the new scroll timelines and restores original title styles during cleanup. Initial title offsets use a scoped set followed by a tween, so hero pin refreshes cannot rewind the title into an unmasked state on phones. Hover transforms remain on separate inner spans. No additional pins, input interception or copied external assets are introduced.
+
+Regression coverage in `editorial-motion.spec.ts` and `hero-title-motion.spec.ts` checks native scroll progression, image scale, readable words, narrow and landscape layouts, reduced-motion defaults, explicit opt-in, disabling, and route cleanup. The website and portfolio regression suite also covers project navigation, image loading, forms and the existing room-gallery controls.

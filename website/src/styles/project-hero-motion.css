@@ -1,0 +1,31 @@
+.project-scroll-hero {
+  overflow: hidden;
+  background: var(--ivory);
+}
+
+.project-hero-aperture {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.project-hero-photo {
+  position: absolute;
+  inset: -5% 0;
+  transform-origin: center;
+}
+
+.project-scroll-hero[data-animated="false"] .project-hero-photo {
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-scroll-hero[data-animated="false"] .project-hero-aperture {
+    clip-path: none !important;
+  }
+
+  .project-scroll-hero[data-animated="false"] .project-hero-photo {
+    inset: 0;
+    transform: none !important;
+  }
+}

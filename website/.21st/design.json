@@ -24,7 +24,8 @@
     "radius": {},
     "shadows": {},
     "motion": {
-      "gallery": "Scroll-linked image and title parallax with reduced-motion support"
+      "gallery": "Elyse-inspired native sticky scenes, horizontal-strip image wipes, overlapping image parallax and masked room titles; project covers expand on scroll; reduced-motion fallback with explicit session opt-in",
+      "homepage": "Opposing hero title drift, masked heading lines, readable word-by-word colour progression and expanding photo frames inspired by Wiemer and Eladio Dieste; native scrolling and existing pin counts retained"
     },
     "density": "unknown"
   },
@@ -40,7 +41,10 @@
   "decisions": [
     "Portfolio uses the established navy, ivory and gold tokens.",
     "Retain the supplied Elyse triptych composition and real project assets.",
-    "Use existing Framer Motion primitives for scroll-linked movement; preserve native scrolling."
+    "Use existing Framer Motion primitives for scroll-linked movement; preserve native scrolling.",
+    "Project detail galleries pair supplied images in sticky scenes with horizontal-strip wipes and masked room-title reveals, following the inspected live Elyse reference.",
+    "Respect reduced motion by default; let visitors explicitly enable or disable project scroll effects for the browser session.",
+    "Homepage typography and photographs use scoped GSAP effects with static server-rendered content and full motion-off cleanup; supplied assets, brand colours and existing gallery sequences remain intact."
   ],
   "evidence": [
     {
