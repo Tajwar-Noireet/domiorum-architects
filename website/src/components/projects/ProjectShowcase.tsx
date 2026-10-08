@@ -14,8 +14,9 @@ import { useHomeMotion } from "@/components/home/HomeMotion";
 import { FlowButtonContent } from "@/components/ui/FlowButton";
 import { HoverText } from "@/components/ui/HoverText";
 import type { Project } from "@/types/project";
+import { scrollToPosition } from "@/lib/smooth-scroll";
 
-const stackQuery = "(min-width: 900px) and (min-height: 700px)";
+const stackQuery = "(min-width: 900px) and (min-height: 560px)";
 function subscribeStack(callback: () => void) {
   const query = matchMedia(stackQuery);
   query.addEventListener("change", callback);
@@ -56,7 +57,21 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
           root.querySelectorAll<HTMLElement>(".showcase-project"),
         );
         if (!stack) {
-          cards.forEach((card) =>
+          cards.forEach((card) => {
+            gsap.fromTo(
+              card.querySelector(".showcase-title-line"),
+              { yPercent: 105 },
+              {
+                yPercent: 0,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top 95%",
+                  end: "top 65%",
+                  scrub: true,
+                },
+              },
+            );
             gsap.fromTo(
               card.querySelector(".showcase-cover img"),
               { scale: 1.08 },
@@ -70,8 +85,8 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                   scrub: true,
                 },
               },
-            ),
-          );
+            );
+          });
           return;
         }
         const viewport = root.querySelector<HTMLElement>(".showcase-viewport")!;
@@ -114,6 +129,12 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
           },
         });
         cards.forEach((card, index) => {
+          timeline.fromTo(
+            card.querySelector(".showcase-cover img"),
+            { scale: 1.12 },
+            { scale: 1, duration: 1, immediateRender: false },
+            Math.max(0, index - 1),
+          );
           if (index) {
             timeline.fromTo(
               card,
@@ -141,7 +162,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
               x: () => (index - (cards.length - 1) / 2) * (fanWidth() + 16),
               y: () => Math.abs(index - (cards.length - 1) / 2) * 12,
               scale: () => fanWidth() / card.offsetWidth,
-              duration: 1.25,
+              duration: 1,
             },
             fanStart,
           );
@@ -176,10 +197,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
     if (!stack || !travel.current) return;
     event.preventDefault();
     const { start, end, duration } = travel.current;
-    window.scrollTo({
-      top: start + (index / duration) * (end - start),
-      behavior: "instant",
-    });
+    scrollToPosition(start + (index / duration) * (end - start));
   }
 
   return (
@@ -258,7 +276,9 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                         alt={project.coverAlt}
                         fill
                         sizes={
-                          stack ? "440px" : "(max-width: 700px) 90vw, 80vw"
+                          stack
+                            ? "(max-width: 1200px) 85vw, 1050px"
+                            : "(max-width: 700px) 90vw, 80vw"
                         }
                         quality={85}
                       />
@@ -272,7 +292,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                           alt={detail.alt}
                           fill
                           sizes={
-                            stack ? "120px" : "(max-width: 700px) 34vw, 25vw"
+                            stack ? "220px" : "(max-width: 700px) 34vw, 25vw"
                           }
                           quality={85}
                         />

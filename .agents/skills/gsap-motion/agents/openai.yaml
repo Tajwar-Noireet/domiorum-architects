@@ -1,0 +1,3 @@
+interface:
+  display_name: "GSAP Motion"
+  short_description: "Build scoped architectural scroll motion with GSAP"

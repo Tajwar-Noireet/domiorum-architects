@@ -5,8 +5,8 @@ import Image from "next/image";
 import {
   motion,
   useMotionValueEvent,
+  useMotionValue,
   useScroll,
-  useSpring,
   useTransform,
   type MotionStyle,
   type MotionValue,
@@ -14,6 +14,7 @@ import {
 import { useProjectMotion } from "./ProjectMotion";
 import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import type { Project } from "@/types/project";
+import { scrollToPosition } from "@/lib/smooth-scroll";
 
 type Scene = Project["images"];
 
@@ -152,12 +153,10 @@ export function ProjectScrollGallery({
     offset: ["start start", "end end"],
     trackContentSize: true,
   });
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 35,
-    mass: 0.4,
-  });
+  // Decouple native ScrollTimeline from transforms with ranges outside 0–1.
+  const progress = useMotionValue(0);
   useMotionValueEvent(scrollYProgress, "change", (value) => {
+    progress.set(value);
     if (!animate) return;
     const next = Math.max(
       0,
@@ -174,10 +173,9 @@ export function ProjectScrollGallery({
     const sectionTop =
       root.current.getBoundingClientRect().top + window.scrollY;
     const travel = root.current.offsetHeight - window.innerHeight;
-    window.scrollTo({
-      top: sectionTop + (index / Math.max(scenes.length - 1, 1)) * travel,
-      behavior: "instant",
-    });
+    scrollToPosition(
+      sectionTop + (index / Math.max(scenes.length - 1, 1)) * travel,
+    );
   }
 
   return (

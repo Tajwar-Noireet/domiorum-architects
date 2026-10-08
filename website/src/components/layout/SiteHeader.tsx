@@ -6,14 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { navigation } from "@/content/site";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const reducedMotion = useReducedMotion();
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -115,6 +114,7 @@ export function SiteHeader() {
         id="mobile-navigation"
         ref={menuRef}
         className="mobile-navigation"
+        data-lenis-prevent
         inert={!open}
         aria-hidden={!open}
         initial={false}
@@ -124,7 +124,7 @@ export function SiteHeader() {
             : { height: 0, opacity: 0, transitionEnd: { visibility: "hidden" } }
         }
         transition={{
-          duration: reducedMotion ? 0 : 0.28,
+          duration: 0.28,
           ease: [0.22, 1, 0.36, 1],
         }}
         style={{ overflow: "hidden", pointerEvents: open ? "auto" : "none" }}

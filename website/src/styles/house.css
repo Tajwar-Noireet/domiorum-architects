@@ -142,11 +142,6 @@
     font-size: 29px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .house-layer {
-    transition: none;
-  }
-}
 [data-motion="off"] .house-layer {
   transition: none;
 }

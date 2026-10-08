@@ -6,8 +6,11 @@ test("Discover and open dropdowns expose accessible controls", async ({
 }) => {
   for (const route of ["/discover", "/contact", "/projects"]) {
     await page.goto(route);
-    if (route === "/contact")
+    await expect(page.locator(".brand-reveal")).toBeHidden();
+    if (route === "/contact") {
       await page.getByRole("combobox", { name: "I’m interested in" }).click();
+      await expect(page.getByRole("listbox")).toHaveCSS("opacity", "1");
+    }
     await page.addScriptTag({
       path: path.join(process.cwd(), "node_modules/axe-core/axe.min.js"),
     });
@@ -78,6 +81,7 @@ test("animated service dropdown supports keyboard selection, dismissal and form 
   page,
 }) => {
   await page.goto("/contact");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   const select = page.getByRole("combobox", { name: "I’m interested in" });
   await expect(select).toHaveAttribute("aria-expanded", "false");
   await select.focus();
@@ -148,47 +152,19 @@ test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
   await expect(page.locator("#mobile-navigation")).toBeHidden();
 });
 
-test("links and CTA glow animate, reset, and respect reduced motion", async ({
-  page,
-}, info) => {
+test("links and CTA glow animate and reset under every device preference", async ({ page }, info) => {
   test.skip(["mobile", "android"].includes(info.project.name));
   await page.goto("/discover");
-  const link = page
-    .locator(".desktop-nav")
-    .getByRole("link", { name: "Discover us" });
+  await expect(page.locator(".brand-reveal")).toBeHidden();
+  const link = page.locator(".desktop-nav").getByRole("link", { name: "Discover us" });
   const button = page.getByRole("link", { name: "Talk to the studio" });
   await link.hover();
-  if (info.project.name === "reduced-motion") {
-    await expect(link).toHaveCSS("translate", "none");
-    await button.hover();
-    await expect(button).toHaveCSS("transform", "none");
-    expect(
-      await button.evaluate((el) => getComputedStyle(el, "::after").display),
-    ).toBe("none");
-  } else {
-    await expect(link).toHaveCSS("translate", "0px -2px");
-    await button.hover();
-    await expect
-      .poll(() =>
-        button.evaluate((el) =>
-          Number(getComputedStyle(el, "::after").opacity),
-        ),
-      )
-      .toBe(1);
-    await expect
-      .poll(() =>
-        button.evaluate((el) => el.style.getPropertyValue("--flame-x")),
-      )
-      .not.toBe("");
-    await page.mouse.move(5, 5);
-    await expect
-      .poll(() =>
-        button.evaluate((el) =>
-          Number(getComputedStyle(el, "::after").opacity),
-        ),
-      )
-      .toBe(0);
-  }
+  await expect(link).toHaveCSS("translate", "0px -2px");
+  await button.hover();
+  await expect.poll(() => button.evaluate(el => Number(getComputedStyle(el, "::after").opacity))).toBe(1);
+  await expect.poll(() => button.evaluate(el => el.style.getPropertyValue("--flame-x"))).not.toBe("");
+  await page.mouse.move(5, 5);
+  await expect.poll(() => button.evaluate(el => Number(getComputedStyle(el, "::after").opacity))).toBe(0);
 });
 
 test("contact dropdown remains usable without JavaScript", async ({

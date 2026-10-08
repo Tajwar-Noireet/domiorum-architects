@@ -1,0 +1,38 @@
+[
+  {
+    "path": ".agents/skills/21st-ai",
+    "bytes": 16755.0
+  },
+  {
+    "path": ".agents/skills/21st-design-sync",
+    "bytes": 16346.0
+  },
+  {
+    "path": ".agents/skills/21st-registry",
+    "bytes": 29480.0
+  },
+  {
+    "path": ".agents/skills/21st-ui-explore",
+    "bytes": 14223.0
+  },
+  {
+    "path": ".agents/skills/antislop-code",
+    "bytes": 10029.0
+  },
+  {
+    "path": "website/.next/dev",
+    "bytes": 460350865.0
+  },
+  {
+    "path": "website/.next/cache",
+    "bytes": 179504275.0
+  },
+  {
+    "path": "website/playwright-report",
+    "bytes": 521103.0
+  },
+  {
+    "path": "website/test-results",
+    "bytes": 45.0
+  }
+]

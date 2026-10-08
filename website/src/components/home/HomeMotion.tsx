@@ -9,26 +9,16 @@ import {
   type ReactNode,
 } from "react";
 
-function subscribeMotion(callback: () => void) {
-  const media = window.matchMedia("(prefers-reduced-motion: no-preference)");
-  media.addEventListener("change", callback);
-  return () => media.removeEventListener("change", callback);
-}
-
-const MotionContext = createContext({ enabled: true });
+const MotionContext = createContext({ enabled: false });
+const subscribeHydration = () => () => {};
 export const useHomeMotion = () => useContext(MotionContext);
 
-function motionPreference() {
-  return window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
-}
-
 export function HomeMotion({ children }: { children: ReactNode }) {
-  const prefersMotion = useSyncExternalStore(
-    subscribeMotion,
-    motionPreference,
+  const enabled = useSyncExternalStore(
+    subscribeHydration,
+    () => true,
     () => false,
   );
-  const enabled = prefersMotion;
   const root = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -62,7 +52,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
                 trigger: title,
                 start: "top 96%",
                 end: "top 55%",
-                scrub: 0.45,
+                scrub: true,
               },
             });
           });
@@ -80,7 +70,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
                   trigger: copy,
                   start: "top 88%",
                   end: "bottom 48%",
-                  scrub: 0.4,
+                  scrub: true,
                 },
               },
             );
@@ -96,7 +86,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
                 trigger: frame,
                 start: "top 96%",
                 end: "bottom 28%",
-                scrub: 0.6,
+                scrub: true,
               },
             });
             timeline
@@ -123,43 +113,6 @@ export function HomeMotion({ children }: { children: ReactNode }) {
               ease: "power2.out",
               scrollTrigger: { trigger: element, start: "top 92%", once: true },
             });
-          });
-        root
-          .current!.querySelectorAll<HTMLElement>("[data-image-reveal]")
-          .forEach((element) => {
-            gsap.fromTo(
-              element,
-              { clipPath: "inset(10% 7% 10% 7%)" },
-              {
-                clipPath: "inset(0% 0% 0% 0%)",
-                ease: "none",
-                scrollTrigger: {
-                  trigger: element,
-                  start: "top 94%",
-                  end: "top 28%",
-                  scrub: 0.7,
-                },
-              },
-            );
-          });
-        root
-          .current!.querySelectorAll<HTMLElement>("[data-parallax] img")
-          .forEach((image) => {
-            gsap.fromTo(
-              image,
-              { scale: 1.12, yPercent: -3 },
-              {
-                scale: 1.04,
-                yPercent: 3,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: image.parentElement,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 0.8,
-                },
-              },
-            );
           });
       }, root);
       revert = () => {

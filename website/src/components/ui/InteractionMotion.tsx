@@ -4,9 +4,7 @@ import { useEffect } from "react";
 
 export function InteractionMotion() {
   useEffect(() => {
-    const preference = window.matchMedia(
-      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
-    );
+    const preference = window.matchMedia("(hover: hover) and (pointer: fine)");
     let frame = 0;
     const move = (event: PointerEvent) => {
       if (!preference.matches || !(event.target instanceof Element)) return;

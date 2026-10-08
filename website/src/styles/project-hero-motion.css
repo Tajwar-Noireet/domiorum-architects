@@ -18,14 +18,3 @@
 .project-scroll-hero[data-animated="false"] .project-hero-photo {
   inset: 0;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .project-scroll-hero[data-animated="false"] .project-hero-aperture {
-    clip-path: none !important;
-  }
-
-  .project-scroll-hero[data-animated="false"] .project-hero-photo {
-    inset: 0;
-    transform: none !important;
-  }
-}

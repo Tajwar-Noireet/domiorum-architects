@@ -79,12 +79,6 @@ button:active .directional-arrow-stroke {
   align-items: center;
   gap: 8px;
 }
-@media (prefers-reduced-motion: reduce) {
-  .directional-arrow-stroke {
-    transition: none;
-    transform: none !important;
-  }
-}
 .home-experience[data-motion="off"] .directional-arrow-stroke {
   transition: none;
   transform: none;
@@ -135,19 +129,5 @@ button:active .directional-arrow-stroke {
 @media (max-width: 899px) {
   .flow-button.header-cta {
     display: none;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .flow-button,
-  .flow-button::before,
-  .flow-label,
-  .flow-arrow {
-    transition: none;
-  }
-  .flow-button:active:not(:disabled) {
-    transform: none;
-  }
-  .flow-button:where(:hover, :focus-visible):not(:disabled) {
-    transform: none;
   }
 }

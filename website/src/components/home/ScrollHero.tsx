@@ -76,7 +76,7 @@ export function ScrollHero() {
               pin: true,
               pinSpacing: false,
               onRefreshInit: reserve,
-              scrub: 0.6,
+              scrub: true,
               invalidateOnRefresh: true,
             },
           });
@@ -165,6 +165,33 @@ export function ScrollHero() {
               { scaleX: 1, duration: 3.75 },
               0,
             );
+          const arrival = gsap.from(
+            section.querySelectorAll(
+              ".cinema-opening .eyebrow, .hero-line, .cinema-intro-bottom",
+            ),
+            {
+              y: 24,
+              opacity: 0,
+              duration: 0.9,
+              stagger: 0.12,
+              ease: "power3.out",
+              paused: true,
+            },
+          );
+          const reveal = () => {
+            if (document.documentElement.hasAttribute("data-brand-intro"))
+              return;
+            if (window.scrollY < 100) arrival.play();
+            else arrival.progress(1);
+            observer.disconnect();
+          };
+          const observer = new MutationObserver(reveal);
+          observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["data-brand-intro"],
+          });
+          reveal();
+          return () => observer.disconnect();
         },
         sectionRef,
       );

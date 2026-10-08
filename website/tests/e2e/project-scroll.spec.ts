@@ -75,11 +75,6 @@ test("project spaces reveal on scroll, accept keyboard selection and release the
     sceneCount,
   );
 
-  if (testInfo.project.name === "reduced-motion") {
-    await expectNaturalGallery(page);
-    return;
-  }
-
   await expect(gallery).toHaveAttribute("data-animated", "true");
   const space = await galleryTravel(page);
   await scrollTo(page, space.top);
@@ -179,46 +174,39 @@ test("project spaces reveal on scroll, accept keyboard selection and release the
   ).toBe(true);
 });
 
-test("changing reduced motion live restores all images to normal page flow", async ({
+test("project photographs remain accessible without JavaScript", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto(`${baseURL}/projects/mirpur-dohs-interior`);
+  await expectNaturalGallery(page);
+  await context.close();
+});
+
+test("client-selected full motion survives live device preference changes", async ({
   page,
 }) => {
   await page.goto("/projects/mirpur-dohs-interior");
-  await page.evaluate(() => document.fonts.ready);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   const gallery = page.locator("#rooms");
-  await expect(gallery).toHaveAttribute("data-animated", "true");
   const space = await galleryTravel(page);
-  await scrollTo(page, space.top + space.travel / (sceneCount - 1));
-  await expect(
-    gallery.locator(".project-gallery-controls button").nth(1),
-  ).toHaveAttribute("aria-pressed", "true");
-  const animatedHeight = await gallery.evaluate(
-    (element) => (element as HTMLElement).offsetHeight,
-  );
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(gallery).toHaveAttribute("data-animated", "false");
-  await expect
-    .poll(() =>
-      gallery.evaluate((element) => (element as HTMLElement).offsetHeight),
-    )
-    .not.toBe(animatedHeight);
-  await expectNaturalGallery(page);
-  for (const primary of await gallery
-    .locator(".project-gallery-primary")
-    .all()) {
-    expect(
-      await primary.evaluate((element) =>
-        parseFloat(
-          getComputedStyle(element).getPropertyValue("--scene-reveal"),
-        ),
-      ),
-    ).toBe(100);
+  for (const reducedMotion of ["reduce", "no-preference"] as const) {
+    await page.emulateMedia({ reducedMotion });
+    await expect(gallery).toHaveAttribute("data-animated", "true");
+    await scrollTo(page, space.top + space.travel / (sceneCount - 1));
+    await expect(
+      gallery.locator(".project-gallery-controls button").nth(1),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(gallery.locator('[data-scene="1"] h2')).toBeInViewport();
+    await scrollTo(page, 0);
   }
 });
 
-test("project cover opens and zooms with scroll while reduced motion stays static", async ({
+test("project cover opens and zooms with scroll regardless of device preference", async ({
   page,
-}, testInfo) => {
+}) => {
   await page.goto("/projects/mirpur-dohs-interior");
   await page.evaluate(() => document.fonts.ready);
   const cover = page.locator(".project-scroll-hero");
@@ -231,15 +219,6 @@ test("project cover opens and zooms with scroll while reduced motion stays stati
   }));
   await expectImagesLoaded(cover.locator("img"));
   await scrollTo(page, Math.max(0, space.top - space.viewportHeight * 0.9));
-  if (testInfo.project.name === "reduced-motion") {
-    await expect(cover).toHaveAttribute("data-animated", "false");
-    await expect(aperture).toHaveCSS("clip-path", "none");
-    await expect(photo).toHaveCSS("transform", "none");
-    await scrollTo(page, space.top + space.height * 0.2);
-    await expect(aperture).toHaveCSS("clip-path", "none");
-    await expect(photo).toHaveCSS("transform", "none");
-    return;
-  }
 
   await expect(cover).toHaveAttribute("data-animated", "true");
   const inset = () =>
@@ -260,66 +239,32 @@ test("project cover opens and zooms with scroll while reduced motion stays stati
     )
     .toBeLessThan(initialScale - 0.03);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(cover).toHaveAttribute("data-animated", "false");
-  await expect(aperture).toHaveCSS("clip-path", "none");
-  await expect(photo).toHaveCSS("transform", "none");
+  await expect(cover).toHaveAttribute("data-animated", "true");
 });
 
-test("project motion follows device preferences and ignores retired session choices", async ({
+test("full project motion ignores device preferences and retired session choices", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/projects/mirpur-dohs-interior");
-  const gallery = page.locator("#rooms");
-  const cover = page.locator(".project-scroll-hero");
-  await expectNaturalGallery(page);
-  await expect(cover).toHaveAttribute("data-animated", "false");
-
-  await expect(page.locator(".project-motion-toggle")).toHaveCount(0);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  await expect(cover).toHaveAttribute("data-animated", "true");
-  expect(
-    await page.evaluate(
-      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
-    ),
-  ).toBe(false);
-  await scrollTo(page, 0);
-  await expect(cover.locator(".project-hero-aperture")).not.toHaveCSS(
-    "clip-path",
-    "none",
-  );
-  await expect
-    .poll(() =>
-      cover
-        .locator(".project-hero-photo")
-        .evaluate(
-          (element) => new DOMMatrix(getComputedStyle(element).transform).a,
-        ),
-    )
-    .toBeGreaterThan(1.01);
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(cover).toHaveAttribute("data-animated", "false");
-  await expectNaturalGallery(page);
-
-  await page.evaluate(() => {
+  await page.addInitScript(() => {
     sessionStorage.setItem("domiorum-motion", "off");
     sessionStorage.setItem("domiorum-project-motion", "off");
   });
-  await page.reload();
-  await expect(gallery).toHaveAttribute("data-animated", "false");
-  await expect(cover).toHaveAttribute("data-animated", "false");
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(gallery).toHaveAttribute("data-animated", "true");
+  await page.goto("/projects/mirpur-dohs-interior");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
+  await expect(page.locator(".project-motion-toggle")).toHaveCount(0);
+  for (const selector of ["#rooms", ".project-scroll-hero"]) {
+    await expect(page.locator(selector)).toHaveAttribute(
+      "data-animated",
+      "true",
+    );
+  }
   await page.locator(".next-project").click();
-  await expect(page).toHaveURL("/projects/ruap-interior");
+  await expect(page).toHaveURL(/\/projects\/ruap-interior$/);
   await expect(page.locator("h1")).toHaveText("RUAP");
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  await expect(cover).toHaveAttribute("data-animated", "true");
+  await expect(page.locator("#rooms")).toHaveAttribute("data-animated", "true");
   await page.reload();
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  await expect(cover).toHaveAttribute("data-animated", "true");
+  await expect(page.locator("#rooms")).toHaveAttribute("data-animated", "true");
 });
 
 test("Doctors Residence retains its exterior cover without an interior gallery", async ({

@@ -294,21 +294,3 @@
     gap: 10px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  :where(a[href], button, summary, [role="button"]):not(.skip-link) {
-    translate: none !important;
-    transition: none;
-  }
-  .flow-button::after,
-  .menu-icon path,
-  .select-trigger svg,
-  .select-options li {
-    transition: none;
-  }
-  .flow-button::after {
-    display: none;
-  }
-  .questions-list details::details-content {
-    transition: none;
-  }
-}

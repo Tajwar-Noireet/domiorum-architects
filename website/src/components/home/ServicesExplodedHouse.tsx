@@ -2,7 +2,7 @@
 
 import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { services } from "@/content/services";
@@ -92,20 +92,10 @@ const labels = [
   "Adaptable additions",
   "Plans & coordination",
 ];
-function subscribe(callback: () => void) {
-  const q = matchMedia("(prefers-reduced-motion: reduce)");
-  q.addEventListener("change", callback);
-  return () => q.removeEventListener("change", callback);
-}
-function reduced() {
-  return matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 export function ServicesExplodedHouse() {
   const [active, setActive] = useState(1);
-  const prefersReduced = useSyncExternalStore(subscribe, reduced, () => true);
   const { enabled } = useHomeMotion();
-  const animated = enabled && !prefersReduced;
+  const animated = enabled;
   const paths = [interiors, architecture, extension, technical];
   return (
     <section className="section home-services exploded-services" id="services">

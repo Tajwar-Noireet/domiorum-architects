@@ -2,19 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useSyncExternalStore, type ReactNode } from "react";
-import { useHomeMotion } from "@/components/home/HomeMotion";
 
 function subscribe(callback: () => void) {
-  const query = matchMedia(
-    "(prefers-reduced-motion: no-preference) and (hover: hover)",
-  );
+  const query = matchMedia("(hover: hover)");
   query.addEventListener("change", callback);
   return () => query.removeEventListener("change", callback);
 }
 function allowHoverMotion() {
-  return matchMedia(
-    "(prefers-reduced-motion: no-preference) and (hover: hover)",
-  ).matches;
+  return matchMedia("(hover: hover)").matches;
 }
 
 export function HoverText({
@@ -29,8 +24,7 @@ export function HoverText({
     allowHoverMotion,
     () => false,
   );
-  const { enabled } = useHomeMotion();
-  const active = enabled && allowMotion;
+  const active = allowMotion;
 
   return (
     <motion.span

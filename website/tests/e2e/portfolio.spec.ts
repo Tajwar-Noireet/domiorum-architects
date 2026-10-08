@@ -85,7 +85,7 @@ test("native desktop scrolling stacks, spreads and reverses cards on both routes
     await expect(
       showcase.locator(".showcase-project").nth(2).locator("h2"),
     ).toBeInViewport();
-    await page.setViewportSize({ width: 900, height: 650 });
+    await page.setViewportSize({ width: 900, height: 500 });
     await expect(showcase).toHaveAttribute("data-stack", "false");
     expect(
       await first.evaluate((el) => getComputedStyle(el).position),
@@ -108,11 +108,12 @@ test("all projects stay in page flow and keyboard index links reach each gallery
   page,
 }) => {
   await page.goto("/projects");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator(".showcase-project")).toHaveCount(5);
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator(".project-showcase")).toHaveAttribute(
     "data-animated",
-    test.info().project.name === "reduced-motion" ? "false" : "true",
+    "true",
   );
   for (const project of portfolio) {
     await page
@@ -150,38 +151,21 @@ test("all projects stay in page flow and keyboard index links reach each gallery
   }
 });
 
-test("live device motion preferences keep every project readable without toggles", async ({
+test("full motion stays enabled across device preferences without toggles", async ({
   page,
-}, info) => {
-  await page.goto("/projects", { waitUntil: "domcontentloaded" });
+}) => {
+  await page.goto("/projects");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   const showcase = page.locator(".project-showcase");
-  if (info.project.name !== "reduced-motion") {
+  for (const reducedMotion of ["reduce", "no-preference"] as const) {
+    await page.emulateMedia({ reducedMotion });
     await expect(showcase).toHaveAttribute("data-animated", "true");
-    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(page.locator(".showcase-motion")).toHaveCount(0);
+    await showcase.locator(".showcase-index a").nth(2).click();
+    await expect(page.locator("#selected-edison-interior h2")).toBeInViewport();
   }
-  await expect(showcase).toHaveAttribute("data-animated", "false");
-  for (const cover of await page.locator(".showcase-cover").all()) {
-    expect(await cover.evaluate((el) => getComputedStyle(el).clipPath)).toBe(
-      "none",
-    );
-    expect(
-      await cover
-        .locator("img")
-        .evaluate((el) => getComputedStyle(el).transform),
-    ).toBe("none");
-  }
-  await expect(page.locator(".showcase-motion")).toHaveCount(0);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(showcase).toHaveAttribute("data-animated", "true");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(showcase).toHaveAttribute("data-animated", "false");
   await page.reload();
-  await expect(showcase).toHaveAttribute("data-animated", "false");
-  for (const title of await page.locator(".showcase-title-line").all()) {
-    expect(await title.evaluate((el) => getComputedStyle(el).transform)).toBe(
-      "none",
-    );
-  }
+  await expect(showcase).toHaveAttribute("data-animated", "true");
 });
 
 test("the selection and project index work without JavaScript", async ({

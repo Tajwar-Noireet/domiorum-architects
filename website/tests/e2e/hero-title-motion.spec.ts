@@ -39,10 +39,9 @@ async function expectStaticLines(page: Page) {
 test("hero lines drift in opposite directions without adding scroll pins", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name === "reduced-motion");
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    testInfo.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );
   await expectStaticLines(page);
   await scrollOpening(page);
@@ -55,33 +54,27 @@ test("hero lines drift in opposite directions without adding scroll pins", async
   ).toBe(true);
 });
 
-test("hero drift follows live device motion preferences", async ({ page }) => {
+test("hero drift stays enabled with the client full-motion preference", async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await page.evaluate(() => window.scrollTo({ top: 160, behavior: "instant" }));
-  await expectStaticLines(page);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(page.locator(".pin-spacer")).toHaveCount(
-    (await page.evaluate(() => innerWidth)) >= 900 ? 2 : 1,
-  );
+  await expect(page.locator(".brand-reveal")).toBeHidden();
+  const pins = (await page.evaluate(() => innerWidth)) >= 900 ? 2 : 1;
+  await expect(page.locator(".pin-spacer")).toHaveCount(pins);
   await scrollOpening(page);
   await expectOpposingDrift(page);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await expectStaticLines(page);
-  for (const line of await page.locator(".hero-line").all()) {
-    await expect(line).toHaveCSS("transform", "none");
-  }
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(page.locator(".pin-spacer")).toHaveCount(pins);
+  await expectOpposingDrift(page);
 });
 
 test("hero line motion clears on route change and restarts on return", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name === "reduced-motion");
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    testInfo.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );
   await scrollOpening(page);
   await expectOpposingDrift(page);
@@ -94,7 +87,7 @@ test("hero line motion clears on route change and restarts on return", async ({
   await expect(page.locator(".hero-line")).toHaveCount(0);
   await page.getByRole("link", { name: "Domiorum Architects home" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    testInfo.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );
   await expectStaticLines(page);
   await scrollOpening(page);

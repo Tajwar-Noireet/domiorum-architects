@@ -1,0 +1,3 @@
+interface:
+  display_name: "Lenis Scroll"
+  short_description: "Coordinate smooth scrolling with GSAP and Next navigation"

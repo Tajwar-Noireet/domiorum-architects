@@ -5,6 +5,7 @@ test("text hover resets and follows live motion preferences", async ({
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop");
   await page.goto("/services");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   const title = page.locator("h1 .hover-text");
   const offset = () =>
     title.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42);
@@ -14,7 +15,7 @@ test("text hover resets and follows live motion preferences", async ({
   await expect.poll(async () => Math.abs(await offset())).toBeLessThan(0.1);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await title.hover();
-  await expect.poll(async () => Math.abs(await offset())).toBeLessThan(0.1);
+  await expect.poll(offset).toBeLessThan(-2);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.mouse.move(5, 5);
   await title.hover();
@@ -42,7 +43,8 @@ test("all pages load with usable images and no overflow or runtime errors", asyn
   context,
   request,
 }) => {
-  test.setTimeout(120_000);
+  // Each fresh tab can play the first-visit reveal before its route checks.
+  test.setTimeout(180_000);
   const errors: string[] = [];
   const checkedAssets = new Set<string>();
   for (const route of routes) {
@@ -185,10 +187,9 @@ test("mobile menu works with keyboard dismissal and route navigation", async ({
 test("scroll scenes expand, change, release and survive route navigation", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name === "reduced-motion");
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    testInfo.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );
   const travel = await page.evaluate(
     () => window.innerHeight * (window.innerWidth >= 900 ? 2.2 : 1.5),
@@ -232,27 +233,22 @@ test("scroll scenes expand, change, release and survive route navigation", async
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.getByRole("link", { name: "Domiorum Architects home" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    testInfo.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator(".pin-spacer")).toHaveCount(1);
 });
 
-test("reduced motion follows the device preference without a site toggle", async ({
-  page,
-}, testInfo) => {
-  test.skip(testInfo.project.name !== "reduced-motion");
+test("full motion remains active without a site toggle", async ({ page }, info) => {
+  test.skip(info.project.name !== "reduced-motion");
   await page.goto("/");
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await expect(
-    page.getByRole("button", { name: /Enable motion|Motion on/ }),
-  ).toHaveCount(0);
+  await expect(page.locator(".brand-reveal")).toBeHidden();
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
+  await expect(page.getByRole("button", { name: /Enable motion|Motion on/ })).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".pin-spacer")).toHaveCount(2);
-  await page.reload();
-  await expect(page.locator(".pin-spacer")).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
   await page.getByRole("link", { name: "Scroll to explore" }).click();
   await expect(page.locator("#introduction")).toBeInViewport();
 });

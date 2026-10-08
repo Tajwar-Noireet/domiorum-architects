@@ -19,7 +19,7 @@ test("gallery stays visible throughout its reserved scroll space", async ({
         window.scrollTo({ top: 0, behavior: "instant" }),
       );
       await page.emulateMedia({ reducedMotion: "reduce" });
-      await expect(page.locator(".pin-spacer")).toHaveCount(0);
+      await expect(page.locator(".pin-spacer")).toHaveCount(2);
       await page.emulateMedia({ reducedMotion: "no-preference" });
     }
     await expect(page.locator(".pin-spacer")).toHaveCount(2);

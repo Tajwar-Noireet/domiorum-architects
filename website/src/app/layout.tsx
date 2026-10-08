@@ -3,6 +3,9 @@ import { Jost } from "next/font/google";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { InteractionMotion } from "@/components/ui/InteractionMotion";
+import { BrandReveal } from "@/components/layout/BrandReveal";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { brandRevealBootstrap } from "@/lib/brand-reveal";
 import "@/styles/globals.css";
 import "@/styles/experience.css";
 import "@/styles/buttons.css";
@@ -14,6 +17,8 @@ import "@/styles/project-gallery-motion.css";
 import "@/styles/project-hero-motion.css";
 import "@/styles/editorial-motion.css";
 import "@/styles/discover-interactions.css";
+import "@/styles/brand-reveal.css";
+import "lenis/dist/lenis.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",
@@ -33,15 +38,22 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={jost.variable}>
-        <a className="skip-link" href="#main">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <InteractionMotion />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <script dangerouslySetInnerHTML={{ __html: brandRevealBootstrap }} />
+        <BrandReveal />
+        <SmoothScroll />
+        <div id="site-shell" className="site-shell">
+          <a className="skip-link" href="#main">
+            Skip to content
+          </a>
+          <SiteHeader />
+          <InteractionMotion />
+          <main id="main" tabIndex={-1}>
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );

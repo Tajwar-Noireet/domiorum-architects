@@ -3,7 +3,6 @@ import { expect, test } from "@playwright/test";
 test("key layouts fit portrait, landscape and PC sizes", async ({
   page,
 }, info) => {
-  test.skip(info.project.name === "reduced-motion");
   await page.addInitScript(() => {
     sessionStorage.setItem("domiorum-motion", "off");
     sessionStorage.setItem("domiorum-project-motion", "off");

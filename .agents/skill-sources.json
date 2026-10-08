@@ -13,5 +13,37 @@
   ],
   "scope": "project",
   "directory": ".agents/skills",
-  "installed": "2026-10-06"
+  "installed": "2026-10-06",
+  "updated": "2026-10-08",
+  "retained": [
+    "21st-cli-use",
+    "21st-ui-build",
+    "21st-ui-review",
+    "antislop",
+    "antislop-copywriting",
+    "antislop-human",
+    "antislop-layoutmobile",
+    "antislop-ui",
+    "gsap-motion",
+    "lenis-scroll"
+  ],
+  "removed": [
+    "21st-ai",
+    "21st-design-sync",
+    "21st-registry",
+    "21st-ui-explore",
+    "antislop-code"
+  ],
+  "custom_skills": [
+    {
+      "name": "gsap-motion",
+      "reference": "https://github.com/greensock/gsap",
+      "authorship": "Project-local instructions based on official library documentation"
+    },
+    {
+      "name": "lenis-scroll",
+      "reference": "https://github.com/darkroomengineering/lenis",
+      "authorship": "Project-local instructions based on official library documentation"
+    }
+  ]
 }

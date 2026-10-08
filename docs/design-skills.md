@@ -1,15 +1,13 @@
-# Design skills
+# Project design and motion skills
 
-Skills are installed globally in the Codex skills directory. On 6 October 2026, the official 21st.dev and Anti Slop packs were also installed project-locally in `.agents/skills/`, as requested. These are third-party development aids; the client's brand and the user's instructions take precedence. Apply only the skills relevant to a task.
+The project retains 21st-cli-use, 21st-ui-build, 21st-ui-review, antislop, antislop-ui, antislop-copywriting, antislop-human and antislop-layoutmobile.
 
-| Source | Installed skill folders |
-| --- | --- |
-| https://github.com/Leonxlnx/taste-skill | design-taste-frontend |
-| https://github.com/miqdadbadjuber/anti-slop | antislop, antislop-ui, antislop-copywriting, antislop-human, antislop-layoutmobile, antislop-code (project-local pack) |
-| https://github.com/nextlevelbuilder/ui-ux-pro-max-skill | ui-ux-pro-max |
-| https://github.com/21st-dev/skill | 21st-cli-use, 21st-ai, 21st-ui-build, 21st-ui-explore, 21st-ui-review, 21st-registry, 21st-design-sync (project-local pack) |
-| https://github.com/bklit/bklit-ui | bklit-ui |
+Added gsap-motion and lenis-scroll as project-local skills grounded in the official GSAP and Lenis documentation. These repositories provide animation libraries, rather than ready-made Codex skills. GSAP was already installed; Lenis 1.3.26 was added to the website. Sources and retained folders are recorded in `.agents/skill-sources.json`.
 
-TypeUI remains pending. Its documented Codex setup uses https://mcp.typeui.sh/mcp and account authorization: https://www.typeui.sh/docs/guides/codex.
+Removed unused project-local 21st-ai, 21st-design-sync, 21st-registry, 21st-ui-explore and antislop-code. Global skills and shared plugins remain available to other projects.
 
-The repository includes complete project-local copies of the 21st.dev and Anti Slop packs, including supporting files and upstream licenses. Installed source commits are recorded in `.agents/skill-sources.json`; project skills become available on the next turn. Other skills remain global installations. UI/UX Pro Max includes local reference data and Python search scripts. 21st service usage may require authentication. Bklit applies to charts; the current architecture portfolio does not require charts.
+The client explicitly chose full motion regardless of device reduced-motion settings on 8 October 2026. The website keeps keyboard navigation, intro dismissal, native touch inertia and no-JavaScript page access.
+
+The animation audit found that the previous commit removed the motion toggle rather than the animation timelines. Reduced-motion detection disabled those timelines in the in-app browser, and a 700px minimum height excluded many laptop windows. The update removes that preference gate, lowers the stack threshold to 560px, enlarges project covers and shares one Lenis/GSAP ticker to avoid compounded smoothing.
+
+Cleanup removed approximately 611 MiB of obsolete build cache, old browser reports and unused project-local skills. Build and test caches can be regenerated. The two unused components FeaturedResidence and ProjectBrowser and their orphaned CSS were removed. Original photographs, project folders, portfolio PDF and source records were preserved. Details are in `docs/motion-cleanup.json`.

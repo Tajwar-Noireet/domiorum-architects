@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 import { useHomeMotion } from "./HomeMotion";
+import { scrollToPosition } from "@/lib/smooth-scroll";
 
 const rooms = [
   {
@@ -79,7 +80,7 @@ export function InteriorGallery() {
               pin: true,
               pinSpacing: false,
               onRefreshInit: reserve,
-              scrub: 0.7,
+              scrub: true,
               invalidateOnRefresh: true,
             },
           });
@@ -97,12 +98,9 @@ export function InteriorGallery() {
         ready.current = true;
         if (pendingRoom.current !== null && trigger.current) {
           const { start, end } = trigger.current;
-          window.scrollTo({
-            top:
-              start +
-              ((end - start) * pendingRoom.current) / (rooms.length - 1),
-            behavior: "instant",
-          });
+          scrollToPosition(
+            start + ((end - start) * pendingRoom.current) / (rooms.length - 1),
+          );
           pendingRoom.current = null;
         }
       }
@@ -128,10 +126,7 @@ export function InteriorGallery() {
     if (trigger.current) {
       refresh.current?.();
       const { start, end } = trigger.current;
-      window.scrollTo({
-        top: start + ((end - start) * index) / (rooms.length - 1),
-        behavior: "instant",
-      });
+      scrollToPosition(start + ((end - start) * index) / (rooms.length - 1));
     } else {
       const card = track.current?.children[index] as HTMLElement | undefined;
       if (card && viewport.current)
@@ -164,6 +159,7 @@ export function InteriorGallery() {
         </div>
         <div
           className="interior-viewport"
+          data-lenis-prevent
           ref={viewport}
           tabIndex={0}
           aria-label="Interior image gallery"

@@ -7,7 +7,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const subscribe = () => () => {};
 const clientSnapshot = () => true;
@@ -39,7 +39,6 @@ export function AnimatedSelect({
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const search = useRef({ text: "", time: 0 });
-  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (!open) return;
@@ -174,6 +173,7 @@ export function AnimatedSelect({
       <motion.ul
         id={listId}
         role="listbox"
+        data-lenis-prevent
         aria-labelledby={labelId}
         className={`select-options${above ? " select-options-above" : ""}`}
         inert={!open}
@@ -190,7 +190,7 @@ export function AnimatedSelect({
               }
         }
         transition={{
-          duration: reducedMotion ? 0 : 0.18,
+          duration: 0.18,
           ease: [0.22, 1, 0.36, 1],
         }}
         style={{ pointerEvents: open ? "auto" : "none" }}

@@ -22,12 +22,11 @@ async function titleOffset(page: Page) {
 test("native scrolling reveals titles, opens photo frames and reads the paragraph", async ({
   page,
 }, info) => {
-  test.skip(info.project.name === "reduced-motion");
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(page.locator(".pin-spacer")).toHaveCount(
-    info.project.name === "desktop" ? 2 : 1,
+    ["desktop", "reduced-motion"].includes(info.project.name) ? 2 : 1,
   );
   await placeAt(page, "#introduction [data-scroll-title]", 0.97);
   await expect.poll(() => titleOffset(page)).toBeGreaterThan(10);
@@ -68,42 +67,26 @@ test("native scrolling reveals titles, opens photo frames and reads the paragrap
   expect(errors).toEqual([]);
 });
 
-test("live device preferences enable editorial motion and restore readable content", async ({
+test("editorial motion stays active and cleans up on navigation", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  for (const line of await page.locator("[data-title-line]").all()) {
-    await expect(line).toHaveCSS("transform", "none");
-  }
-  await expect(page.locator(".perspective-wide")).toHaveCSS(
-    "clip-path",
-    "none",
-  );
-  await expect(
-    page.locator("#introduction [data-scroll-word]").last(),
-  ).toHaveCSS("color", "rgb(41, 49, 58)");
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator(".home-experience")).toHaveAttribute(
     "data-motion",
     "on",
   );
   await placeAt(page, "#introduction [data-scroll-title]", 0.97);
   await expect.poll(() => titleOffset(page)).toBeGreaterThan(10);
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await expect(page.locator(".perspective-wide")).toHaveCSS(
-    "clip-path",
-    "none",
-  );
-  for (const line of await page.locator("[data-title-line]").all()) {
-    await expect(line).toHaveCSS("transform", "none");
-  }
+  await placeAt(page, "#introduction [data-scroll-title]", 0.5);
+  await expect
+    .poll(async () => Math.abs(await titleOffset(page)))
+    .toBeLessThan(0.5);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await placeAt(page, "#studio h2", 0.4);
   await expect(page.locator("#studio h2")).toHaveText(
-    "Let’s make your home your own.",
+    "Let\u2019s make your home your own.",
   );
   await page
     .locator("#studio")

@@ -6,29 +6,17 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { useHomeMotion } from "@/components/home/HomeMotion";
 
 const MotionContext = createContext({ enabled: false });
+const subscribeHydration = () => () => {};
 export const useProjectMotion = () => useContext(MotionContext);
 
-function subscribeMotion(callback: () => void) {
-  const media = window.matchMedia("(prefers-reduced-motion: no-preference)");
-  media.addEventListener("change", callback);
-  return () => media.removeEventListener("change", callback);
-}
-
-function preference() {
-  return window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
-}
-
 export function ProjectMotionProvider({ children }: { children: ReactNode }) {
-  const preferred = useSyncExternalStore(
-    subscribeMotion,
-    preference,
+  const enabled = useSyncExternalStore(
+    subscribeHydration,
+    () => true,
     () => false,
   );
-  const { enabled: homeEnabled } = useHomeMotion();
-  const enabled = homeEnabled && preferred;
   return (
     <MotionContext.Provider value={{ enabled }}>
       {children}

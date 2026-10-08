@@ -4,6 +4,7 @@ test("homeowner questions open and close using the keyboard", async ({
   page,
 }) => {
   await page.goto("/");
+  await expect(page.locator(".brand-reveal")).toBeHidden();
   const questions = page.locator(".questions-list");
   const first = questions.locator("details").first();
   const trigger = first.locator("summary");
@@ -23,18 +24,9 @@ test("featured project links reach the project gallery", async ({
   page,
 }, testInfo) => {
   await page.goto("/");
-  if (testInfo.project.name === "reduced-motion") {
-    await page.setViewportSize({ width: 1440, height: 1600 });
-    for (const image of await page.locator(".project-showcase img").all()) {
-      await image.scrollIntoViewIfNeeded();
-      await expect
-        .poll(() =>
-          image.evaluate(
-            (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
-          ),
-        )
-        .toBe(true);
-    }
+  await expect(page.locator(".brand-reveal")).toBeHidden();
+  if (testInfo.project.name === "desktop") {
+    await page.locator(".showcase-index a").first().click();
     await page.locator(".showcase-project").first().screenshot({
       path: "../output/website-review/portfolio-desktop.png",
     });
