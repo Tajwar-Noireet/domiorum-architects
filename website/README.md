@@ -20,7 +20,7 @@ npm run build
 npm run test:e2e
 ```
 
-Browser tests cover desktop, phone and reduced motion using installed Google Chrome. Visual checks save screenshots to `../output/website-review/` at phone, tablet, desktop and landscape sizes and at three scroll positions. An axe-core check covers accessible controls in the animated scene. Change `launchOptions.channel` in `playwright.config.ts` to use a different installed browser, or install Playwright's Chromium and remove that option.
+Browser tests cover desktop Chrome, Android/Pixel Chrome, iPhone/Safari WebKit and reduced motion. Run `npx playwright install webkit` once to install the official iPhone testing engine; Chrome profiles use installed Google Chrome. The `mobile` project is iPhone/WebKit and `android` is Pixel/Chrome. These are browser/device emulations, not physical-device tests. Visual checks save screenshots to `../output/website-review/` at phone, tablet, desktop and landscape sizes and at three scroll positions. An axe-core check covers accessible controls in the animated scene.
 
 ## Edit content
 

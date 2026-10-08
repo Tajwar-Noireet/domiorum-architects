@@ -6,7 +6,7 @@ export const team = [
     name: "Zarin Nawar",
     role: "Founder & CEO",
     portrait: "/images/studio/zarin-nawar.webp",
-    bio: "Zarin founded Domiorum Architects in Bashundhara R/A, Dhaka. With a background in residential design and previous professional experience at Innova Architects, she brings architecture, interiors and the way people live into one conversation.",
+    bio: "Zarin founded Domiorum Architects in Bashundhara R/A, Dhaka. With a background in residential design, she brings architecture, interiors and the way people live into one conversation.",
     studioProjects: projects.map((project) => project.slug),
     previousProjects: legacyProjects.map((project) => project.slug),
   },

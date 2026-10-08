@@ -24,6 +24,7 @@ function GalleryScene({
   progress,
   animate,
   active,
+  loadAhead,
 }: {
   images: Scene;
   index: number;
@@ -31,6 +32,7 @@ function GalleryScene({
   progress: MotionValue<number>;
   animate: boolean;
   active: boolean;
+  loadAhead: boolean;
 }) {
   const steps = Math.max(count - 1, 1);
   const start = (index - 0.8) / steps;
@@ -117,6 +119,7 @@ function GalleryScene({
                   : "(max-width: 700px) 46vw, 27vw"
               }
               quality={85}
+              loading={loadAhead ? "eager" : "lazy"}
             />
           </motion.div>
           <figcaption className="sr-only">
@@ -226,6 +229,7 @@ export function ProjectScrollGallery({
                 progress={progress}
                 animate={animate}
                 active={active === index}
+                loadAhead={index === 0 || (animate && index <= active + 1)}
               />
             ))}
           </div>

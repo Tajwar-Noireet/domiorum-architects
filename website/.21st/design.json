@@ -40,12 +40,12 @@
   },
   "decisions": [
     "Portfolio uses the established navy, ivory and gold tokens.",
-    "Retain the supplied Elyse triptych composition and real project assets.",
-    "Use existing Framer Motion primitives for scroll-linked movement; preserve native scrolling.",
+    "Selected work follows the inspected Shibori stack-to-spread effect: five real project cards rise into a central native sticky desktop stack, then fan horizontally into five cover links. Phones, short screens and static fallbacks retain alternating large covers and interior details.",
+    "A scoped GSAP timeline binds transform and opacity changes directly to native scrolling, removing delayed scrub and animated clip paths from the project selection. Shared session motion controls, desktop chapter seeking, native fallback anchors, reduced motion, static SSR and cleanup remain supported; no extra GSAP pins or wheel interception.",
     "Project detail galleries pair supplied images in sticky scenes with horizontal-strip wipes and masked room-title reveals, following the inspected live Elyse reference.",
     "Respect reduced motion by default; let visitors explicitly enable or disable project scroll effects for the browser session.",
     "Homepage typography and photographs use scoped GSAP effects with static server-rendered content and full motion-off cleanup; supplied assets, brand colours and existing gallery sequences remain intact.",
-    "Discover us presents Zarin Nawar's profile with current studio projects and separately credited previous Innova work; the homepage retains a practice introduction without the founder profile.",
+    "Discover us presents Zarin Nawar's profile with current studio projects and separately credited previous projects. The user's latest direction removes previous employer names throughout public pages, preserving Selim Residence and project architect credits.",
     "Reuse FlowButton with a restrained gold pointer-reactive glow inspired by Flame Button; all links and buttons receive hover/focus movement. The mobile menu uses the Origin UI stroke morph and an accessible animated panel; enquiry dropdowns retain keyboard and native no-JavaScript fallbacks. Reduced motion suppresses transitions."
   ],
   "evidence": [

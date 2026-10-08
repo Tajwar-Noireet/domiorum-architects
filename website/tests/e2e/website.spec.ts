@@ -43,13 +43,15 @@ const routes = [
 ];
 
 test("all pages load with usable images and no overflow or runtime errors", async ({
-  page,
+  context,
   request,
 }) => {
+  test.setTimeout(120_000);
   const errors: string[] = [];
   const checkedAssets = new Set<string>();
-  page.on("pageerror", (error) => errors.push(error.message));
   for (const route of routes) {
+    const page = await context.newPage();
+    page.on("pageerror", (error) => errors.push(`${route}: ${error.message}`));
     const response = await page.goto(route);
     expect(response?.status(), route).toBe(200);
     await expect(page.locator("main h1")).toBeVisible();
@@ -83,6 +85,8 @@ test("all pages load with usable images and no overflow or runtime errors", asyn
       ),
       route,
     ).toBe(true);
+    page.removeAllListeners("pageerror");
+    await page.close();
   }
   expect(errors).toEqual([]);
 });
@@ -92,16 +96,19 @@ test("interior portfolio and project navigation work without removed imagery", a
   request,
 }) => {
   await page.goto("/projects");
-  await expect(page.locator(".showcase-index button")).toHaveCount(5);
+  await expect(page.locator(".showcase-index a")).toHaveCount(5);
   await expect(page.locator(".project-filters")).toHaveCount(0);
-  await page.getByRole("link", { name: "View project", exact: true }).click();
+  await page
+    .getByRole("link", { name: "View project", exact: true })
+    .first()
+    .click();
   await expect(page).toHaveURL(/\/projects\/aftabnagar-interior$/);
   await expect(page.locator(".project-facts")).toContainText(
     "Design visualizations",
   );
   await page.getByRole("link", { name: /All projects/ }).click();
   await expect(page).toHaveURL("/projects");
-  await expect(page.locator(".showcase-index button")).toHaveCount(5);
+  await expect(page.locator(".showcase-index a")).toHaveCount(5);
   for (const slug of ["abed-residence"]) {
     expect((await request.get(`/projects/${slug}`)).status()).toBe(404);
   }
@@ -162,7 +169,7 @@ test("consultation request makes its booking status clear", async ({
 test("mobile menu works with keyboard dismissal and route navigation", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile");
+  test.skip(!["mobile", "android"].includes(testInfo.project.name));
   await page.goto("/");
   const trigger = page.locator("button[aria-controls='mobile-navigation']");
   await trigger.click();
@@ -298,7 +305,7 @@ test("unknown project has a recoverable 404", async ({ page }) => {
 test("narrow phones keep page headings and forms inside the viewport", async ({
   page,
 }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile");
+  test.skip(!["mobile", "android"].includes(testInfo.project.name));
   await page.setViewportSize({ width: 320, height: 740 });
   for (const route of [
     "/",

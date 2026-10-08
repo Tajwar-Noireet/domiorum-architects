@@ -35,11 +35,14 @@ test("featured project links reach the project gallery", async ({
         )
         .toBe(true);
     }
-    await page.locator(".project-showcase").screenshot({
+    await page.locator(".showcase-project").first().screenshot({
       path: "../output/website-review/portfolio-desktop.png",
     });
   }
-  await page.getByRole("link", { name: "View project", exact: true }).click();
+  await page
+    .getByRole("link", { name: "View project", exact: true })
+    .first()
+    .click();
   await expect(page).toHaveURL(/\/projects\/aftabnagar-interior$/);
   await expect(page.locator("#rooms figure")).toHaveCount(10);
 });

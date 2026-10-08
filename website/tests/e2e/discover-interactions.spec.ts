@@ -4,7 +4,7 @@ import path from "node:path";
 test("Discover and open dropdowns expose accessible controls", async ({
   page,
 }) => {
-  for (const route of ["/discover", "/contact"]) {
+  for (const route of ["/discover", "/contact", "/projects"]) {
     await page.goto(route);
     if (route === "/contact")
       await page.getByRole("combobox", { name: "I’m interested in" }).click();
@@ -34,7 +34,7 @@ test("Discover and open dropdowns expose accessible controls", async ({
 test("short mobile screens can scroll to every menu link", async ({
   page,
 }, info) => {
-  test.skip(info.project.name !== "mobile");
+  test.skip(!["mobile", "android"].includes(info.project.name));
   await page.setViewportSize({ width: 844, height: 390 });
   await page.goto("/discover");
   await page.locator(".menu-trigger").click();
@@ -45,7 +45,7 @@ test("short mobile screens can scroll to every menu link", async ({
   await expect(page).toHaveURL(/\/book-consultation$/);
 });
 
-test("founder lives on Discover with separate studio and Innova project credits", async ({
+test("founder lives on Discover with separate studio and previous project credits", async ({
   page,
 }) => {
   await page.goto("/");
@@ -57,16 +57,21 @@ test("founder lives on Discover with separate studio and Innova project credits"
   ).toBeVisible();
   const studio = page.getByRole("region", { name: "Current studio projects" });
   const previous = page.getByRole("region", {
-    name: "Work at Innova Architects",
+    name: "Previous projects",
   });
   await expect(studio.locator(".project-card")).toHaveCount(5);
   await expect(studio).not.toContainText("Selim Residence");
   await expect(previous.locator(".project-card")).toHaveCount(1);
   await expect(previous).toContainText(
-    "Associate Architect at Innova Architects. Project Architect: Ar Sanjida Shams.",
+    "Previous professional work of Zarin Nawar. Project Architect: Ar Sanjida Shams.",
   );
+  await expect(page.locator("main")).not.toContainText("Innova");
   await previous.getByRole("link", { name: /Selim Residence/ }).click();
   await expect(page).toHaveURL(/\/projects\/selim-residence$/);
+  await expect(page.locator("main")).not.toContainText("Innova");
+  await expect(page.locator(".project-facts")).toContainText(
+    "Ar Sanjida Shams",
+  );
 });
 
 test("animated service dropdown supports keyboard selection, dismissal and form values", async ({
@@ -74,6 +79,7 @@ test("animated service dropdown supports keyboard selection, dismissal and form 
 }) => {
   await page.goto("/contact");
   const select = page.getByRole("combobox", { name: "I’m interested in" });
+  await expect(select).toHaveAttribute("aria-expanded", "false");
   await select.focus();
   await select.press("ArrowDown");
   await expect(select).toHaveAttribute("aria-expanded", "true");
@@ -111,7 +117,7 @@ test("animated service dropdown supports keyboard selection, dismissal and form 
 test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
   page,
 }, info) => {
-  test.skip(info.project.name !== "mobile");
+  test.skip(!["mobile", "android"].includes(info.project.name));
   await page.goto("/contact");
   const trigger = page.locator(".menu-trigger");
   await trigger.click();
@@ -145,7 +151,7 @@ test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
 test("links and CTA glow animate, reset, and respect reduced motion", async ({
   page,
 }, info) => {
-  test.skip(info.project.name === "mobile");
+  test.skip(["mobile", "android"].includes(info.project.name));
   await page.goto("/discover");
   const link = page
     .locator(".desktop-nav")
@@ -188,9 +194,12 @@ test("links and CTA glow animate, reset, and respect reduced motion", async ({
 test("contact dropdown remains usable without JavaScript", async ({
   browser,
 }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    baseURL: test.info().project.use.baseURL,
+  });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3000/contact");
+  await page.goto("/contact");
   await page
     .getByLabel("I’m interested in")
     .selectOption("Renovation or extension");

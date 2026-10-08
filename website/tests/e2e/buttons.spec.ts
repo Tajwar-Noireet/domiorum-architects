@@ -6,7 +6,9 @@ test("button hover animates independently of scroll motion and resets", async ({
   test.skip(testInfo.project.name !== "desktop");
   await page.goto("/");
   await page.getByRole("button", { name: /Disable scroll animation/ }).click();
-  const button = page.getByRole("link", { name: "View project", exact: true });
+  const button = page
+    .getByRole("link", { name: "View project", exact: true })
+    .first();
   await button.hover();
   await expect
     .poll(() =>

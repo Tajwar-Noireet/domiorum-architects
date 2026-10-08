@@ -81,7 +81,7 @@ export default function Discover() {
             <div className="discover-work-heading">
               <p className="eyebrow">02 / Previous experience</p>
               <h2 id={`${person.slug}-previous`}>
-                <HoverText>Work at Innova Architects</HoverText>
+                <HoverText>Previous projects</HoverText>
               </h2>
               <p className="discover-credit">{experienceCredit}</p>
             </div>

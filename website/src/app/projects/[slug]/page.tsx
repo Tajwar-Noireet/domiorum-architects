@@ -80,10 +80,6 @@ export default async function Project({
           {isLegacy && (
             <>
               <div>
-                <dt>Practice</dt>
-                <dd>Innova Architects</dd>
-              </div>
-              <div>
                 <dt>Zarin’s role</dt>
                 <dd>Associate Architect</dd>
               </div>

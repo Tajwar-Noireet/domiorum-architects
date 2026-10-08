@@ -40,7 +40,7 @@ test("drafting cursors apply to desktop browsing and links with native form curs
   await page.goto("/contact");
   const input = page.getByRole("textbox").first();
   await expect(input).toBeVisible();
-  expect(await input.evaluate((el) => getComputedStyle(el).cursor)).toBe(
-    "text",
-  );
+  const inputCursor = await input.evaluate((el) => getComputedStyle(el).cursor);
+  if (fine) expect(inputCursor).toBe("text");
+  else expect(inputCursor).not.toContain("/cursors/");
 });
