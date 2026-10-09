@@ -33,6 +33,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
   );
   const stack = enabled && wideScreen;
   const [active, setActive] = useState(0);
+  const fan = stack && active === projects.length;
   const activeRef = useRef(0);
   const travel = useRef<{
     start: number;
@@ -206,7 +207,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
       ref={section}
       data-animated={enabled}
       data-stack={stack}
-      data-fan={stack && active === projects.length}
+      data-fan={fan}
       style={{ "--project-count": projects.length } as CSSProperties}
     >
       <div className="showcase-viewport">
@@ -270,6 +271,8 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                       href={`/projects/${project.slug}`}
                       className="showcase-cover-link"
                       aria-label={`Open ${project.title}`}
+                      inert={fan}
+                      aria-hidden={fan ? true : undefined}
                     >
                       <Image
                         src={project.cover}
@@ -319,6 +322,13 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                 <div className="showcase-rule" aria-hidden="true">
                   <span />
                 </div>
+                {fan && (
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="showcase-card-link"
+                    aria-label={`Open ${project.title}`}
+                  />
+                )}
               </article>
             );
           })}

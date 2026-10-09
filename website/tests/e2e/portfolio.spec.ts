@@ -1,6 +1,58 @@
 import { expect, test } from "@playwright/test";
 import portfolio from "../../src/content/portfolio.json";
 
+for (const route of ["/projects", "/"]) {
+  test(`spread project cards open from their titles, frames and photos on ${route}`, async ({
+    page,
+  }, info) => {
+    test.skip(!["desktop", "reduced-motion"].includes(info.project.name));
+    test.setTimeout(90_000);
+    await page.addInitScript(() =>
+      sessionStorage.setItem("domiorum-brand-intro-v1", "seen"),
+    );
+    for (const [index, project] of portfolio.entries()) {
+      await page.goto(route);
+      const showcase = page.locator(".project-showcase");
+      await expect(showcase).toHaveAttribute("data-stack", "true");
+      await page.evaluate(() => document.fonts.ready);
+      await showcase.locator(".showcase-index a").first().click();
+      const start = await page.evaluate(() => scrollY);
+      const travel = await showcase.evaluate(
+        (el) =>
+          el.clientHeight -
+          el.querySelector(".showcase-viewport")!.clientHeight -
+          48,
+      );
+      await page.mouse.wheel(0, travel * 0.995);
+      await expect(showcase).toHaveAttribute("data-fan", "true");
+      await expect
+        .poll(() => page.evaluate(() => scrollY))
+        .toBeGreaterThan(start + travel * 0.98);
+      const card = showcase.locator(`#selected-${project.slug}`);
+      if (index === 1) {
+        const bounds = (await card.boundingBox())!;
+        await page.mouse.click(bounds.x + 4, bounds.y + bounds.height / 2);
+      } else if (index === 4) {
+        const bounds = (await card
+          .locator(".showcase-cover img")
+          .boundingBox())!;
+        await page.mouse.click(
+          bounds.x + bounds.width / 2,
+          bounds.y + bounds.height / 2,
+        );
+      } else {
+        const bounds = (await card.locator("h2").boundingBox())!;
+        await page.mouse.click(
+          bounds.x + bounds.width / 2,
+          bounds.y + bounds.height / 2,
+        );
+      }
+      await expect(page).toHaveURL(new RegExp(`/projects/${project.slug}$`));
+      await expect(page.locator("h1")).toHaveText(project.title);
+    }
+  });
+}
+
 test("native desktop scrolling stacks, spreads and reverses cards on both routes", async ({
   page,
 }, info) => {

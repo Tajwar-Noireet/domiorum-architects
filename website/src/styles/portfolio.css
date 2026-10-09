@@ -246,6 +246,7 @@
 }
 .showcase-detail {
   position: absolute;
+  pointer-events: none;
   z-index: 1;
   right: 0;
   bottom: -24px;
@@ -309,6 +310,20 @@
 .project-showcase :is(a, button):focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 5px;
+}
+.showcase-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  transition: box-shadow 250ms ease;
+}
+.showcase-card-link:hover,
+.showcase-card-link:focus-visible {
+  box-shadow: inset 0 0 0 2px #e1bf77b3;
+}
+.project-showcase .showcase-card-link:focus-visible {
+  outline-offset: -5px;
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   /* Only the current stacked card blurs; the five-card spread stays lightweight. */
