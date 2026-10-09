@@ -11,7 +11,7 @@ Maintain one root instance in SmoothScroll. With autoRaf false, feed lenis.raf(s
 
 Use modest interpolation (the project uses lerp 0.16), no wheel amplification, and syncTouch false to retain native iOS/Android inertia. The client explicitly chose full motion for every device preference: set respectReducedMotion false and keep motion enabled when the OS requests reduced motion. Keep CSS/native no-JavaScript fallbacks.
 
-Stop the instance while the supplied brand intro or mobile navigation is open. Observe the relevant attributes rather than polling; resume, resize and refresh when released. Nested dropdown lists and horizontal interior galleries use data-lenis-prevent. Do not smooth wheel input inside these controls.
+Stop the instance while the supplied brand intro or mobile navigation is open. Observe the relevant attributes rather than polling; resume, resize and refresh when released. Only independently scrollable controls, such as dropdown lists, use data-lenis-prevent. The desktop interior gallery moves through GSAP from vertical page scrolling: do not prevent wheel input on its viewport or photos. Preserve native horizontal touch scrolling on phones.
 
 Use anchors false and a document anchor listener that checks event.defaultPrevented before handling same-page links with the fixed-header offset. This preserves component-owned chapter navigation. Enable stopInertiaOnNavigate. Preserve Next's browser scroll restoration, synchronizing Lenis to the restored scrollY after route commit. Use scrollToPosition for exact chapter seeks so a pending smooth wheel frame cannot undo a selection.
 

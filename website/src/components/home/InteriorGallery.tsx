@@ -159,7 +159,6 @@ export function InteriorGallery() {
         </div>
         <div
           className="interior-viewport"
-          data-lenis-prevent
           ref={viewport}
           tabIndex={0}
           aria-label="Interior image gallery"

@@ -1,5 +1,29 @@
 import { expect, test } from "@playwright/test";
 
+test("wheel over interior photos moves the pinned gallery in both directions", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop" && info.project.name !== "reduced-motion");
+  await page.addInitScript(() => sessionStorage.setItem("domiorum-brand-intro-v1", "seen"));
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveClass(/lenis/);
+  const gallery = page.locator(".interior-pin");
+  await gallery.locator(".interior-controls button").first().click();
+  const track = gallery.locator(".interior-track");
+  const initialY = await page.evaluate(() => scrollY);
+  const initialX = await track.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41);
+  const photo = (await gallery.locator(".interior-room-image").first().boundingBox())!;
+  await page.mouse.move(Math.min(photo.x + photo.width / 2, 700), photo.y + photo.height / 2);
+  await page.mouse.wheel(0, 500);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(initialY + 450);
+  await expect.poll(() => track.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41)).toBeLessThan(initialX - 450);
+  await page.mouse.wheel(0, -300);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(initialY + 250);
+  await expect.poll(() => track.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41)).toBeGreaterThan(initialX - 250);
+  await gallery.locator(".interior-controls button").last().click();
+  const endY = await page.evaluate(() => scrollY);
+  await page.mouse.wheel(0, 600);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(endY + 500);
+});
+
 test("wheel scroll eases into GSAP scenes and stops before navigating", async ({
   page,
 }, info) => {
