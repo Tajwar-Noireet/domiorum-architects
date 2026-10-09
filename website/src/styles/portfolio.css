@@ -128,12 +128,17 @@
   height: calc(100svh - 290px);
   min-height: 260px;
   padding: 16px;
-  background: var(--navy);
-  border: 1px solid #e1bf7740;
-  border-radius: 0;
+  background:
+    linear-gradient(145deg, #f6f3ed17, #f6f3ed04 55%, #e1bf770a),
+    var(--navy);
+  border: 1px solid #e1bf775c;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 12px 32px #00000026;
+  box-shadow:
+    inset 0 1px 0 #f6f3ed30,
+    inset 0 -1px 0 #08182e66,
+    0 12px 32px #00000026;
 }
 [data-stack="true"] .showcase-meta {
   font-size: 10px;
@@ -156,7 +161,7 @@
 }
 [data-stack="true"] .showcase-cover {
   inset: 0;
-  border-radius: 0;
+  border-radius: 5px;
 }
 [data-stack="true"] .showcase-detail {
   width: 20%;
@@ -246,8 +251,12 @@
   bottom: -24px;
   width: 27%;
   margin: 0;
-  border: 8px solid var(--navy);
-  background: var(--navy);
+  border: 8px solid transparent;
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, #f6f3ed17, #e1bf7708),
+    var(--navy);
+  box-shadow: inset 0 0 0 1px #f6f3ed33, 0 8px 24px #00000026;
 }
 .showcase-reverse .showcase-detail {
   right: auto;
@@ -257,6 +266,7 @@
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: 3px;
 }
 .showcase-detail img {
   object-fit: cover;
@@ -299,6 +309,28 @@
 .project-showcase :is(a, button):focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 5px;
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  /* Only the current stacked card blurs; the five-card spread stays lightweight. */
+  [data-stack="true"][data-fan="false"] .showcase-project:not([inert]) {
+    background-color: rgb(8 24 46 / 88%);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .project-showcase[data-stack="false"] .showcase-detail {
+    background-color: rgb(8 24 46 / 90%);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+@media (forced-colors: active), (prefers-reduced-transparency: reduce) {
+  .project-showcase .showcase-project,
+  .project-showcase .showcase-detail {
+    background: var(--navy) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none;
+  }
 }
 @media (max-width: 700px) {
   .project-showcase {
