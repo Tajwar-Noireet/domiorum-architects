@@ -71,7 +71,7 @@ export default function Home() {
         </div>
       </section>
       <InteriorGallery />
-      <section className="section home-selected">
+      <section className="section home-selected" id="selected-work">
         <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">03 / Selected projects</p>
@@ -94,13 +94,13 @@ export default function Home() {
       <section id="studio" className="studio-section section home-studio">
         <div className="studio-photo" data-scroll-frame>
           <Image
-            src="/images/interiors/bedroom-angle.webp"
-            alt="Residential interior with timber shelving and a dressing area"
+            src="/images/home/living-dining.webp"
+            alt="Connected dining and sitting spaces with warm timber joinery and pale stone finishes"
             fill
             sizes="(max-width: 700px) 100vw, 40vw"
           />
           <span className="studio-photo-note">
-            Architecture & interiors / Dhaka
+            Connected spaces. Considered details.
           </span>
         </div>
         <div className="studio-copy">
@@ -121,6 +121,10 @@ export default function Home() {
             Meet the people behind the practice and explore the projects that
             shape our work.
           </p>
+          <div className="studio-signature">
+            <span>Architecture & interiors</span>
+            <span>Bashundhara R/A, Dhaka</span>
+          </div>
           <Link href="/discover" className="text-link">
             <HoverText variant="link">
               Discover us <DirectionalArrow />
@@ -128,7 +132,10 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <section className="section process-section home-process">
+      <section
+        className="section process-section home-process"
+        data-process-track
+      >
         <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">06 / Working together</p>
@@ -142,9 +149,12 @@ export default function Home() {
             idea to an agreed design.
           </p>
         </div>
+        <div className="process-rule" aria-hidden="true">
+          <span data-process-progress />
+        </div>
         <ol className="process-grid">
           {process.map((step, index) => (
-            <li key={step.title} data-reveal>
+            <li key={step.title} data-process-step>
               <span className="process-number">0{index + 1}</span>
               <h3>
                 <HoverText>{step.title}</HoverText>

@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setScrollEngine } from "@/lib/smooth-scroll";
+import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
 
 export function SmoothScroll() {
   const pathname = usePathname();
@@ -13,6 +14,8 @@ export function SmoothScroll() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // Mobile browser chrome should not repeatedly rebuild the pinned scenes.
+    ScrollTrigger.config({ ignoreMobileResize: true });
     const lenis = new Lenis({
       autoRaf: false,
       lerp: 0.16,
@@ -22,6 +25,22 @@ export function SmoothScroll() {
       respectReducedMotion: false,
       stopInertiaOnNavigate: true,
       prevent: (node) => node.hasAttribute("data-lenis-prevent"),
+      virtualScroll: (input) => {
+        const { event, deltaX, deltaY } = input;
+        // A pinned horizontal gallery uses page travel for both wheel axes.
+        // Touch and unpinned galleries retain their native horizontal scrolling.
+        if (
+          event.type === "wheel" &&
+          !event.ctrlKey &&
+          Math.abs(deltaX) > Math.abs(deltaY) &&
+          event.target instanceof Element &&
+          event.target.closest('.interior-viewport[data-pinned="true"]')
+        ) {
+          input.deltaY = deltaX;
+          input.deltaX = 0;
+        }
+        return true;
+      },
     });
     engine.current = lenis;
     setScrollEngine(lenis);
@@ -81,7 +100,7 @@ export function SmoothScroll() {
       else if (lenis.isStopped) {
         lenis.start();
         lenis.resize();
-        ScrollTrigger.refresh();
+        scheduleScrollRefresh();
       }
     };
     const observer = new MutationObserver(syncLock);
@@ -114,7 +133,7 @@ export function SmoothScroll() {
       const lenis = engine.current;
       lenis?.resize();
       lenis?.scrollTo(window.scrollY, { immediate: true });
-      ScrollTrigger.refresh();
+      scheduleScrollRefresh();
     });
     return () => cancelAnimationFrame(frame);
   }, [pathname]);

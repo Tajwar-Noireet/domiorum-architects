@@ -8,13 +8,15 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { navigation } from "@/content/site";
+import { navigation, site } from "@/content/site";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     if (!open) return;
@@ -80,7 +82,7 @@ export function SiteHeader() {
           <Link
             key={link.href}
             href={link.href}
-            aria-current={pathname === link.href ? "page" : undefined}
+            aria-current={isActive(link.href) ? "page" : undefined}
           >
             {link.label}
           </Link>
@@ -135,6 +137,7 @@ export function SiteHeader() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 onClick={() => setOpen(false)}
               >
                 <span className="menu-number">0{index + 1}</span>
@@ -142,12 +145,19 @@ export function SiteHeader() {
                 <DirectionalArrow />
               </Link>
             ))}
-            <Link href="/book-consultation" onClick={() => setOpen(false)}>
+            <Link
+              href="/book-consultation"
+              aria-current={isActive("/book-consultation") ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
               <span className="menu-number">05</span>Let’s talk
               <DirectionalArrow />
             </Link>
           </nav>
-          <p>Architecture & interiors · Dhaka</p>
+          <div className="mobile-menu-contact">
+            <p>Architecture & interiors · Dhaka</p>
+            <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+          </div>
         </div>
       </motion.div>
     </header>

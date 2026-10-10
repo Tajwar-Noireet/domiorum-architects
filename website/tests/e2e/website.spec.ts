@@ -231,7 +231,7 @@ test("scroll scenes expand, change, release and survive route navigation", async
   await expect(page.locator("#introduction")).toBeInViewport();
   await page.getByRole("link", { name: "The portfolio" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
-  await page.getByRole("link", { name: "Domiorum Architects home" }).click();
+  await page.locator(".site-header").getByRole("link", { name: "Domiorum Architects home" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(
     ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );

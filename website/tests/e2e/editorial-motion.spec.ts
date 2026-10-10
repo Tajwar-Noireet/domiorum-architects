@@ -110,7 +110,7 @@ test("narrow and landscape layouts reveal intact headings without overflow", asy
   ]) {
     await page.setViewportSize(viewport);
     await expect(page.locator(".pin-spacer")).toHaveCount(
-      viewport.width < 900 ? 1 : 2,
+      viewport.width >= 900 && viewport.height >= 560 ? 2 : 1,
     );
     for (const selector of [
       "#introduction [data-scroll-title]",

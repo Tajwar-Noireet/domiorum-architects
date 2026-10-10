@@ -7,6 +7,7 @@ import Image from "next/image";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { useLayoutEffect, useRef } from "react";
 import { useHomeMotion } from "./HomeMotion";
+import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
 
 const scenes = [
   {
@@ -170,10 +171,10 @@ export function ScrollHero() {
               ".cinema-opening .eyebrow, .hero-line, .cinema-intro-bottom",
             ),
             {
-              y: 24,
-              opacity: 0,
-              duration: 0.9,
-              stagger: 0.12,
+              // The brand film already introduces the page; keep its title readable.
+              y: 18,
+              duration: 0.65,
+              stagger: 0.07,
               ease: "power3.out",
               paused: true,
             },
@@ -197,7 +198,7 @@ export function ScrollHero() {
       );
       revert = () => media.revert();
       await document.fonts.ready;
-      if (!disposed) ScrollTrigger.refresh();
+      if (!disposed) scheduleScrollRefresh();
     }
     void start();
     return () => {

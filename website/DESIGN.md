@@ -1,5 +1,11 @@
 # Domiorum website direction
 
+## Studio refinement, 10 October 2026
+
+The upgrade retains the existing palette, photographic hero, project stacks, house illustration and drawing-tool cursors. Page introductions use a ruled folio layout, with service chapters and a four-step process supporting the visitor's reading order. The footer pairs a clear invitation with direct studio contact details. Short text entrances keep full contrast, while subtle image movement and progress rules provide motion without adding pinned sections. The hero is immediately readable after the brand film. Scroll measurement is coalesced, and distant project gallery layers are hidden to reduce unnecessary painting. Detailed verification and the design quality gate are recorded in `../docs/studio-upgrade-review.md`.
+
+The room gallery accepts horizontal trackpad and diagonal wheel input through the existing Lenis page animation. Wheel routing and clipped overflow are enabled only while its GSAP pin exists. Its photographs leave room for captions and chapter controls on laptop screens; viewports shorter than 560px retain the native horizontal gallery. Phone touch inertia, vertical page scrolling, keyboard navigation and the approved colours remain intact.
+
 A residential architecture and interiors practice in Dhaka, introduced through its spaces, founder and direct enquiries.
 
 The latest completed questionnaire, page 2, specifies midnight navy and warm ivory as primary colours, with warm gold as the accent. The supplied horizontal banner logo and the headline “Imagined with you. Built for you.” remain the basis of the design.

@@ -80,6 +80,9 @@
   margin: 0;
   pointer-events: none;
 }
+.project-scroll-gallery[data-animated="true"] .project-gallery-scene[data-rendered="false"] {
+  visibility: hidden;
+}
 .project-gallery-copy {
   position: absolute;
   left: 0;

@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { InteractionMotion } from "@/components/ui/InteractionMotion";
 import { BrandReveal } from "@/components/layout/BrandReveal";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { FolioMotion } from "@/components/layout/FolioMotion";
 import { brandRevealBootstrap } from "@/lib/brand-reveal";
 import "@/styles/globals.css";
 import "@/styles/experience.css";
@@ -19,6 +20,7 @@ import "@/styles/editorial-motion.css";
 import "@/styles/discover-interactions.css";
 import "@/styles/brand-reveal.css";
 import "lenis/dist/lenis.css";
+import "@/styles/studio-refinement.css";
 const jost = Jost({
   subsets: ["latin"],
   variable: "--font-jost",
@@ -49,6 +51,7 @@ export default function RootLayout({
           </a>
           <SiteHeader />
           <InteractionMotion />
+          <FolioMotion />
           <main id="main" tabIndex={-1}>
             {children}
           </main>

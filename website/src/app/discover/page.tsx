@@ -17,19 +17,21 @@ export default function Discover() {
     <div className="section page-section discover-page">
       <div className="page-heading">
         <p className="eyebrow">Discover us</p>
-        <h1>
+        <h1 data-folio-reveal>
           <HoverText>
             The people behind
             <br />
             the spaces.
           </HoverText>
         </h1>
-        <p>Meet our founder and explore the work behind the practice.</p>
+        <p data-folio-reveal>
+          Meet our founder and explore the work behind the practice.
+        </p>
       </div>
       {team.map((person) => (
         <article key={person.slug} aria-labelledby={`${person.slug}-name`}>
           <div className="discover-profile">
-            <figure className="discover-portrait">
+            <figure className="discover-portrait" data-folio-image>
               <Image
                 src={person.portrait}
                 alt={`${person.name}, ${person.role} of Domiorum Architects`}
@@ -39,7 +41,7 @@ export default function Discover() {
               />
               <figcaption>Domiorum Architects / Dhaka</figcaption>
             </figure>
-            <div className="discover-bio">
+            <div className="discover-bio" data-folio-reveal>
               <p className="eyebrow">{person.role}</p>
               <h2 id={`${person.slug}-name`}>
                 <HoverText>{person.name}</HoverText>
@@ -54,7 +56,7 @@ export default function Discover() {
             className="discover-work"
             aria-labelledby={`${person.slug}-studio`}
           >
-            <div className="discover-work-heading">
+            <div className="discover-work-heading" data-folio-reveal>
               <p className="eyebrow">01 / Domiorum Architects</p>
               <h2 id={`${person.slug}-studio`}>
                 <HoverText>Current studio projects</HoverText>
@@ -78,7 +80,7 @@ export default function Discover() {
             className="discover-work discover-previous"
             aria-labelledby={`${person.slug}-previous`}
           >
-            <div className="discover-work-heading">
+            <div className="discover-work-heading" data-folio-reveal>
               <p className="eyebrow">02 / Previous experience</p>
               <h2 id={`${person.slug}-previous`}>
                 <HoverText>Previous projects</HoverText>

@@ -10,14 +10,14 @@ export default function Projects() {
       <div className="section page-section">
         <div className="page-heading">
           <p className="eyebrow">The portfolio</p>
-          <h1>
+          <h1 data-folio-reveal>
             <HoverText>
               A closer look
               <br />
               at the work.
             </HoverText>
           </h1>
-          <p>
+          <p data-folio-reveal>
             Explore our residential interiors and architecture, one project at a
             time.
           </p>

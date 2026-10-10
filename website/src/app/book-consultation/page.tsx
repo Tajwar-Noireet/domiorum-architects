@@ -7,20 +7,20 @@ export default function Consultation() {
     <section className="section page-section">
       <div className="page-heading">
         <p className="eyebrow">The first step</p>
-        <h1>
+        <h1 data-folio-reveal>
           <HoverText>
             Let’s understand
             <br />
             your space.
           </HoverText>
         </h1>
-        <p>
+        <p data-folio-reveal>
           An initial consultation is a chance to talk through your needs,
           explore the possibilities and define the next steps.
         </p>
       </div>
       <div className="contact-grid">
-        <aside className="consultation-details">
+        <aside className="consultation-details" data-folio-reveal>
           <h2>
             <HoverText>
               A useful place

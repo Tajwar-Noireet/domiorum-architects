@@ -4,7 +4,7 @@ import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 
 import { HoverText } from "@/components/ui/HoverText";
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 import { useHomeMotion } from "./HomeMotion";
 import { scrollToPosition } from "@/lib/smooth-scroll";
@@ -30,6 +30,8 @@ const rooms = [
   },
 ];
 
+const pinnedGalleryMedia = "(min-width: 900px) and (min-height: 560px)";
+
 export function InteriorGallery() {
   const section = useRef<HTMLElement>(null);
   const scrollSpace = useRef<HTMLDivElement>(null);
@@ -39,7 +41,21 @@ export function InteriorGallery() {
   const refresh = useRef<(() => void) | undefined>(undefined);
   const ready = useRef(false);
   const pendingRoom = useRef<number | null>(null);
+  const progressBar = useRef<HTMLSpanElement>(null);
+  const activeRoom = useRef(0);
+  const [active, setActive] = useState(0);
   const { enabled } = useHomeMotion();
+
+  function updatePosition(progress: number) {
+    const position = Math.max(0, Math.min(1, progress));
+    const next = Math.round(position * (rooms.length - 1));
+    if (next !== activeRoom.current) {
+      activeRoom.current = next;
+      setActive(next);
+    }
+    if (progressBar.current)
+      progressBar.current.style.transform = `scaleX(${(1 + position * (rooms.length - 1)) / rooms.length})`;
+  }
 
   useLayoutEffect(() => {
     if (!enabled) return;
@@ -55,9 +71,10 @@ export function InteriorGallery() {
       refresh.current = () => ScrollTrigger.refresh();
       const media = gsap.matchMedia();
       media.add(
-        "(min-width: 900px)",
+        pinnedGalleryMedia,
         () => {
           viewport.current!.scrollLeft = 0;
+          gsap.set(viewport.current, { attr: { "data-pinned": "true" } });
           const reserve = () => {
             gsap.set(scrollSpace.current, {
               height:
@@ -82,6 +99,7 @@ export function InteriorGallery() {
               onRefreshInit: reserve,
               scrub: true,
               invalidateOnRefresh: true,
+              onUpdate: (self) => updatePosition(self.progress),
             },
           });
           trigger.current = tween.scrollTrigger;
@@ -117,7 +135,7 @@ export function InteriorGallery() {
   function showRoom(index: number) {
     if (
       enabled &&
-      window.innerWidth >= 900 &&
+      window.matchMedia(pinnedGalleryMedia).matches &&
       (!ready.current || !trigger.current)
     ) {
       pendingRoom.current = index;
@@ -159,9 +177,31 @@ export function InteriorGallery() {
         </div>
         <div
           className="interior-viewport"
+          id="interior-views"
           ref={viewport}
           tabIndex={0}
           aria-label="Interior image gallery"
+          aria-describedby="interior-keyboard-help"
+          onScroll={(event) => {
+            if (trigger.current) return;
+            const view = event.currentTarget;
+            updatePosition(
+              view.scrollLeft /
+                Math.max(1, view.scrollWidth - view.clientWidth),
+            );
+          }}
+          onKeyDown={(event) => {
+            let next: number;
+            if (event.key === "ArrowRight")
+              next = Math.min(rooms.length - 1, activeRoom.current + 1);
+            else if (event.key === "ArrowLeft")
+              next = Math.max(0, activeRoom.current - 1);
+            else if (event.key === "Home") next = 0;
+            else if (event.key === "End") next = rooms.length - 1;
+            else return;
+            event.preventDefault();
+            showRoom(next);
+          }}
         >
           <div ref={track} className="interior-track">
             {rooms.map((room, index) => (
@@ -188,11 +228,20 @@ export function InteriorGallery() {
             ))}
           </div>
         </div>
+        <p id="interior-keyboard-help" className="sr-only">
+          Use left and right arrow keys to choose a room, or Home and End for
+          the first and last view.
+        </p>
+        <div className="interior-reading-progress" aria-hidden="true">
+          <span ref={progressBar} />
+        </div>
         <div className="interior-controls" aria-label="Choose an interior view">
           {rooms.map((room, index) => (
             <button
               key={room.title}
               type="button"
+              aria-pressed={index === active}
+              aria-controls="interior-views"
               onClick={() => showRoom(index)}
             >
               0{index + 1}

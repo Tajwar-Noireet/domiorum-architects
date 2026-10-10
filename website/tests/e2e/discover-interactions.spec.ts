@@ -140,7 +140,7 @@ test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
   await expect(
     page
       .locator("#mobile-navigation")
-      .getByRole("link", { name: /Let’s talk/ }),
+      .getByRole("link", { name: "+880 1796 589389", exact: true }),
   ).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(trigger).toBeFocused();

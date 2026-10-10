@@ -26,6 +26,7 @@ function GalleryScene({
   animate,
   active,
   loadAhead,
+  nearViewport,
 }: {
   images: Scene;
   index: number;
@@ -34,6 +35,7 @@ function GalleryScene({
   animate: boolean;
   active: boolean;
   loadAhead: boolean;
+  nearViewport: boolean;
 }) {
   const steps = Math.max(count - 1, 1);
   const start = (index - 0.8) / steps;
@@ -71,6 +73,7 @@ function GalleryScene({
     <div
       className={`project-gallery-scene ${images.length === 1 ? "project-gallery-scene-single" : ""}`}
       data-scene={index}
+      data-rendered={!animate || nearViewport}
       aria-hidden={animate && !active ? true : undefined}
       inert={animate && !active}
       style={{ zIndex: index + 1 }}
@@ -227,6 +230,7 @@ export function ProjectScrollGallery({
                 animate={animate}
                 active={active === index}
                 loadAhead={index === 0 || (animate && index <= active + 1)}
+                nearViewport={Math.abs(active - index) <= 1}
               />
             ))}
           </div>

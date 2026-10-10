@@ -9,19 +9,19 @@ export default function Contact() {
     <section className="section page-section">
       <div className="page-heading">
         <p className="eyebrow">Contact</p>
-        <h1>
+        <h1 data-folio-reveal>
           <HoverText>
             It starts with
             <br />a conversation.
           </HoverText>
         </h1>
-        <p>
+        <p data-folio-reveal>
           A new home, a renovation, or an idea you’re still exploring. We’d like
           to hear about it.
         </p>
       </div>
       <div className="contact-grid">
-        <aside className="contact-details">
+        <aside className="contact-details" data-folio-reveal>
           <div>
             <p className="eyebrow">The studio</p>
             <h2>

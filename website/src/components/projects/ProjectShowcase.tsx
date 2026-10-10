@@ -15,6 +15,7 @@ import { FlowButtonContent } from "@/components/ui/FlowButton";
 import { HoverText } from "@/components/ui/HoverText";
 import type { Project } from "@/types/project";
 import { scrollToPosition } from "@/lib/smooth-scroll";
+import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
 
 const stackQuery = "(min-width: 900px) and (min-height: 560px)";
 function subscribeStack(callback: () => void) {
@@ -184,7 +185,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
       }, section);
       revert = () => context.revert();
       await document.fonts.ready;
-      if (!disposed) ScrollTrigger.refresh();
+      if (!disposed) scheduleScrollRefresh();
     }
     void start();
     return () => {

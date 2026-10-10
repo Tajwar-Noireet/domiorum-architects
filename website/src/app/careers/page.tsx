@@ -9,20 +9,20 @@ export default function Careers() {
     <section className="section page-section">
       <div className="page-heading">
         <p className="eyebrow">Careers</p>
-        <h1>
+        <h1 data-folio-reveal>
           <HoverText>
             Care about spaces.
             <br />
             Care about people.
           </HoverText>
         </h1>
-        <p>
+        <p data-folio-reveal>
           We’re building a practice around thoughtful design and open
           conversation.
         </p>
       </div>
       <div className="careers-grid">
-        <div className="careers-image">
+        <div className="careers-image" data-folio-image>
           <Image
             src="/images/home/living-dining.webp"
             alt="Residential interior design visualization with integrated joinery"
@@ -30,7 +30,7 @@ export default function Careers() {
             sizes="(max-width: 700px) 100vw, 50vw"
           />
         </div>
-        <div>
+        <div data-folio-reveal>
           <p className="eyebrow">Stay in touch</p>
           <h2>
             <HoverText>Introduce yourself.</HoverText>

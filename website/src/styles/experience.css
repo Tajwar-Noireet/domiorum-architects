@@ -402,8 +402,12 @@ body:has(.cinema-hero) .site-header {
   display: none;
 }
 @media (min-width: 900px) {
-  .home-experience[data-motion="on"] .interior-viewport {
+  .interior-viewport[data-pinned="true"] {
     overflow: hidden;
+  }
+  .interior-viewport[data-pinned="true"] .interior-room-image {
+    height: clamp(160px, min(52svh, calc(100svh - 400px)), 620px);
+    min-height: 0;
   }
 }
 @media (max-width: 1100px) and (min-width: 900px) {

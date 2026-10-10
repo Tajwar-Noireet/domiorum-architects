@@ -85,7 +85,7 @@ test("hero line motion clears on route change and restarts on return", async ({
   await expect(page).toHaveURL(/\/projects$/);
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator(".hero-line")).toHaveCount(0);
-  await page.getByRole("link", { name: "Domiorum Architects home" }).click();
+  await page.locator(".site-header").getByRole("link", { name: "Domiorum Architects home" }).click();
   await expect(page.locator(".pin-spacer")).toHaveCount(
     ["desktop", "reduced-motion"].includes(testInfo.project.name) ? 2 : 1,
   );

@@ -1,5 +1,7 @@
 "use client";
 
+import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
+
 import {
   createContext,
   useContext,
@@ -123,7 +125,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
         });
       };
       await document.fonts.ready;
-      if (!disposed) ScrollTrigger.refresh();
+      if (!disposed) scheduleScrollRefresh();
     }
     void start();
     return () => {
