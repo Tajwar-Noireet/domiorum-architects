@@ -32,7 +32,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
     () => matchMedia(stackQuery).matches,
     () => false,
   );
-  const stack = enabled && wideScreen;
+  const stack = enabled && wideScreen && projects.length > 1;
   const [active, setActive] = useState(0);
   const fan = stack && active === projects.length;
   const activeRef = useRef(0);
@@ -214,7 +214,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
       <div className="showcase-viewport">
         <div className="showcase-topline">
           <p className="showcase-kicker">
-            Our projects / {String(projects.length).padStart(2, "0")}
+            Our projects
           </p>
         </div>
         <nav className="showcase-index" aria-label="Project index">
@@ -225,7 +225,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
               onClick={(event) => navigate(event, index)}
               aria-current={stack && active === index ? "true" : undefined}
             >
-              <span>{String(index + 1).padStart(2, "0")}</span> {project.title}
+              {project.title}
             </a>
           ))}
         </nav>
@@ -251,7 +251,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
                 <div className="showcase-project-heading">
                   <p className="showcase-meta">
                     <span>
-                      {String(index + 1).padStart(2, "0")} / {project.category}
+                      {project.category}
                     </span>
                     <span>{project.location || "Domiorum Architects"}</span>
                   </p>
@@ -339,7 +339,7 @@ export function ProjectShowcase({ projects }: { projects: Project[] }) {
             <p>
               {active === projects.length
                 ? "Explore the collection"
-                : `${String(active + 1).padStart(2, "0")} / ${projects.length} — Scroll to the next project`}
+                : "Scroll to the next project"}
             </p>
             <div className="showcase-stack-progress" aria-hidden="true">
               <span />

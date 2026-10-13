@@ -11,24 +11,24 @@ import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
 
 const scenes = [
   {
-    src: "/images/home/living-overview.webp",
-    alt: "Living room visualization with a pale sofa, warm timber and illuminated shelving",
+    src: "/images/projects/mirpur-dohs-interior/01.webp",
+    alt: "Mirpur DOHS living room visualization with a pale sofa, sage wall and warm timber furniture",
     title: "Room to gather.",
-    label: "01 / Living",
+    label: "Living",
     position: "60% 65%",
   },
   {
-    src: "/images/home/living-detail.webp",
-    alt: "A closer living room view of timber panelling, integrated storage and soft seating",
+    src: "/images/projects/mirpur-dohs-interior/02.webp",
+    alt: "Mirpur DOHS dining room visualization with a stone table, timber chairs and glass display storage",
     title: "Every detail, considered.",
-    label: "02 / Material",
+    label: "Dining",
     position: "55% 65%",
   },
   {
-    src: "/images/home/stair.webp",
-    alt: "Open stair and double-height interior with white steps, glass balustrade and timber cabinetry",
-    title: "A new perspective.",
-    label: "03 / Connection",
+    src: "/images/projects/mirpur-dohs-interior/03.webp",
+    alt: "Mirpur DOHS bedroom visualization with warm curtains, timber storage and a softly layered bed",
+    title: "A quieter corner.",
+    label: "Bedroom",
     position: "65% 60%",
   },
 ];
@@ -98,11 +98,6 @@ export function ScrollHero() {
               section.querySelector(".cinema-preview"),
               { scale: 1.16, autoAlpha: 0, duration: 0.55 },
               0,
-            )
-            .to(
-              section.querySelector(".cinema-frame-note"),
-              { autoAlpha: 0, duration: 0.15 },
-              0.05,
             )
             .to(
               section.querySelector(".cinema-opening"),
@@ -273,7 +268,6 @@ export function ScrollHero() {
             </div>
           ))}
         </div>
-        <span className="cinema-frame-note">01 - A closer look at home</span>
         <div className="cinema-controls">
           <a href="#introduction" className="cinema-scroll-link">
             Scroll to explore <DirectionalArrow direction="down" />

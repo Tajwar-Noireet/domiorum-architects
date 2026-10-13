@@ -60,6 +60,21 @@
   outline: 2px solid var(--gold);
   outline-offset: 4px;
 }
+.project-gallery-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+  transition: opacity 200ms, transform 200ms;
+}
+.project-gallery-controls button[aria-pressed="true"] .project-gallery-dot,
+.project-gallery-controls button:hover .project-gallery-dot,
+.project-gallery-controls button:focus-visible .project-gallery-dot {
+  opacity: 1;
+  transform: scale(1.25);
+}
 .project-gallery-scenes {
   position: relative;
 }
@@ -91,12 +106,6 @@
   padding-left: 24px;
   border-left: 1px solid var(--gold);
   z-index: 4;
-}
-.project-gallery-number {
-  margin: 0 0 20px;
-  color: var(--gold);
-  font-size: 13px;
-  letter-spacing: 0.08em;
 }
 .project-gallery-title-mask {
   overflow: hidden;
@@ -195,10 +204,6 @@
     width: 100%;
     padding-left: 14px;
     border-left-width: 2px;
-  }
-  .project-gallery-number {
-    margin-bottom: 8px;
-    font-size: 10px;
   }
   .project-gallery-title-mask h2 {
     font-size: clamp(28px, 8vw, 40px);

@@ -4,10 +4,10 @@ import path from "node:path";
 test("Discover and open dropdowns expose accessible controls", async ({
   page,
 }) => {
-  for (const route of ["/discover", "/contact", "/projects"]) {
+  for (const route of ["/discover", "/book-consultation", "/projects"]) {
     await page.goto(route);
     await expect(page.locator(".brand-reveal")).toBeHidden();
-    if (route === "/contact") {
+    if (route === "/book-consultation") {
       await page.getByRole("combobox", { name: "I’m interested in" }).click();
       await expect(page.getByRole("listbox")).toHaveCSS("opacity", "1");
     }
@@ -48,7 +48,7 @@ test("short mobile screens can scroll to every menu link", async ({
   await expect(page).toHaveURL(/\/book-consultation$/);
 });
 
-test("founder lives on Discover with separate studio and previous project credits", async ({
+test("co-founder profile is separate from the portfolio and its project credits", async ({
   page,
 }) => {
   await page.goto("/");
@@ -58,18 +58,26 @@ test("founder lives on Discover with separate studio and previous project credit
   await expect(
     page.getByRole("heading", { name: "Zarin Nawar" }),
   ).toBeVisible();
-  const studio = page.getByRole("region", { name: "Current studio projects" });
-  const previous = page.getByRole("region", {
-    name: "Previous projects",
-  });
-  await expect(studio.locator(".project-card")).toHaveCount(5);
-  await expect(studio).not.toContainText("Selim Residence");
-  await expect(previous.locator(".project-card")).toHaveCount(1);
-  await expect(previous).toContainText(
-    "Previous professional work of Zarin Nawar. Project Architect: Ar Sanjida Shams.",
+  await expect(page.locator(".discover-bio .eyebrow")).toHaveText(
+    "Co-founder & Principal Architect",
   );
+  await expect(
+    page.getByRole("heading", { name: "Current studio projects" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Previous projects" }),
+  ).toHaveCount(0);
+  await expect(page.locator("main .project-collection")).toHaveCount(0);
   await expect(page.locator("main")).not.toContainText("Innova");
-  await previous.getByRole("link", { name: /Selim Residence/ }).click();
+  await page.goto("/projects");
+  await page
+    .locator(".showcase-index")
+    .getByRole("link", { name: "Selim Residence", exact: true })
+    .click();
+  await page
+    .locator("#selected-selim-residence")
+    .getByRole("link", { name: "View project", exact: true })
+    .click();
   await expect(page).toHaveURL(/\/projects\/selim-residence$/);
   await expect(page.locator("main")).not.toContainText("Innova");
   await expect(page.locator(".project-facts")).toContainText(
@@ -80,13 +88,14 @@ test("founder lives on Discover with separate studio and previous project credit
 test("animated service dropdown supports keyboard selection, dismissal and form values", async ({
   page,
 }) => {
-  await page.goto("/contact");
+  await page.goto("/book-consultation");
   await expect(page.locator(".brand-reveal")).toBeHidden();
   const select = page.getByRole("combobox", { name: "I’m interested in" });
   await expect(select).toHaveAttribute("aria-expanded", "false");
   await select.focus();
   await select.press("ArrowDown");
   await expect(select).toHaveAttribute("aria-expanded", "true");
+  await select.press("Home");
   await select.press("ArrowDown");
   await select.press("Enter");
   await expect(select).toHaveText("Residential architecture");
@@ -113,7 +122,7 @@ test("animated service dropdown supports keyboard selection, dismissal and form 
   await expect(select).toHaveText("Technical & delivery support");
   await select.click();
   await page
-    .getByRole("heading", { name: "Tell us about your project" })
+    .getByRole("heading", { name: "Request a consultation" })
     .click();
   await expect(select).toHaveAttribute("aria-expanded", "false");
 });
@@ -122,7 +131,7 @@ test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
   page,
 }, info) => {
   test.skip(!["mobile", "android"].includes(info.project.name));
-  await page.goto("/contact");
+  await page.goto("/book-consultation");
   const trigger = page.locator(".menu-trigger");
   await trigger.click();
   await expect(
@@ -152,22 +161,36 @@ test("mobile menu morphs, opens, traps focus and reaches Discover", async ({
   await expect(page.locator("#mobile-navigation")).toBeHidden();
 });
 
-test("links and CTA glow animate and reset under every device preference", async ({ page }, info) => {
+test("links and CTA glow animate and reset under every device preference", async ({
+  page,
+}, info) => {
   test.skip(["mobile", "android"].includes(info.project.name));
   await page.goto("/discover");
   await expect(page.locator(".brand-reveal")).toBeHidden();
-  const link = page.locator(".desktop-nav").getByRole("link", { name: "Discover us" });
+  const link = page
+    .locator(".desktop-nav")
+    .getByRole("link", { name: "Discover us" });
   const button = page.getByRole("link", { name: "Talk to the studio" });
   await link.hover();
   await expect(link).toHaveCSS("translate", "0px -2px");
   await button.hover();
-  await expect.poll(() => button.evaluate(el => Number(getComputedStyle(el, "::after").opacity))).toBe(1);
-  await expect.poll(() => button.evaluate(el => el.style.getPropertyValue("--flame-x"))).not.toBe("");
+  await expect
+    .poll(() =>
+      button.evaluate((el) => Number(getComputedStyle(el, "::after").opacity)),
+    )
+    .toBe(1);
+  await expect
+    .poll(() => button.evaluate((el) => el.style.getPropertyValue("--flame-x")))
+    .not.toBe("");
   await page.mouse.move(5, 5);
-  await expect.poll(() => button.evaluate(el => Number(getComputedStyle(el, "::after").opacity))).toBe(0);
+  await expect
+    .poll(() =>
+      button.evaluate((el) => Number(getComputedStyle(el, "::after").opacity)),
+    )
+    .toBe(0);
 });
 
-test("contact dropdown remains usable without JavaScript", async ({
+test("Let’s talk dropdown remains usable without JavaScript", async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -175,7 +198,7 @@ test("contact dropdown remains usable without JavaScript", async ({
     baseURL: test.info().project.use.baseURL,
   });
   const page = await context.newPage();
-  await page.goto("/contact");
+  await page.goto("/book-consultation");
   await page
     .getByLabel("I’m interested in")
     .selectOption("Renovation or extension");

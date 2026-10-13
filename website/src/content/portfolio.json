@@ -67,16 +67,53 @@
   {
     "slug": "doctors-residence",
     "title": "Doctors Residence",
-    "category": "Architecture",
+    "category": "Exteriors",
     "location": "",
     "area": "",
     "areaLabel": "",
     "summary": "A residential building framed by planting and open balconies.",
-    "description": "Doctors Residence brings together the spaces shown in this selection of residential design visualizations.",
+    "description": "Exterior design visualizations of Doctors Residence show its planted balconies, entrance, rooftop terraces and garden from street level and above.",
     "approach": "A residential building framed by planting and open balconies.",
     "cover": "/images/projects/doctors-residence/01.webp",
     "coverAlt": "Exterior cover design visualization for Doctors Residence",
-    "images": []
+    "images": [
+      {
+        "src": "/images/projects/doctors-residence/02.webp",
+        "alt": "Doctors Residence exterior visualization showing the full residential building, planted balconies and surrounding trees",
+        "caption": "The building in its landscape"
+      },
+      {
+        "src": "/images/projects/doctors-residence/03.webp",
+        "alt": "Doctors Residence street-level exterior visualization with planted frontage, entrance and timber balcony screens",
+        "caption": "The entrance at street level"
+      },
+      {
+        "src": "/images/projects/doctors-residence/01.webp",
+        "alt": "Doctors Residence exterior visualization of white facade, timber screens and planted balconies",
+        "caption": "Balconies and facade details"
+      },
+      {
+        "src": "/images/projects/doctors-residence/04.webp",
+        "alt": "Doctors Residence front elevation exterior visualization with landscaped ground level and planted roof terraces",
+        "caption": "The front elevation",
+        "fit": "contain"
+      },
+      {
+        "src": "/images/projects/doctors-residence/05.webp",
+        "alt": "Doctors Residence aerial exterior visualization showing the building, planted roof terraces and rooftop pool",
+        "caption": "Roof terraces from above"
+      },
+      {
+        "src": "/images/projects/doctors-residence/06.webp",
+        "alt": "Doctors Residence overhead exterior visualization showing roof layout, rooftop pool and surrounding landscape",
+        "caption": "The roof and surrounding landscape"
+      },
+      {
+        "src": "/images/projects/doctors-residence/07.webp",
+        "alt": "Doctors Residence rooftop garden exterior visualization with a lawn, timber benches and a patterned terrace wall",
+        "caption": "The rooftop garden"
+      }
+    ]
   },
   {
     "slug": "edison-interior",

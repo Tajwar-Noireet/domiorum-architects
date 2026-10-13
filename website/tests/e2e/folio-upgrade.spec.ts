@@ -128,7 +128,7 @@ test("process and footer reveal without covering content or trapping navigation"
   await footer
     .getByRole("link", { name: "Tell us about your project" })
     .click();
-  await expect(page).toHaveURL(/\/contact$/);
+  await expect(page).toHaveURL(/\/book-consultation$/);
   await expect(page.locator("h1")).toHaveCSS("opacity", "1");
 });
 

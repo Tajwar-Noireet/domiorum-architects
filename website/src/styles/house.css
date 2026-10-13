@@ -145,3 +145,10 @@
 [data-motion="off"] .house-layer {
   transition: none;
 }
+.house-layer-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}

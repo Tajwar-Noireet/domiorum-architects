@@ -1,5 +1,21 @@
 # Domiorum website direction
 
+## Doctors Residence exterior gallery
+
+The client has now supplied and authorised all seven Doctors Residence exterior views, superseding the earlier cover-only restriction. The existing `uuu.jpg` export remains the cover and also appears in the gallery; the other six provided images join it in four scroll scenes. Captions, view controls and status text refer to exteriors. The portrait front elevation uses contain framing, while landscape exterior frames request sufficient image width for their cropped height. Original files and dimensions are preserved; six WebP additions and their source mappings are recorded in the portfolio asset manifest.
+
+## Latest client revision: hero, profile and enquiry pages
+
+The homepage hero's three existing scroll scenes now use the supplied Mirpur DOHS living, dining and bedroom images, with matching alternative text and room labels. The choreography, palette and other room gallery are retained. Discover us is profile-only, with the smaller Co-founder & Principal Architect portrait and biography; project cards and filters are removed from that page. All six retained projects, including Selim Residence, live in the homepage and Projects collections under All, Interiors and Exteriors. The separate Contact page is removed. Let’s talk at `/book-consultation` contains the enquiry form and studio contact details, while old `/contact` URLs permanently redirect there.
+
+## Portfolio and profile, 13 October 2026
+
+The latest client direction removes the hero's "A closer look at home" note and groups project imagery using All, Interiors and Exteriors. The same filters serve the homepage, Projects and the profile's combined Projects collection; the previous/current section split is removed. Doctors Residence is classified as Exteriors and retains its single exterior cover. Other project records remain Interiors. A single filtered project stays in ordinary page flow, while larger desktop collections retain the established stack-to-spread sequence. Zarin Nawar's role is Co-founder & Principal Architect, with a portrait capped at 360px on desktop and 260px on phones. Existing project-specific credits, palette and images are retained.
+
+## Section labels, 13 October 2026
+
+The client requested removal of all visible section numbering. Headings, hero scene labels, service and process lists, portfolio labels, room captions and mobile navigation now use their names alone. Project gallery selectors use unnumbered active dots with descriptive accessible names. Service grids reclaim the former number column; the existing colours, chapter anchors and scroll animations remain intact.
+
 ## Studio refinement, 10 October 2026
 
 The upgrade retains the existing palette, photographic hero, project stacks, house illustration and drawing-tool cursors. Page introductions use a ruled folio layout, with service chapters and a four-step process supporting the visitor's reading order. The footer pairs a clear invitation with direct studio contact details. Short text entrances keep full contrast, while subtle image movement and progress rules provide motion without adding pinned sections. The hero is immediately readable after the brand film. Scroll measurement is coalesced, and distant project gallery layers are hidden to reduce unnecessary painting. Detailed verification and the design quality gate are recorded in `../docs/studio-upgrade-review.md`.

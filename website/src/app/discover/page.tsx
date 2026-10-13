@@ -2,14 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HoverText } from "@/components/ui/HoverText";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { ProjectCard } from "@/components/projects/ProjectCard";
-import { allProjects, experienceCredit } from "@/content/projects";
 import { team } from "@/content/team";
 
 export const metadata: Metadata = {
   title: "Discover us",
   description:
-    "Meet Zarin Nawar, founder and CEO of Domiorum Architects, and explore current studio projects and her separately credited previous work.",
+    "Meet Zarin Nawar, co-founder and principal architect of Domiorum Architects.",
 };
 
 export default function Discover() {
@@ -25,7 +23,7 @@ export default function Discover() {
           </HoverText>
         </h1>
         <p data-folio-reveal>
-          Meet our founder and explore the work behind the practice.
+          Meet our co-founder and the perspective behind the practice.
         </p>
       </div>
       {team.map((person) => (
@@ -36,7 +34,7 @@ export default function Discover() {
                 src={person.portrait}
                 alt={`${person.name}, ${person.role} of Domiorum Architects`}
                 fill
-                sizes="(max-width: 700px) 90vw, 40vw"
+                sizes="(max-width: 700px) 260px, (max-width: 1000px) 32vw, 360px"
                 preload
               />
               <figcaption>Domiorum Architects / Dhaka</figcaption>
@@ -52,60 +50,8 @@ export default function Discover() {
               </LinkButton>
             </div>
           </div>
-          <section
-            className="discover-work"
-            aria-labelledby={`${person.slug}-studio`}
-          >
-            <div className="discover-work-heading" data-folio-reveal>
-              <p className="eyebrow">01 / Domiorum Architects</p>
-              <h2 id={`${person.slug}-studio`}>
-                <HoverText>Current studio projects</HoverText>
-              </h2>
-            </div>
-            <div className="discover-projects">
-              {allProjects
-                .filter((project) =>
-                  person.studioProjects.includes(project.slug),
-                )
-                .map((project, index) => (
-                  <ProjectCard
-                    key={project.slug}
-                    project={project}
-                    index={index}
-                  />
-                ))}
-            </div>
-          </section>
-          <section
-            className="discover-work discover-previous"
-            aria-labelledby={`${person.slug}-previous`}
-          >
-            <div className="discover-work-heading" data-folio-reveal>
-              <p className="eyebrow">02 / Previous experience</p>
-              <h2 id={`${person.slug}-previous`}>
-                <HoverText>Previous projects</HoverText>
-              </h2>
-              <p className="discover-credit">{experienceCredit}</p>
-            </div>
-            <div className="discover-projects">
-              {allProjects
-                .filter((project) =>
-                  person.previousProjects.includes(project.slug),
-                )
-                .map((project, index) => (
-                  <ProjectCard
-                    key={project.slug}
-                    project={project}
-                    index={index}
-                  />
-                ))}
-            </div>
-          </section>
         </article>
       ))}
-      <p className="portfolio-credit">
-        Project images shown are design visualizations.
-      </p>
     </div>
   );
 }

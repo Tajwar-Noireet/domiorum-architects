@@ -1,7 +1,7 @@
 export type Project = {
   slug: string;
   title: string;
-  category: "Interiors" | "Architecture";
+  category: "Interiors" | "Exteriors";
   location: string;
   area: string;
   areaLabel: string;
@@ -10,5 +10,10 @@ export type Project = {
   approach: string;
   cover: string;
   coverAlt: string;
-  images: { src: string; alt: string; caption: string }[];
+  images: {
+    src: string;
+    alt: string;
+    caption: string;
+    fit?: "cover" | "contain";
+  }[];
 };

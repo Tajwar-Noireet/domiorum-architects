@@ -30,7 +30,6 @@ export default function Services() {
         <nav className="service-index" aria-label="Services on this page">
           {services.map((service, index) => (
             <a href={`#service-${index + 1}`} key={service.title}>
-              <span className="service-index-number">0{index + 1}</span>
               <span>{service.title}</span>
               <DirectionalArrow direction="down" />
             </a>
@@ -53,7 +52,6 @@ export default function Services() {
             key={service.title}
             data-folio-reveal
           >
-            <span className="eyebrow">0{index + 1}</span>
             <div className="service-title">
               <h2>
                 <HoverText>{service.title}</HoverText>
@@ -99,9 +97,8 @@ export default function Services() {
           <span data-process-progress />
         </div>
         <ol className="process-grid">
-          {process.map((step, index) => (
+          {process.map((step) => (
             <li key={step.title} data-process-step>
-              <span className="process-number">0{index + 1}</span>
               <h3>
                 <HoverText>{step.title}</HoverText>
               </h3>

@@ -110,15 +110,6 @@ body:has(.cinema-hero) .site-header {
   margin-top: 15px;
   max-width: 850px;
 }
-.cinema-frame-note {
-  position: absolute;
-  top: calc(16% - 34px);
-  right: var(--gutter);
-  color: var(--gold);
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
 .cinema-controls {
   position: absolute;
   bottom: 35px;
@@ -277,10 +268,6 @@ body:has(.cinema-hero) .site-header {
   align-items: baseline;
   margin: 22px 0 0;
 }
-.interior-room-number {
-  color: var(--gold);
-  font-size: 26px;
-}
 .interior-room h3 {
   font-size: 30px;
 }
@@ -391,10 +378,6 @@ body:has(.cinema-hero) .site-header {
   color: var(--gold);
   font-size: 14px;
 }
-.home-process .process-number {
-  color: var(--navy);
-  font-size: 28px;
-}
 .home-process .process-grid li {
   border-top: 2px solid var(--gold);
 }
@@ -430,9 +413,6 @@ body:has(.cinema-hero) .site-header {
     bottom: 46%;
     left: var(--gutter);
     right: var(--gutter);
-  }
-  .cinema-frame-note {
-    display: none;
   }
   .cinema-opening {
     bottom: 16%;
@@ -709,14 +689,6 @@ body:has(.cinema-hero) .site-header {
   justify-content: space-between;
   margin-top: 38px;
 }
-.cinema-frame-note {
-  top: 145px;
-  left: var(--gutter);
-  right: auto;
-  border-left: 1px solid var(--gold);
-  padding: 8px 16px;
-  background: var(--navy);
-}
 .cinema-opening .eyebrow {
   margin-bottom: 22px;
 }
@@ -737,9 +709,6 @@ body:has(.cinema-hero) .site-header {
   .cinema-frame {
     clip-path: inset(0);
   }
-  .cinema-frame-note {
-    top: 112px;
-  }
 }
 @media (max-width: 600px) {
   .cinema-opening h1 {
@@ -754,9 +723,6 @@ body:has(.cinema-hero) .site-header {
   }
   .cinema-preview img {
     object-position: 61% 50%;
-  }
-  .cinema-frame-note {
-    font-size: 10px;
   }
 }
 @media (max-height: 599px) and (max-width: 899px) {

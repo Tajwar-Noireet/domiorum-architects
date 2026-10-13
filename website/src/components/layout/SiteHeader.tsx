@@ -133,14 +133,13 @@ export function SiteHeader() {
       >
         <div className="mobile-navigation-inner">
           <nav aria-label="Mobile navigation">
-            {navigation.map((link, index) => (
+            {navigation.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 onClick={() => setOpen(false)}
               >
-                <span className="menu-number">0{index + 1}</span>
                 {link.label}
                 <DirectionalArrow />
               </Link>
@@ -150,7 +149,7 @@ export function SiteHeader() {
               aria-current={isActive("/book-consultation") ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
-              <span className="menu-number">05</span>Let’s talk
+              Let’s talk
               <DirectionalArrow />
             </Link>
           </nav>

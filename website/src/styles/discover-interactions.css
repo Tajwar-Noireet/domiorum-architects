@@ -1,14 +1,16 @@
 .discover-profile {
   display: grid;
-  grid-template-columns: 0.9fr 1fr;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
   gap: clamp(40px, 8vw, 140px);
   align-items: center;
-  margin: 70px 0 120px;
+  margin: 70px 0 0;
 }
 .discover-portrait {
   position: relative;
   aspect-ratio: 4 / 5;
   margin: 0;
+  width: 100%;
+  max-width: 360px;
 }
 .discover-portrait img {
   object-fit: cover;
@@ -37,42 +39,11 @@
   line-height: 1.7;
   margin-bottom: 38px;
 }
-.discover-work {
-  padding-top: 36px;
-  border-top: 1px solid var(--gold);
-  margin-top: 100px;
-}
-.discover-work-heading {
-  margin-bottom: 50px;
-}
-.discover-work-heading h2 {
-  font-size: clamp(30px, 3.6vw, 54px);
-  margin: 16px 0;
-}
-.discover-projects {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px 40px;
-}
-.discover-projects .project-card {
-  padding: 0;
-}
 :where(a[href]) {
   display: inline-block;
 }
 .project-card-link {
   display: block;
-}
-.discover-projects .project-card-image {
-  aspect-ratio: 4 / 3;
-}
-.discover-credit {
-  max-width: 750px;
-  line-height: 1.7;
-  color: var(--muted);
-}
-.discover-previous {
-  margin-bottom: 55px;
 }
 
 :where(a[href], button:not(:disabled), summary, [role="button"]):not(
@@ -293,21 +264,11 @@
   .discover-profile {
     grid-template-columns: 1fr;
     gap: 40px;
-    margin: 45px 0 70px;
+    margin: 45px 0 0;
   }
   .discover-portrait {
-    max-width: 500px;
+    max-width: 260px;
     width: 100%;
-  }
-  .discover-projects {
-    grid-template-columns: 1fr;
-    gap: 45px;
-  }
-  .discover-work {
-    margin-top: 65px;
-  }
-  .discover-work-heading {
-    margin-bottom: 30px;
   }
   .discover-bio > p:not(.eyebrow) {
     font-size: 18px;

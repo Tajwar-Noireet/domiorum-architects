@@ -267,13 +267,48 @@ test("full project motion ignores device preferences and retired session choices
   await expect(page.locator("#rooms")).toHaveAttribute("data-animated", "true");
 });
 
-test("Doctors Residence retains its exterior cover without an interior gallery", async ({
+test("Doctors Residence shows all seven supplied exterior views in its animated gallery", async ({
   page,
+  request,
 }) => {
   await page.goto("/projects/doctors-residence");
   await expect(page.locator("h1")).toHaveText("Doctors Residence");
-  await expect(page.locator("#rooms")).toHaveCount(0);
-  await expect(page.locator(".project-scroll-hero")).toHaveCount(0);
+  const gallery = page.locator("#rooms");
+  await expect(gallery).toHaveAttribute("data-animated", "true");
+  await expect(page.locator(".project-scroll-hero")).toHaveCount(1);
+  await expect(page.locator(".project-heading .eyebrow")).toContainText(
+    "Exteriors",
+  );
+  await expect(gallery.locator(".project-gallery-kicker")).toContainText(
+    "Exterior views",
+  );
+  const sources = await gallery.locator("img").evaluateAll((images) =>
+    images.map((image) => {
+      const url = new URL((image as HTMLImageElement).src);
+      return url.searchParams.get("url") ?? url.pathname;
+    }),
+  );
+  expect(sources).toHaveLength(7);
+  expect(new Set(sources).size).toBe(7);
+  for (let index = 1; index <= 7; index++) {
+    const asset = `/images/projects/doctors-residence/${String(index).padStart(2, "0")}.webp`;
+    expect(sources).toContain(asset);
+    expect((await request.get(asset)).status()).toBe(200);
+  }
+  const controls = gallery.getByRole("group", {
+    name: "Choose an exterior view",
+  });
+  const buttons = controls.getByRole("button");
+  await expect(buttons).toHaveCount(4);
+  for (const index of [0, 1, 2, 3, 1, 0]) {
+    await buttons.nth(index).click();
+    await expect(buttons.nth(index)).toHaveAttribute("aria-pressed", "true");
+    await expectImagesLoaded(
+      gallery.locator(".project-gallery-scene").nth(index).locator("img"),
+    );
+  }
+  const portrait = gallery.locator("img[src*='04.webp']");
+  await expect(portrait).toHaveCSS("object-fit", "contain");
   const image = page.locator(".project-hero-image img");
   await expect(image).toHaveCount(1);
   await expect(image).toHaveAttribute(
@@ -288,4 +323,14 @@ test("Doctors Residence retains its exterior cover without an interior gallery",
   await expect(
     page.locator(".project-hero-image .project-image-note"),
   ).toHaveText("Design visualization");
+  if (test.info().project.name === "desktop") {
+    await buttons.nth(2).click();
+    await expect(buttons.nth(2)).toHaveAttribute("aria-pressed", "true");
+    await expectImagesLoaded(
+      gallery.locator(".project-gallery-scene").nth(2).locator("img"),
+    );
+    await page.screenshot({
+      path: "../output/website-review/doctors-exteriors-desktop.png",
+    });
+  }
 });

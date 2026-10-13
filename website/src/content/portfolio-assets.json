@@ -77,6 +77,48 @@
     "exportSize": [1920, 1080]
   },
   {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/31d.jpg",
+    "output": "/images/projects/doctors-residence/02.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/22.jpg",
+    "output": "/images/projects/doctors-residence/03.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/rr22.jpg",
+    "output": "/images/projects/doctors-residence/04.webp",
+    "originalSize": [791, 1055],
+    "exportSize": [791, 1055]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/ss.jpg",
+    "output": "/images/projects/doctors-residence/05.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/ooooo.jpg",
+    "output": "/images/projects/doctors-residence/06.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
+    "project": "doctors-residence",
+    "source": "Doctors Residence/tttTTTTTT.jpg",
+    "output": "/images/projects/doctors-residence/07.webp",
+    "originalSize": [1920, 1080],
+    "exportSize": [1920, 1080]
+  },
+  {
     "project": "edison-interior",
     "source": "Edison Interior/14bb.jpg",
     "output": "/images/projects/edison-interior/01.webp",

@@ -8,9 +8,9 @@ import { ScrollHero } from "@/components/home/ScrollHero";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { ScrollTitle, ScrollWords } from "@/components/home/ScrollTypography";
 import { InteriorGallery } from "@/components/home/InteriorGallery";
-import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
+import { ProjectCollection } from "@/components/projects/ProjectCollection";
 import { ProjectQuestions } from "@/components/home/ProjectQuestions";
-import { projects } from "@/content/projects";
+import { allProjects } from "@/content/projects";
 import { process } from "@/content/services";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
       <ScrollHero />
       <section id="introduction" className="section home-perspective">
         <div className="section-label">
-          <span className="eyebrow">01 / Our perspective</span>
+          <span className="eyebrow">Our perspective</span>
           <span className="small-note">Architecture · Interiors · Dhaka</span>
         </div>
         <div className="perspective-grid">
@@ -74,7 +74,7 @@ export default function Home() {
       <section className="section home-selected" id="selected-work">
         <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">03 / Selected projects</p>
+            <p className="eyebrow">Selected projects</p>
             <h2>
               <ScrollTitle lines={["Designed for", "everyday living."]} />
             </h2>
@@ -85,7 +85,7 @@ export default function Home() {
             </HoverText>
           </Link>
         </div>
-        <ProjectShowcase projects={projects} />
+        <ProjectCollection projects={allProjects} />
         <p className="portfolio-credit">
           Images shown are design visualizations.
         </p>
@@ -104,7 +104,7 @@ export default function Home() {
           </span>
         </div>
         <div className="studio-copy">
-          <p className="eyebrow">05 / The studio</p>
+          <p className="eyebrow">The studio</p>
           <h2>
             <ScrollTitle
               lines={["Let’s make", "your home", <em key="own">your own.</em>]}
@@ -118,8 +118,8 @@ export default function Home() {
             </ScrollWords>
           </p>
           <p>
-            Meet the people behind the practice and explore the projects that
-            shape our work.
+            Meet the people behind the practice and the perspective that
+            guides our work.
           </p>
           <div className="studio-signature">
             <span>Architecture & interiors</span>
@@ -138,7 +138,7 @@ export default function Home() {
       >
         <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">06 / Working together</p>
+            <p className="eyebrow">Working together</p>
             <h2>
               <ScrollTitle lines={["First, we listen."]} />
             </h2>
@@ -153,9 +153,8 @@ export default function Home() {
           <span data-process-progress />
         </div>
         <ol className="process-grid">
-          {process.map((step, index) => (
+          {process.map((step) => (
             <li key={step.title} data-process-step>
-              <span className="process-number">0{index + 1}</span>
               <h3>
                 <HoverText>{step.title}</HoverText>
               </h3>

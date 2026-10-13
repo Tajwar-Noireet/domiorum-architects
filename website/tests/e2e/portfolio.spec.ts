@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import portfolio from "../../src/content/portfolio.json";
+import { allProjects as portfolio } from "../../src/content/projects";
 
 for (const route of ["/projects", "/"]) {
   test(`spread project cards open from their titles, frames and photos on ${route}`, async ({
@@ -77,7 +77,7 @@ test("native desktop scrolling stacks, spreads and reverses cards on both routes
     const scale = () =>
       first.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m11);
     await expect.poll(scale).toBeCloseTo(1, 2);
-    await page.mouse.wheel(0, distance / 5.5);
+    await page.mouse.wheel(0, distance / (portfolio.length + 0.5));
     await expect(second).not.toHaveAttribute("inert", "");
     await expect.poll(scale).toBeCloseTo(0.965, 2);
     expect(
@@ -89,7 +89,7 @@ test("native desktop scrolling stacks, spreads and reverses cards on both routes
         .last()
         .evaluate((el) => el.getBoundingClientRect().top),
     ).toBeGreaterThan(900);
-    await page.mouse.wheel(0, -distance / 5.5);
+    await page.mouse.wheel(0, -distance / (portfolio.length + 0.5));
     await expect.poll(scale).toBeCloseTo(1, 2);
     await page.mouse.wheel(0, distance * 0.995);
     await expect(showcase).toHaveAttribute("data-fan", "true");
@@ -110,7 +110,9 @@ test("native desktop scrolling stacks, spreads and reverses cards on both routes
       expect(bounds[i].bottom).toBeLessThan(900);
       if (i) expect(bounds[i].left).toBeGreaterThan(bounds[i - 1].right);
     }
-    await expect(showcase.getByRole("link", { name: /^Open / })).toHaveCount(5);
+    await expect(showcase.getByRole("link", { name: /^Open / })).toHaveCount(
+      portfolio.length,
+    );
     await expect(
       showcase.getByRole("link", { name: "View project", exact: true }),
     ).toHaveCount(0);
@@ -161,7 +163,7 @@ test("all projects stay in page flow and keyboard index links reach each gallery
 }) => {
   await page.goto("/projects");
   await expect(page.locator(".brand-reveal")).toBeHidden();
-  await expect(page.locator(".showcase-project")).toHaveCount(5);
+  await expect(page.locator(".showcase-project")).toHaveCount(portfolio.length);
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator(".project-showcase")).toHaveAttribute(
     "data-animated",
@@ -181,9 +183,7 @@ test("all projects stay in page flow and keyboard index links reach each gallery
       exact: true,
     });
     await expect(link).toHaveAttribute("href", `/projects/${project.slug}`);
-    await expect(article.locator("img")).toHaveCount(
-      project.category === "Architecture" ? 1 : 2,
-    );
+    await expect(article.locator("img")).toHaveCount(2);
     for (const image of await article.locator("img").all()) {
       await image.scrollIntoViewIfNeeded();
       await expect
@@ -229,7 +229,7 @@ test("the selection and project index work without JavaScript", async ({
   });
   const page = await context.newPage();
   await page.goto("/projects", { waitUntil: "domcontentloaded" });
-  await expect(page.locator(".showcase-project")).toHaveCount(5);
+  await expect(page.locator(".showcase-project")).toHaveCount(portfolio.length);
   await page
     .locator(".showcase-index")
     .getByRole("link", { name: /Doctors Residence/ })

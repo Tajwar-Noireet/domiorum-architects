@@ -100,7 +100,7 @@ export function ServicesExplodedHouse() {
   return (
     <section className="section home-services exploded-services" id="services">
       <div className="home-services-heading" data-reveal>
-        <p className="eyebrow">04 / What we do</p>
+        <p className="eyebrow">What we do</p>
         <h2>
           <HoverText>
             One home.
@@ -162,7 +162,7 @@ export function ServicesExplodedHouse() {
         <figcaption>
           <span className="eyebrow">Concept study / Exploded axonometric</span>
           <span className="house-active-label">
-            0{active + 1} / {labels[active]}
+            {labels[active]}
           </span>
         </figcaption>
         <div className="house-layer-controls" aria-label="Explore house layers">
@@ -174,7 +174,7 @@ export function ServicesExplodedHouse() {
               aria-pressed={active === i}
               onClick={() => setActive(i)}
             >
-              0{i + 1}
+              <span className="house-layer-dot" aria-hidden="true" />
             </button>
           ))}
         </div>
@@ -190,7 +190,6 @@ export function ServicesExplodedHouse() {
             data-house-service={index}
             className={active === index ? "is-selected" : ""}
           >
-            <span className="eyebrow">0{index + 1}</span>
             <div>
               <h3>
                 <HoverText>{service.title}</HoverText>

@@ -1,12 +1,13 @@
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
-export const metadata: Metadata = { title: "Request a consultation" };
+import { site } from "@/content/site";
+export const metadata: Metadata = { title: "Let’s talk" };
 export default function Consultation() {
   return (
     <section className="section page-section">
       <div className="page-heading">
-        <p className="eyebrow">The first step</p>
+        <p className="eyebrow">Let’s talk</p>
         <h1 data-folio-reveal>
           <HoverText>
             Let’s understand
@@ -45,6 +46,12 @@ export default function Consultation() {
               format and availability before you commit. Sending a request does
               not confirm a booking or take a payment.
             </p>
+          </div>
+          <div className="consultation-contact">
+            <p className="eyebrow">Speak with the studio</p>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+            <p>{site.location}</p>
           </div>
         </aside>
         <EnquiryForm consultation />

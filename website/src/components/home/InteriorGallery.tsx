@@ -164,7 +164,7 @@ export function InteriorGallery() {
       >
         <div className="interior-heading">
           <div>
-            <p className="eyebrow">02 / Inside the home</p>
+            <p className="eyebrow">Inside the home</p>
             <h2>
               <HoverText>Life, room by room.</HoverText>
             </h2>
@@ -204,7 +204,7 @@ export function InteriorGallery() {
           }}
         >
           <div ref={track} className="interior-track">
-            {rooms.map((room, index) => (
+            {rooms.map((room) => (
               <figure key={room.src} className="interior-room">
                 <div className="interior-room-image">
                   <Image
@@ -216,7 +216,6 @@ export function InteriorGallery() {
                   />
                 </div>
                 <figcaption>
-                  <span className="interior-room-number">0{index + 1}</span>
                   <div>
                     <h3>
                       <HoverText>{room.title}</HoverText>
@@ -244,7 +243,6 @@ export function InteriorGallery() {
               aria-controls="interior-views"
               onClick={() => showRoom(index)}
             >
-              0{index + 1}
               <span>{room.title}</span>
               <DirectionalArrow />
             </button>

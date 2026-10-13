@@ -18,7 +18,7 @@ export function SiteFooter() {
               for <em>your ideas.</em>
             </HoverText>
           </h2>
-          <LinkButton href="/contact" light>
+          <LinkButton href="/book-consultation" light>
             Tell us about your project
           </LinkButton>
         </div>

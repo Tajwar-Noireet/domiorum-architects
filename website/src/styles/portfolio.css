@@ -33,10 +33,6 @@
   font-size: 14px;
   text-decoration: none;
 }
-.showcase-index a span {
-  color: var(--gold);
-  font-size: 11px;
-}
 .showcase-index a:hover,
 .showcase-index a:focus-visible {
   color: var(--gold);
@@ -129,8 +125,7 @@
   min-height: 260px;
   padding: 16px;
   background:
-    linear-gradient(145deg, #f6f3ed17, #f6f3ed04 55%, #e1bf770a),
-    var(--navy);
+    linear-gradient(145deg, #f6f3ed17, #f6f3ed04 55%, #e1bf770a), var(--navy);
   border: 1px solid #e1bf775c;
   border-radius: 12px;
   display: flex;
@@ -254,10 +249,10 @@
   margin: 0;
   border: 8px solid transparent;
   border-radius: 8px;
-  background:
-    linear-gradient(145deg, #f6f3ed17, #e1bf7708),
-    var(--navy);
-  box-shadow: inset 0 0 0 1px #f6f3ed33, 0 8px 24px #00000026;
+  background: linear-gradient(145deg, #f6f3ed17, #e1bf7708), var(--navy);
+  box-shadow:
+    inset 0 0 0 1px #f6f3ed33,
+    0 8px 24px #00000026;
 }
 .showcase-reverse .showcase-detail {
   right: auto;
@@ -325,7 +320,9 @@
 .project-showcase .showcase-card-link:focus-visible {
   outline-offset: -5px;
 }
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+@supports (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
   /* Only the current stacked card blurs; the five-card spread stays lightweight. */
   [data-stack="true"][data-fan="false"] .showcase-project:not([inert]) {
     background-color: rgb(8 24 46 / 88%);
@@ -397,4 +394,37 @@
     gap: 22px;
     padding-bottom: 36px;
   }
+}
+.portfolio-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 22px clamp(24px, 4vw, 64px);
+  background: var(--navy);
+  color: var(--ivory);
+  border-bottom: 1px solid rgb(225 191 119 / 25%);
+}
+.portfolio-filters button {
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 15px;
+}
+.portfolio-filters button[aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.portfolio-filters button:hover,
+.portfolio-filters button:focus-visible {
+  background: rgb(225 191 119 / 12%);
+  color: var(--gold);
+}
+.portfolio-empty {
+  padding: 32px;
+  background: var(--navy);
+  color: var(--ivory);
 }

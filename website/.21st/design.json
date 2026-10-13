@@ -60,6 +60,9 @@
     "avoid": []
   },
   "decisions": [
+    "Latest Doctors Residence direction supersedes cover-only: include all seven supplied exterior images in its project gallery, retaining the existing cover and category Exteriors. Reuse four scroll scenes, exterior captions and named view controls; contain the portrait elevation and request larger images for landscape crops.",
+    "Latest client revision: Mirpur DOHS living, dining and bedroom photos replace the hero scenes without changing scroll choreography. Discover is profile-only. All six retained projects use All/Interiors/Exteriors on home and Projects. Remove the Contact page and navigation entry; its URL redirects to Let’s talk at /book-consultation, which retains enquiries and contact details.",
+    "13 October 2026: Remove the hero frame note; use All, Interiors and Exteriors filters on home, Projects and the unified Discover project collection. Remove current/previous section labels, use Co-founder & Principal Architect for Zarin Nawar, and reduce her portrait to a maximum of 360px desktop and 260px mobile. Preserve brand colours, real projects and existing stack animations.",
     "Portfolio uses the established navy, ivory and gold tokens.",
     "Selected work follows the inspected Shibori stack-to-spread effect: five real project cards rise into a central native sticky desktop stack, then fan horizontally into five cover links. Phones, short screens and static fallbacks retain alternating large covers and interior details.",
     "A scoped GSAP timeline binds transform and opacity changes directly to native scrolling, removing delayed scrub and animated clip paths from the project selection. Automatic motion, desktop chapter seeking, native fallback anchors, reduced motion, static SSR and cleanup remain supported; no extra GSAP pins; desktop wheel input is eased by Lenis.",

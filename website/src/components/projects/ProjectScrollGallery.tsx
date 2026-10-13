@@ -27,6 +27,7 @@ function GalleryScene({
   active,
   loadAhead,
   nearViewport,
+  exterior,
 }: {
   images: Scene;
   index: number;
@@ -36,6 +37,7 @@ function GalleryScene({
   active: boolean;
   loadAhead: boolean;
   nearViewport: boolean;
+  exterior: boolean;
 }) {
   const steps = Math.max(count - 1, 1);
   const start = (index - 0.8) / steps;
@@ -82,9 +84,6 @@ function GalleryScene({
         className="project-gallery-copy"
         style={{ opacity: animate ? copyOpacity : 1 }}
       >
-        <p className="project-gallery-number">
-          ({String(index + 1).padStart(2, "0")})
-        </p>
         <div className="project-gallery-title-mask">
           <motion.h2 style={{ y: animate ? titleY : 0 }}>
             {images[0].caption}
@@ -118,11 +117,16 @@ function GalleryScene({
               alt={image.alt}
               fill
               sizes={
-                imageIndex === 0
-                  ? "(max-width: 700px) 74vw, 45vw"
-                  : "(max-width: 700px) 46vw, 27vw"
+                exterior && image.fit !== "contain"
+                  ? imageIndex === 0
+                    ? "(max-width: 700px) 150vw, 100vw"
+                    : "(max-width: 700px) 90vw, 60vw"
+                  : imageIndex === 0
+                    ? "(max-width: 700px) 74vw, 45vw"
+                    : "(max-width: 700px) 46vw, 27vw"
               }
               quality={85}
+              style={image.fit ? { objectFit: image.fit } : undefined}
               loading={loadAhead ? "eager" : "lazy"}
             />
           </motion.div>
@@ -144,6 +148,8 @@ export function ProjectScrollGallery({
 }) {
   const root = useRef<HTMLElement>(null);
   const { enabled } = useProjectMotion();
+  const exterior = project.category === "Exteriors";
+  const sceneLabel = exterior ? "view" : "space";
   const scenes: Scene[] = [];
   for (let index = 0; index < project.images.length; index += 2) {
     scenes.push(project.images.slice(index, index + 2));
@@ -194,21 +200,25 @@ export function ProjectScrollGallery({
         <div className="project-gallery-viewport">
           <div className="project-gallery-toolbar">
             <p className="project-gallery-kicker">
-              {project.title} / Inside the project
+              {project.title} /{" "}
+              {exterior ? "Exterior views" : "Inside the project"}
             </p>
             {animate && (
               <div
                 className="project-gallery-controls"
-                aria-label="Choose a space"
+                role="group"
+                aria-label={
+                  exterior ? "Choose an exterior view" : "Choose a space"
+                }
               >
                 {scenes.map((scene, index) => (
                   <button
                     key={scene[0].src}
-                    aria-label={`Show ${scene[0].caption}, space ${index + 1}`}
+                    aria-label={`Show ${scene[0].caption}, ${sceneLabel} ${index + 1}`}
                     aria-pressed={index === active}
                     onClick={() => showScene(index)}
                   >
-                    {String(index + 1).padStart(2, "0")}
+                    <span className="project-gallery-dot" aria-hidden="true" />
                   </button>
                 ))}
               </div>
@@ -216,8 +226,10 @@ export function ProjectScrollGallery({
           </div>
           <p className="sr-only" role="status" aria-live="polite">
             {animate
-              ? `${scenes[active]?.[0].caption}, space ${active + 1} of ${scenes.length}`
-              : "All project spaces"}
+              ? `${scenes[active]?.[0].caption}, ${sceneLabel} ${active + 1} of ${scenes.length}`
+              : exterior
+                ? "All exterior views"
+                : "All project spaces"}
           </p>
           <div className="project-gallery-scenes">
             {scenes.map((scene, index) => (
@@ -231,12 +243,17 @@ export function ProjectScrollGallery({
                 active={active === index}
                 loadAhead={index === 0 || (animate && index <= active + 1)}
                 nearViewport={Math.abs(active - index) <= 1}
+                exterior={exterior}
               />
             ))}
           </div>
           {animate && (
             <div className="project-gallery-scroll-cue" aria-hidden="true">
-              <span>Scroll through the spaces</span>
+              <span>
+                {exterior
+                  ? "Scroll through the exteriors"
+                  : "Scroll through the spaces"}
+              </span>
               <DirectionalArrow direction="down" />
             </div>
           )}

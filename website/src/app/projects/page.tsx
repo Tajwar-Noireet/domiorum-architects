@@ -1,7 +1,7 @@
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
-import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
-import { projects } from "@/content/projects";
+import { ProjectCollection } from "@/components/projects/ProjectCollection";
+import { allProjects } from "@/content/projects";
 import { HomeMotion } from "@/components/home/HomeMotion";
 export const metadata: Metadata = { title: "Selected projects" };
 export default function Projects() {
@@ -22,7 +22,7 @@ export default function Projects() {
             time.
           </p>
         </div>
-        <ProjectShowcase projects={projects} />
+        <ProjectCollection projects={allProjects} />
         <div className="project-credit-panel">
           <p className="eyebrow">About this selection</p>
           <p>

@@ -6,11 +6,9 @@ import type { Project } from "@/types/project";
 
 export function ProjectCard({
   project,
-  index = 0,
   wide = false,
 }: {
   project: Project;
-  index?: number;
   wide?: boolean;
 }) {
   return (
@@ -34,7 +32,7 @@ export function ProjectCard({
         </div>
         <div className="project-card-meta">
           <span className="eyebrow">
-            0{index + 1} / {project.category}
+            {project.category}
           </span>
           <span>{project.location.split(",")[0]}</span>
         </div>

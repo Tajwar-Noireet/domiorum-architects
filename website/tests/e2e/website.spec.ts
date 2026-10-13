@@ -33,7 +33,6 @@ const routes = [
   "/projects/ruap-interior",
   "/services",
   "/discover",
-  "/contact",
   "/book-consultation",
   "/careers",
   "/privacy",
@@ -94,7 +93,7 @@ test("interior portfolio and project navigation work without removed imagery", a
   request,
 }) => {
   await page.goto("/projects");
-  await expect(page.locator(".showcase-index a")).toHaveCount(5);
+  await expect(page.locator(".showcase-index a")).toHaveCount(6);
   await expect(page.locator(".project-filters")).toHaveCount(0);
   await page
     .getByRole("link", { name: "View project", exact: true })
@@ -106,7 +105,7 @@ test("interior portfolio and project navigation work without removed imagery", a
   );
   await page.getByRole("link", { name: /All projects/ }).click();
   await expect(page).toHaveURL("/projects");
-  await expect(page.locator(".showcase-index a")).toHaveCount(5);
+  await expect(page.locator(".showcase-index a")).toHaveCount(6);
   for (const slug of ["abed-residence"]) {
     expect((await request.get(`/projects/${slug}`)).status()).toBe(404);
   }
@@ -118,7 +117,7 @@ test("interior portfolio and project navigation work without removed imagery", a
 test("enquiry validation and email draft preserve the supplied details", async ({
   page,
 }) => {
-  await page.goto("/contact");
+  await page.goto("/book-consultation");
   await page.getByRole("button", { name: "Prepare my enquiry" }).click();
   await expect(page.locator(".email-draft")).toHaveCount(0);
   await page.getByLabel("Your name").fill("Test client");
