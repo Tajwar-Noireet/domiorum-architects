@@ -65,7 +65,7 @@ test("desktop panels expand when focused or hovered", async ({
   const panels = page
     .getByRole("list", { name: "Project showcase" })
     .getByRole("link");
-  const first = panels.first();
+  const first = panels.nth(1);
   await first.scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
   const width = (await first.boundingBox())!.width;

@@ -18,10 +18,6 @@ export default function Home() {
     <HomeMotion>
       <ScrollHero />
       <section id="introduction" className="section home-perspective">
-        <div className="section-label">
-          <span className="eyebrow">Our perspective</span>
-          <span className="small-note">Architecture · Interiors · Dhaka</span>
-        </div>
         <div className="perspective-grid">
           <h2>
             <ScrollTitle
@@ -73,12 +69,9 @@ export default function Home() {
       <InteriorGallery />
       <section className="section home-selected" id="selected-work">
         <div className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">Selected projects</p>
-            <h2>
-              <ScrollTitle lines={["Designed for", "everyday living."]} />
-            </h2>
-          </div>
+          <h2>
+            <ScrollTitle lines={["Selected projects"]} />
+          </h2>
           <Link href="/projects" className="text-link">
             <HoverText variant="link">
               The portfolio <DirectionalArrow />
@@ -86,9 +79,6 @@ export default function Home() {
           </Link>
         </div>
         <ProjectCollection projects={allProjects} />
-        <p className="portfolio-credit">
-          Images shown are design visualizations.
-        </p>
       </section>
       <ServicesExplodedHouse />
       <section id="studio" className="studio-section section home-studio">
@@ -104,7 +94,6 @@ export default function Home() {
           </span>
         </div>
         <div className="studio-copy">
-          <p className="eyebrow">The studio</p>
           <h2>
             <ScrollTitle
               lines={["Let’s make", "your home", <em key="own">your own.</em>]}
@@ -118,8 +107,8 @@ export default function Home() {
             </ScrollWords>
           </p>
           <p>
-            Meet the people behind the practice and the perspective that
-            guides our work.
+            Meet the people behind the practice and the perspective that guides
+            our work.
           </p>
           <div className="studio-signature">
             <span>Architecture & interiors</span>
@@ -138,10 +127,7 @@ export default function Home() {
       >
         <div className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">Working together</p>
-            <h2>
-              <ScrollTitle lines={["First, we listen."]} />
-            </h2>
+            <h2 data-process-heading>First, we listen.</h2>
           </div>
           <p className="section-aside">
             A clear path from your first

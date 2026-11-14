@@ -44,7 +44,7 @@ test("key layouts fit portrait, landscape and PC sizes", async ({
           "on",
         );
       if (route === "/projects/mirpur-dohs-interior")
-        await expect(page.locator("#rooms .project-layout-grid")).toBeVisible();
+        await expect(page.locator("#rooms .project-carousel")).toBeVisible();
       await expect
         .poll(
           () =>

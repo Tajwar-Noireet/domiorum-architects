@@ -12,6 +12,21 @@ export function ProjectLayoutGrid({
   project: Project;
   credit?: string;
 }) {
+  const rail = useRef<HTMLDivElement>(null);
+  const [center, setCenter] = useState(0);
+  const move = (delta: number) => {
+    const track = rail.current;
+    if (!track) return;
+    const next = Math.max(
+      0,
+      Math.min(project.images.length - 1, center + delta),
+    );
+    const card = track.children[next] as HTMLElement;
+    track.scrollTo({
+      left: card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2,
+      behavior: "smooth",
+    });
+  };
   const viewer = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -33,9 +48,47 @@ export function ProjectLayoutGrid({
           ? "Exterior views"
           : "Inside the project"}
       </h2>
-      <div className="project-layout-grid">
+      <div
+        ref={rail}
+        className="project-carousel"
+        role="group"
+        aria-label="Project photos"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            move(event.key === "ArrowLeft" ? -1 : 1);
+          }
+        }}
+        onScroll={(event) => {
+          const track = event.currentTarget;
+          const midpoint = track.scrollLeft + track.clientWidth / 2;
+          let closest = 0;
+          let distance = Infinity;
+          Array.from(track.children).forEach((child, position) => {
+            const card = child as HTMLElement;
+            const offset = Math.abs(
+              card.offsetLeft + card.offsetWidth / 2 - midpoint,
+            );
+            if (offset < distance) {
+              distance = offset;
+              closest = position;
+            }
+          });
+          setCenter(closest);
+        }}
+      >
         {project.images.map((image, position) => (
-          <figure key={image.src}>
+          <figure
+            key={image.src}
+            data-side={
+              position < center
+                ? "left"
+                : position > center
+                  ? "right"
+                  : "center"
+            }
+          >
             <button
               type="button"
               className="project-layout-tile"
@@ -61,6 +114,21 @@ export function ProjectLayoutGrid({
             <figcaption>{image.caption}</figcaption>
           </figure>
         ))}
+      </div>
+      <div className="project-layout-viewer-controls project-carousel-controls">
+        <button type="button" onClick={() => move(-1)} disabled={center === 0}>
+          Previous view
+        </button>
+        <span>
+          {center + 1} / {project.images.length}
+        </span>
+        <button
+          type="button"
+          onClick={() => move(1)}
+          disabled={center === project.images.length - 1}
+        >
+          Next view
+        </button>
       </div>
       {credit && <p className="portfolio-credit">{credit}</p>}
       <dialog

@@ -15,7 +15,6 @@ export default function Services() {
   return (
     <>
       <section className="section page-heading services-page-heading">
-        <p className="eyebrow">Our services</p>
         <h1 data-folio-reveal>
           <HoverText>
             The big picture.
@@ -36,14 +35,13 @@ export default function Services() {
           ))}
         </nav>
       </section>
-      <div className="services-banner" data-folio-image>
+      <div className="services-banner">
         <Image
           src="/images/interiors/kitchen.webp"
           alt="Kitchen visualization with warm stone surfaces, integrated lighting and fitted cabinetry"
           fill
           sizes="100vw"
         />
-        <span className="project-image-note">Design visualization</span>
       </div>
       <section className="section service-details">
         {services.map((service, index) => (
@@ -82,7 +80,6 @@ export default function Services() {
       >
         <div className="section-heading" data-folio-reveal>
           <div>
-            <p className="eyebrow">Working together</p>
             <h2>
               <HoverText>
                 A clear path from

@@ -25,7 +25,6 @@ export function ProjectCard({
                 : "(max-width: 700px) 100vw, (max-width: 1000px) 70vw, 50vw"
             }
           />
-          <span className="project-image-note">Design visualization</span>
           <span className="project-arrow" aria-hidden="true">
             <DirectionalArrow />
           </span>

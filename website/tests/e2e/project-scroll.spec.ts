@@ -9,7 +9,7 @@ test("exterior grid shows all seven views and opens uncropped images", async ({
   await page.goto("/projects/doctors-residence");
   await expect(page.locator(".project-hero-image img")).toHaveCSS(
     "object-fit",
-    "contain",
+    "cover",
   );
   const tiles = page
     .getByRole("region", { name: "Exterior views" })

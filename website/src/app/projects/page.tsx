@@ -9,13 +9,8 @@ export default function Projects() {
     <HomeMotion>
       <div className="section page-section">
         <div className="page-heading">
-          <p className="eyebrow">The portfolio</p>
           <h1 data-folio-reveal>
-            <HoverText>
-              A closer look
-              <br />
-              at the work.
-            </HoverText>
+            <HoverText>Projects</HoverText>
           </h1>
           <p data-folio-reveal>
             Explore our residential interiors and architecture, one project at a
@@ -23,13 +18,6 @@ export default function Projects() {
           </p>
         </div>
         <ProjectCollection projects={allProjects} />
-        <div className="project-credit-panel">
-          <p className="eyebrow">About this selection</p>
-          <p>
-            All project images are design visualizations. Select a project to
-            explore its spaces.
-          </p>
-        </div>
       </div>
     </HomeMotion>
   );

@@ -74,7 +74,7 @@
     "summary": "A residential building framed by planting and open balconies.",
     "description": "Exterior design visualizations of Doctors Residence show its planted balconies, entrance, rooftop terraces and garden from street level and above.",
     "approach": "A residential building framed by planting and open balconies.",
-    "cover": "/images/projects/doctors-residence/01.webp",
+    "cover": "/images/projects/doctors-residence/facade.webp",
     "coverAlt": "Exterior cover design visualization for Doctors Residence",
     "images": [
       {
@@ -88,7 +88,7 @@
         "caption": "The entrance at street level"
       },
       {
-        "src": "/images/projects/doctors-residence/01.webp",
+        "src": "/images/projects/doctors-residence/facade.webp",
         "alt": "Doctors Residence exterior visualization of white facade, timber screens and planted balconies",
         "caption": "Balconies and facade details"
       },

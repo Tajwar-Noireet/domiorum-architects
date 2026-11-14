@@ -20,14 +20,14 @@ test("exploded house layers respond to service focus and touch controls", async 
     await expect(service).toHaveAttribute("href", `/services#service-${i + 1}`);
   }
   await page
-    .getByRole("button", { name: "Adaptable additions", exact: true })
+    .getByRole("button", { name: "Extensions", exact: true })
     .click();
   await expect(page.locator('[data-house-layer="2"]')).toHaveAttribute(
     "data-active",
     "true",
   );
   await expect(
-    page.getByRole("img", { name: "Exploded axonometric house" }),
+    page.getByRole("img", { name: "House design layers" }),
   ).toBeVisible();
   expect(
     await page.evaluate(

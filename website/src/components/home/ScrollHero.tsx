@@ -209,10 +209,7 @@ export function ScrollHero() {
         className="cinema-hero"
         aria-label="Architecture and interiors by Domiorum"
       >
-        <div
-          className="cinema-preview"
-          style={{ backgroundImage: `url(${scenes[0].src})` }}
-        >
+        <div className="cinema-preview">
           <Image
             src={scenes[0].src}
             alt=""
@@ -227,7 +224,6 @@ export function ScrollHero() {
             <div
               className={`cinema-scene cinema-scene-${i}`}
               key={scene.src}
-              style={{ backgroundImage: `url(${scene.src})` }}
               aria-hidden={i > 0 ? true : undefined}
             >
               <Image
@@ -238,6 +234,7 @@ export function ScrollHero() {
                 loading={i === 0 ? "eager" : "lazy"}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 quality={85}
+                style={{ objectPosition: scene.position }}
               />
             </div>
           ))}
@@ -275,7 +272,6 @@ export function ScrollHero() {
           <a href="#introduction" className="cinema-scroll-link">
             Scroll to explore <DirectionalArrow direction="down" />
           </a>
-          <span className="cinema-credit">Design visualizations</span>
         </div>
         <div className="cinema-progress" aria-hidden="true">
           <div className="cinema-progress-fill" />

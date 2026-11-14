@@ -169,11 +169,6 @@ export function InteriorGallery() {
               <HoverText>Life, room by room.</HoverText>
             </h2>
           </div>
-          <p>
-            Scroll through the spaces.
-            <br />
-            <span>Design visualizations</span>
-          </p>
         </div>
         <div
           className="interior-viewport"

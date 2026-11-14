@@ -218,18 +218,11 @@
 .services-banner {
   height: clamp(340px, 55vw, 760px);
   min-height: 0;
-  margin-inline: var(--gutter);
-  background: var(--navy);
+  margin-inline: 0;
+  overflow: hidden;
 }
 .services-banner img {
   object-position: center 55%;
-}
-body:has(.services-page-heading) .services-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgb(246 243 237 / 20%);
-  pointer-events: none;
 }
 .service-details {
   padding-top: 100px;
@@ -399,9 +392,6 @@ body:has(.services-page-heading) .services-banner::after {
 @media (min-width: 1700px) {
   .page-heading {
     padding-inline: max(var(--gutter), calc((100vw - 1560px) / 2));
-  }
-  .services-banner {
-    margin-inline: max(var(--gutter), calc((100vw - 1560px) / 2));
   }
 }
 @media (max-width: 1000px) {

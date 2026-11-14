@@ -1,11 +1,6 @@
 .home-experience {
   background: var(--ivory);
 }
-body:has(.cinema-hero) .site-header {
-  position: absolute;
-  inset: 0 0 auto;
-  background: var(--navy);
-}
 .cinema-hero {
   height: 100svh;
   min-height: 680px;

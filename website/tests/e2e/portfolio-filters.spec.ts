@@ -131,6 +131,8 @@ test("Let’s talk replaces Contact and preserves existing enquiry links", async
   const invitation = page.getByRole("link", {
     name: "Tell us about your project",
   });
+  await invitation.scrollIntoViewIfNeeded();
+  await expect(invitation).toBeInViewport();
   await invitation.click();
   await expect(page).toHaveURL(/\/book-consultation$/);
 });

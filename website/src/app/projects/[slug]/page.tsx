@@ -51,7 +51,6 @@ export default async function Project({
           sizes="100vw"
           preload
         />
-        <span className="project-image-note">Design visualization</span>
       </div>
       <section className="section project-story">
         <dl className="project-facts">
@@ -79,13 +78,8 @@ export default async function Project({
               </div>
             </>
           )}
-          <div>
-            <dt>Image type</dt>
-            <dd>Design visualizations</dd>
-          </div>
         </dl>
         <div>
-          <p className="eyebrow">The project</p>
           <h2>
             <HoverText>{project.summary}</HoverText>
           </h2>

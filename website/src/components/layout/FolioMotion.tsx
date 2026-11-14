@@ -104,6 +104,14 @@ export function FolioMotion() {
           .forEach((section) => {
             const line = section.querySelector("[data-process-progress]");
             if (!line) return;
+            const heading = section.querySelector("[data-process-heading]");
+            const headings = [
+              "First, we listen.",
+              "Then, we explore.",
+              "We refine the design.",
+              "We prepare for the next stage.",
+            ];
+
             gsap.fromTo(
               line,
               { scaleX: 0 },
@@ -115,6 +123,17 @@ export function FolioMotion() {
                   start: "top 88%",
                   end: "bottom 55%",
                   scrub: true,
+                  onUpdate: ({ progress }) => {
+                    const text =
+                      headings[
+                        Math.min(
+                          headings.length - 1,
+                          Math.floor(progress * headings.length),
+                        )
+                      ];
+                    if (heading && heading.textContent !== text)
+                      heading.textContent = text;
+                  },
                 },
               },
             );

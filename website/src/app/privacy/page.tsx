@@ -5,7 +5,6 @@ export const metadata: Metadata = { title: "Privacy" };
 export default function Privacy() {
   return (
     <section className="section page-section legal-page">
-      <p className="eyebrow">Privacy</p>
       <h1>
         <HoverText>
           Your enquiry,

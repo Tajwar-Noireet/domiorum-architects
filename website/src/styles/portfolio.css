@@ -67,7 +67,7 @@
     transition: flex-grow 380ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .showcase-image {
-    height: clamp(440px, 49vw, 800px);
+    height: clamp(300px, 32vw, 480px);
   }
   .showcase-project:only-child {
     flex: 0 1 min(100%, 42rem);
@@ -124,10 +124,6 @@
 
 .project-hero-image {
   background: var(--ivory);
-}
-.project-hero-image img,
-.showcase-image img {
-  object-fit: contain;
 }
 .project-layout h2 {
   margin-bottom: 1.5rem;
@@ -195,12 +191,6 @@
     grid-column: auto;
   }
 }
-.cinema-preview img,
-.cinema-scene img,
-.services-banner img {
-  object-fit: contain;
-  object-position: center;
-}
 
 .project-layout-tile {
   height: auto;
@@ -223,26 +213,95 @@
 .project-layout-preview {
   height: min(70dvh, 860px);
 }
-.cinema-preview,
-.cinema-scene {
-  background-size: cover;
-  background-position: center;
+
+.project-carousel {
+  --card-width: min(55%, 640px);
+  position: relative;
+  display: flex;
+  gap: clamp(12px, 2vw, 28px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding: 18px calc((100% - var(--card-width)) / 2);
 }
-.cinema-preview img,
-.cinema-scene img {
-  background: transparent;
-  object-position: center !important;
+.project-carousel figure {
+  flex: 0 0 auto;
+  width: min(55cqw, 640px);
+  margin: 0;
+  scroll-snap-align: center;
+}
+.project-layout {
+  container-type: inline-size;
+}
+.project-carousel .project-layout-tile {
+  height: clamp(200px, 37vw, 520px);
+  transition: transform 280ms ease;
+}
+.project-carousel .project-layout-tile img {
+  height: 100%;
+}
+.project-carousel [data-side="left"] .project-layout-tile {
+  transform: perspective(1000px) rotateY(15deg) scale(0.94);
+}
+.project-carousel [data-side="right"] .project-layout-tile {
+  transform: perspective(1000px) rotateY(-15deg) scale(0.94);
+}
+.project-carousel figcaption {
+  padding-block: 8px;
+}
+.project-carousel-controls {
+  margin-top: 10px;
+}
+@media (max-width: 700px) {
+  .project-carousel {
+    --card-width: 82%;
+  }
+  .project-carousel figure {
+    width: 82cqw;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-carousel .project-layout-tile {
+    transition: none;
+  }
 }
 
-.cinema-preview::before,
-.cinema-scene::before {
-  content: "";
-  position: absolute;
-  inset: -24px;
-  background: inherit;
-  filter: blur(20px) brightness(0.72);
+/* Keep one panel open, with keyboard focus taking priority over the mouse. */
+@media (min-width: 64.01rem) {
+  .project-showcase .showcase-project {
+    transition: flex-grow 480ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .project-showcase:not(:has(.showcase-panel:focus-visible)) > :first-child,
+  .project-showcase .showcase-project:has(.showcase-panel:focus-visible) {
+    flex-grow: 3.8;
+  }
+  .home-selected
+    .showcase-project:focus-within:not(:has(.showcase-panel:focus-visible)) {
+    flex-grow: 1;
+  }
 }
-.cinema-preview,
-.cinema-scene {
-  overflow: hidden;
+
+@media (min-width: 64.01rem) and (hover: hover) {
+  .project-showcase:has(.showcase-project:hover):not(
+      :has(.showcase-panel:focus-visible)
+    )
+    > .showcase-project {
+    flex-grow: 1;
+  }
+  .project-showcase:has(.showcase-project:hover):not(
+      :has(.showcase-panel:focus-visible)
+    )
+    > .showcase-project:hover {
+    flex-grow: 3.8;
+  }
+  .project-showcase:has(.showcase-panel:focus-visible)
+    > .showcase-project:hover:not(:has(.showcase-panel:focus-visible)) {
+    flex-grow: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-showcase .showcase-project {
+    transition: none;
+  }
 }

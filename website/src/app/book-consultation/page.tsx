@@ -7,7 +7,6 @@ export default function Consultation() {
   return (
     <section className="section page-section">
       <div className="page-heading">
-        <p className="eyebrow">Let’s talk</p>
         <h1 data-folio-reveal>
           <HoverText>
             Let’s understand

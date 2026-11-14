@@ -14,7 +14,6 @@ export default function Discover() {
   return (
     <div className="section page-section discover-page">
       <div className="page-heading">
-        <p className="eyebrow">Discover us</p>
         <h1 data-folio-reveal>
           <HoverText>
             The people behind

@@ -88,9 +88,9 @@ const guides = [0, 10]
   .join(" ");
 const labels = [
   "Interior spaces",
-  "Structure & envelope",
-  "Adaptable additions",
-  "Plans & coordination",
+  "Roof and walls",
+  "Extensions",
+  "Drawings",
 ];
 export function ServicesExplodedHouse() {
   const [active, setActive] = useState(1);
@@ -100,7 +100,6 @@ export function ServicesExplodedHouse() {
   return (
     <section className="section home-services exploded-services" id="services">
       <div className="home-services-heading" data-reveal>
-        <p className="eyebrow">What we do</p>
         <h2>
           <HoverText>
             One home.
@@ -123,7 +122,7 @@ export function ServicesExplodedHouse() {
           role="img"
           aria-labelledby="house-title house-description"
         >
-          <title id="house-title">Exploded axonometric house</title>
+          <title id="house-title">House design layers</title>
           <desc id="house-description">
             A skeletal house separated into roof rafters, structural frames,
             furnished rooms, an extension and a drawing grid. The highlighted
@@ -154,16 +153,10 @@ export function ServicesExplodedHouse() {
             {[0, 10].map((x) => (
               <path key={x} d={line([x - 0.2, -2.2, 0], [x + 0.2, -1.8, 0])} />
             ))}
-            <text x="447" y="681" transform="rotate(25 447 681)">
-              STRUCTURAL GRID
-            </text>
           </g>
         </svg>
         <figcaption>
-          <span className="eyebrow">Concept study / Exploded axonometric</span>
-          <span className="house-active-label">
-            {labels[active]}
-          </span>
+          <span className="house-active-label">{labels[active]}</span>
         </figcaption>
         <div className="house-layer-controls" aria-label="Explore house layers">
           {labels.map((label, i) => (

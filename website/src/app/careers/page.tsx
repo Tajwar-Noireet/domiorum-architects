@@ -8,7 +8,6 @@ export default function Careers() {
   return (
     <section className="section page-section">
       <div className="page-heading">
-        <p className="eyebrow">Careers</p>
         <h1 data-folio-reveal>
           <HoverText>
             Care about spaces.
