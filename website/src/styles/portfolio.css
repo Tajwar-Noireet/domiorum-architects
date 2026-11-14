@@ -201,3 +201,48 @@
   object-fit: contain;
   object-position: center;
 }
+
+.project-layout-tile {
+  height: auto;
+}
+.project-layout-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.project-layout-grid {
+  align-items: start;
+}
+.project-layout-viewer-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.project-layout-preview {
+  height: min(70dvh, 860px);
+}
+.cinema-preview,
+.cinema-scene {
+  background-size: cover;
+  background-position: center;
+}
+.cinema-preview img,
+.cinema-scene img {
+  background: transparent;
+  object-position: center !important;
+}
+
+.cinema-preview::before,
+.cinema-scene::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  background: inherit;
+  filter: blur(20px) brightness(0.72);
+}
+.cinema-preview,
+.cinema-scene {
+  overflow: hidden;
+}
