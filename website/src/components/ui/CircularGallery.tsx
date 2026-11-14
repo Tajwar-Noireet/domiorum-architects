@@ -9,6 +9,8 @@ import {
   Texture,
   Transform,
 } from "ogl";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 
 type Item = { src: string; caption: string };
@@ -24,7 +26,12 @@ export function CircularGallery({
 }) {
   const host = useRef<HTMLDivElement>(null);
   const target = useRef(index);
-  const drag = useRef<number | null>(null);
+  const drag = useRef<{ x: number; index: number } | null>(null);
+  const wheelTotal = useRef(0);
+  const selectRef = useRef(select);
+  useEffect(() => {
+    selectRef.current = select;
+  }, [select]);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -38,10 +45,7 @@ export function CircularGallery({
     try {
       renderer = new Renderer({
         alpha: true,
-        dpr: Math.min(
-          devicePixelRatio,
-          matchMedia("(max-width: 700px)").matches ? 1.25 : 1.5,
-        ),
+        dpr: 1,
       });
     } catch {
       return;
@@ -53,6 +57,7 @@ export function CircularGallery({
     const geometry = new Plane(gl, { widthSegments: 28, heightSegments: 12 });
     let disposed = false;
     let loaded = 0;
+    let needsDraw = true;
     const cards = items.map(({ src }) => {
       const texture = new Texture(gl, { generateMipmaps: false });
       const photo = new window.Image();
@@ -80,6 +85,7 @@ export function CircularGallery({
       photo.onload = () => {
         if (disposed) return;
         texture.image = photo;
+        needsDraw = true;
         program.uniforms.visible.value = 1;
         if (++loaded === items.length) setReady(true);
       };
@@ -94,7 +100,14 @@ export function CircularGallery({
       const { clientWidth: width, clientHeight: height } = element;
       if (!width || !height) return;
       aspect = width / height;
+      // Use the screen density while staying within a bounded pixel budget.
+      renderer.dpr = Math.min(
+        devicePixelRatio || 1,
+        3,
+        Math.sqrt(1_500_000 / (width * height)),
+      );
       renderer.setSize(width, height);
+      needsDraw = true;
       camera.perspective({ aspect });
     };
     const observer = new ResizeObserver(resize);
@@ -106,7 +119,10 @@ export function CircularGallery({
     const render = () => {
       let distance = target.current - current;
       distance -= Math.round(distance / cards.length) * cards.length;
-      current += distance * 0.09;
+      if (inView) frame = requestAnimationFrame(render);
+      if (!needsDraw && Math.abs(distance) < 0.001) return;
+      needsDraw = Math.abs(distance) >= 0.001;
+      current += needsDraw ? distance * 0.09 : distance;
       const viewWidth = 8.28 * aspect;
       const width = Math.min(5.9, viewWidth * (aspect < 1.25 ? 0.9 : 0.76));
       cards.forEach(({ mesh, photo, program }, i) => {
@@ -130,7 +146,6 @@ export function CircularGallery({
         program.uniforms.bend.value = Math.min(0.35, Math.abs(distance) * 0.18);
       });
       renderer.render({ scene, camera });
-      if (inView) frame = requestAnimationFrame(render);
     };
     const visibility = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
@@ -154,6 +169,39 @@ export function CircularGallery({
     };
   }, [items]);
 
+  useEffect(() => {
+    const element = host.current;
+    const section = element?.closest(".project-layout");
+    if (!element || !section || !ready) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top 85%",
+      end: "bottom 25%",
+      onUpdate({ progress }) {
+        if (drag.current) return;
+        const position = progress * (items.length - 1);
+        target.current = position;
+        selectRef.current(Math.round(position));
+      },
+    });
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || Math.abs(event.deltaX) <= Math.abs(event.deltaY))
+        return;
+      wheelTotal.current += event.deltaX;
+      if (Math.abs(wheelTotal.current) < 65) return;
+      selectRef.current(
+        Math.round(target.current) + Math.sign(wheelTotal.current),
+      );
+      wheelTotal.current = 0;
+    };
+    element.addEventListener("wheel", onWheel, { passive: true });
+    return () => {
+      trigger.kill();
+      element.removeEventListener("wheel", onWheel);
+    };
+  }, [items.length, ready]);
+
   return (
     <div
       ref={host}
@@ -161,17 +209,29 @@ export function CircularGallery({
       data-ready={ready}
       aria-hidden="true"
       onPointerDown={(event) => {
-        drag.current = event.clientX;
+        if (event.button !== 0) return;
+        drag.current = { x: event.clientX, index };
         event.currentTarget.setPointerCapture(event.pointerId);
+      }}
+      onPointerMove={(event) => {
+        if (!drag.current) return;
+        target.current =
+          drag.current.index +
+          (drag.current.x - event.clientX) /
+            Math.max(120, event.currentTarget.clientWidth * 0.55);
       }}
       onPointerCancel={() => {
         drag.current = null;
+        target.current = index;
       }}
       onPointerUp={(event) => {
         if (drag.current === null) return;
-        const difference = drag.current - event.clientX;
+        const { x, index: start } = drag.current;
+        const difference = x - event.clientX;
         drag.current = null;
-        if (Math.abs(difference) > 25) select(index + Math.sign(difference));
+        target.current =
+          start + (Math.abs(difference) > 25 ? Math.sign(difference) : 0);
+        select(Math.round(target.current));
       }}
     />
   );

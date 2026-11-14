@@ -127,6 +127,7 @@ export function ProjectLayoutGrid({
                 height={
                   dimensions[image.src as keyof typeof dimensions]?.[1] ?? 1067
                 }
+                quality={85}
                 sizes="(max-width: 700px) 100vw, 66vw"
               />
             </button>
@@ -184,7 +185,13 @@ export function ProjectLayoutGrid({
         </form>
         {open && active && (
           <div className="project-layout-preview">
-            <Image src={active.src} alt={active.alt} fill sizes="94vw" />
+            <Image
+              src={active.src}
+              alt={active.alt}
+              fill
+              quality={85}
+              sizes="94vw"
+            />
           </div>
         )}
         <div className="project-layout-viewer-controls">

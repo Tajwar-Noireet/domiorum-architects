@@ -50,12 +50,40 @@ test("interior photos use the circular gallery and open the current photo", asyn
     "data-ready",
     "true",
   );
-  await gallery.getByRole("button", { name: "Next view" }).click();
-  await expect(gallery.locator(".project-carousel-controls")).toContainText(
-    "2 /",
-  );
+  await expect
+    .poll(() =>
+      gallery.locator("canvas").evaluate((el) => {
+        if (!(el instanceof HTMLCanvasElement) || !el.clientWidth) return 0;
+        return el.width / el.clientWidth;
+      }),
+    )
+    .toBeGreaterThanOrEqual(
+      await page.evaluate(() => Math.min(devicePixelRatio, 2.5) - 0.01),
+    );
+  const counter = gallery.locator(".project-carousel-controls span");
+  const scrollGallery = (offset: number) =>
+    gallery.evaluate(
+      (el, offset) =>
+        window.scrollTo({
+          top: scrollY + el.getBoundingClientRect().top + offset,
+          behavior: "instant",
+        }),
+      offset,
+    );
+  await scrollGallery(-(await page.evaluate(() => innerHeight)));
+  await expect(counter).toHaveText("1 / 10");
+  await scrollGallery(1100);
+  await expect(counter).toHaveText("10 / 10");
+  await scrollGallery(-(await page.evaluate(() => innerHeight)));
+  await expect(counter).toHaveText("1 / 10");
+  const next = gallery.getByRole("button", { name: "Next view" });
+
+  const current = Number((await counter.textContent())?.split("/")[0]);
+  await next.dispatchEvent("click");
+  const expected = (current % 10) + 1;
+  await expect(counter).toHaveText(`${expected} / 10`);
   await gallery
     .getByRole("button", { name: "Enlarge image", exact: true })
-    .click();
-  await expect(page.getByRole("dialog")).toContainText("2 /");
+    .dispatchEvent("click");
+  await expect(page.getByRole("dialog")).toContainText(`${expected} / 10`);
 });
