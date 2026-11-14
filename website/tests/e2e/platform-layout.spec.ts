@@ -44,10 +44,7 @@ test("key layouts fit portrait, landscape and PC sizes", async ({
           "on",
         );
       if (route === "/projects/mirpur-dohs-interior")
-        await expect(page.locator("#rooms")).toHaveAttribute(
-          "data-animated",
-          "true",
-        );
+        await expect(page.locator("#rooms .project-layout-grid")).toBeVisible();
       await expect
         .poll(
           () =>

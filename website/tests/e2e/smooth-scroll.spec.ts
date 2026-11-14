@@ -51,7 +51,7 @@ test("wheel scroll eases into GSAP scenes and stops before navigating", async ({
   await expect(page).toHaveURL(/\/projects\/edison-interior$/);
 });
 
-test("intro locks scrolling and releases the page on dismissal", async ({
+test("intro locks scrolling and releases the page when playback ends", async ({
   page,
 }) => {
   await page.goto("/");
@@ -61,7 +61,6 @@ test("intro locks scrolling and releases the page on dismissal", async ({
     await page.keyboard.press("PageDown");
   else await page.mouse.wheel(0, 500);
   expect(await page.evaluate(() => scrollY)).toBe(0);
-  await page.getByRole("button", { name: "Skip intro" }).click();
   await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator("html")).not.toHaveClass(/lenis-stopped/);
   await page.locator(".cinema-opening h1").scrollIntoViewIfNeeded();

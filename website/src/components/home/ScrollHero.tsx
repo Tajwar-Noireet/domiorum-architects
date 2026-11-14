@@ -96,7 +96,7 @@ export function ScrollHero() {
             )
             .to(
               section.querySelector(".cinema-preview"),
-              { scale: 1.16, autoAlpha: 0, duration: 0.55 },
+              { autoAlpha: 0, duration: 0.55 },
               0,
             )
             .to(
@@ -123,7 +123,7 @@ export function ScrollHero() {
             )
             .fromTo(
               frames[0].querySelector("img"),
-              { scale: 1.08 },
+              { scale: 1 },
               { scale: 1, duration: 1.5 },
               0,
             )
@@ -136,7 +136,7 @@ export function ScrollHero() {
             )
             .fromTo(
               frames[1].querySelector("img"),
-              { scale: 1.18, xPercent: 3 },
+              { scale: 1, xPercent: 0 },
               { scale: 1, xPercent: 0, duration: 1.3 },
               1.2,
             )
@@ -150,7 +150,7 @@ export function ScrollHero() {
             )
             .fromTo(
               frames[2].querySelector("img"),
-              { scale: 1.14, yPercent: 3 },
+              { scale: 1, yPercent: 0 },
               { scale: 1, yPercent: 0, duration: 1.25 },
               2.5,
             )

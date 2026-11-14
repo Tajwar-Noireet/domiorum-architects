@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, allProjects, experienceCredit } from "@/content/projects";
-import { ProjectScrollGallery } from "@/components/projects/ProjectScrollGallery";
-import { ProjectMotionProvider } from "@/components/projects/ProjectMotion";
+import { ProjectLayoutGrid } from "@/components/projects/ProjectLayoutGrid";
 export function generateStaticParams() {
   return allProjects.map((project) => ({ slug: project.slug }));
 }
@@ -30,7 +29,7 @@ export default async function Project({
   const isLegacy = project.slug === "selim-residence";
   const next = projects[(projects.indexOf(project) + 1) % projects.length];
   return (
-    <ProjectMotionProvider>
+    <>
       <section className="section project-heading">
         <Link href="/projects" className="back-link">
           <DirectionalArrow direction="left" /> All projects
@@ -98,7 +97,7 @@ export default async function Project({
         </div>
       </section>
       {project.images.length > 0 && (
-        <ProjectScrollGallery
+        <ProjectLayoutGrid
           project={project}
           credit={isLegacy ? experienceCredit : undefined}
         />
@@ -119,6 +118,6 @@ export default async function Project({
         </div>
         <DirectionalArrow />
       </Link>
-    </ProjectMotionProvider>
+    </>
   );
 }

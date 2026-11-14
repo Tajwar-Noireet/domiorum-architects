@@ -34,12 +34,8 @@ html[data-brand-intro="leaving"] .brand-reveal {
 .site-shell main:focus {
   outline: none;
 }
-.flow-button.brand-reveal-skip {
-  position: absolute;
-  right: max(var(--gutter), env(safe-area-inset-right));
-  bottom: max(28px, env(safe-area-inset-bottom));
-  min-height: 48px;
-  font-size: 14px;
+.brand-reveal:focus {
+  outline: none;
 }
 @media (max-aspect-ratio: 1/1) {
   .brand-reveal-video {

@@ -1,306 +1,38 @@
-import { expect, test, type Locator, type Page } from "@playwright/test";
-import portfolio from "../../src/content/portfolio.json";
+import { expect, test } from "@playwright/test";
 
-const mirpur = portfolio.find(
-  (project) => project.slug === "mirpur-dohs-interior",
-)!;
-const sceneCount = Math.ceil(mirpur.images.length / 2);
-
-async function scrollTo(page: Page, top: number) {
-  await page.evaluate(
-    (value) => window.scrollTo({ top: value, behavior: "instant" }),
-    top,
-  );
-}
-
-async function expectImagesLoaded(images: Locator) {
-  await expect
-    .poll(
-      () =>
-        images.evaluateAll((elements) =>
-          elements.every((element) => {
-            const image = element as HTMLImageElement;
-            return image.complete && image.naturalWidth > 0;
-          }),
-        ),
-      { timeout: 15_000 },
-    )
-    .toBe(true);
-}
-
-async function galleryTravel(page: Page) {
-  return page.locator("#rooms").evaluate((element) => ({
-    top: element.getBoundingClientRect().top + scrollY,
-    travel: (element as HTMLElement).offsetHeight - innerHeight,
-    viewportHeight: innerHeight,
-  }));
-}
-
-async function expectNaturalGallery(page: Page) {
-  const gallery = page.locator("#rooms");
-  await expect(gallery).toHaveAttribute("data-animated", "false");
-  await expect(gallery.locator(".project-gallery-viewport")).toHaveCSS(
-    "position",
-    "static",
-  );
-  await expect(gallery.locator(".project-gallery-controls")).toHaveCount(0);
-  for (const scene of await gallery.locator(".project-gallery-scene").all()) {
-    await expect(scene).toHaveCSS("position", "relative");
-    await expect(scene).not.toHaveAttribute("aria-hidden", "true");
-    expect(
-      await scene.evaluate((element) => (element as HTMLElement).inert),
-    ).toBe(false);
-  }
-  for (const figure of await gallery.locator("figure").all()) {
-    await figure.scrollIntoViewIfNeeded();
-    await expect(figure).toBeInViewport();
-    await expectImagesLoaded(figure.locator("img"));
-  }
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth + 1,
-    ),
-  ).toBe(true);
-}
-
-test("project spaces reveal on scroll, accept keyboard selection and release the viewport", async ({
-  page,
-}, testInfo) => {
-  await page.goto("/projects/mirpur-dohs-interior");
-  await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator("h1")).toHaveText(mirpur.title);
-  const gallery = page.locator("#rooms");
-  await expect(gallery.locator("figure")).toHaveCount(11);
-  await expect(gallery.locator(".project-gallery-scene")).toHaveCount(
-    sceneCount,
-  );
-
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  const space = await galleryTravel(page);
-  await scrollTo(page, space.top);
-  const viewport = gallery.locator(".project-gallery-viewport");
-  await expect(viewport).toHaveCSS("position", "sticky");
-  await expect
-    .poll(() =>
-      viewport.evaluate((element) =>
-        Math.abs(element.getBoundingClientRect().top),
-      ),
-    )
-    .toBeLessThan(2);
-  const first = gallery.locator('[data-scene="0"]');
-  await expect(first).not.toHaveAttribute("aria-hidden", "true");
-  await expect(
-    first.getByRole("heading", { name: mirpur.images[0].caption }),
-  ).toBeVisible();
-  await expectImagesLoaded(first.locator("img"));
-
-  const second = gallery.locator('[data-scene="1"]');
-  const secondPrimary = second.locator(".project-gallery-primary");
-  const reveal = () =>
-    secondPrimary.evaluate((element) =>
-      parseFloat(getComputedStyle(element).getPropertyValue("--scene-reveal")),
-    );
-  await expect.poll(reveal).toBeLessThan(0.1);
-  const initialMask = await secondPrimary.evaluate(
-    (element) => getComputedStyle(element).maskImage,
-  );
-  expect(initialMask).toContain("repeating-linear-gradient");
-  if (testInfo.project.name === "desktop") {
-    await page.screenshot({
-      path: "../output/website-review/elyse-scroll-first.png",
-    });
-  }
-
-  await scrollTo(page, space.top + (space.travel * 0.55) / (sceneCount - 1));
-  await expect.poll(reveal).toBeGreaterThan(40);
-  await expect.poll(reveal).toBeLessThan(48);
-  await expectImagesLoaded(second.locator("img"));
-  if (testInfo.project.name === "desktop") {
-    await page.screenshot({
-      path: "../output/website-review/elyse-scroll-transition.png",
-    });
-  }
-
-  await scrollTo(page, space.top + space.travel / (sceneCount - 1));
-  await expect(
-    gallery.locator(".project-gallery-controls button").nth(1),
-  ).toHaveAttribute("aria-pressed", "true");
-  await expect(second).not.toHaveAttribute("aria-hidden", "true");
-  await expect(first).toHaveAttribute("aria-hidden", "true");
-  await expect.poll(reveal).toBeGreaterThan(99.9);
-  expect(
-    await secondPrimary.evaluate(
-      (element) => getComputedStyle(element).maskImage,
-    ),
-  ).not.toBe(initialMask);
-  await expect(
-    second.getByRole("heading", { name: mirpur.images[2].caption }),
-  ).toBeVisible();
-  await expectImagesLoaded(second.locator("img"));
-  if (testInfo.project.name === "desktop") {
-    await page.screenshot({
-      path: "../output/website-review/elyse-scroll-second.png",
-    });
-  }
-
-  const nextSpace = gallery.locator(".project-gallery-controls button").nth(2);
-  await nextSpace.press("Enter");
-  await expect(nextSpace).toHaveAttribute("aria-pressed", "true");
-  const third = gallery.locator('[data-scene="2"]');
-  await expect(third).not.toHaveAttribute("aria-hidden", "true");
-  await expect
-    .poll(() =>
-      third
-        .locator(".project-gallery-primary")
-        .evaluate((element) =>
-          parseFloat(
-            getComputedStyle(element).getPropertyValue("--scene-reveal"),
-          ),
-        ),
-    )
-    .toBeGreaterThan(99.9);
-
-  await scrollTo(page, space.top + space.travel + space.viewportHeight * 0.6);
-  await expect
-    .poll(() =>
-      viewport.evaluate((element) => element.getBoundingClientRect().top),
-    )
-    .toBeLessThan(-2);
-  await expect(page.locator(".next-project")).toBeInViewport();
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth + 1,
-    ),
-  ).toBe(true);
-});
-
-test("project photographs remain accessible without JavaScript", async ({
-  browser,
-  baseURL,
-}) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
-  const page = await context.newPage();
-  await page.goto(`${baseURL}/projects/mirpur-dohs-interior`);
-  await expectNaturalGallery(page);
-  await context.close();
-});
-
-test("client-selected full motion survives live device preference changes", async ({
+test("exterior grid shows all seven views and opens uncropped images", async ({
   page,
 }) => {
-  await page.goto("/projects/mirpur-dohs-interior");
-  await expect(page.locator(".brand-reveal")).toBeHidden();
-  const gallery = page.locator("#rooms");
-  const space = await galleryTravel(page);
-  for (const reducedMotion of ["reduce", "no-preference"] as const) {
-    await page.emulateMedia({ reducedMotion });
-    await expect(gallery).toHaveAttribute("data-animated", "true");
-    await scrollTo(page, space.top + space.travel / (sceneCount - 1));
-    await expect(
-      gallery.locator(".project-gallery-controls button").nth(1),
-    ).toHaveAttribute("aria-pressed", "true");
-    await expect(gallery.locator('[data-scene="1"] h2')).toBeInViewport();
-    await scrollTo(page, 0);
-  }
-});
-
-test("project cover is a still image", async ({ page }) => {
-  await page.goto("/projects/mirpur-dohs-interior");
-  const cover = page.locator(".project-hero-image");
-  await expectImagesLoaded(cover.locator("img"));
-  await expect(cover.locator("video")).toHaveCount(0);
-  await expect(cover.locator("img")).toHaveCSS("transform", "none");
-});
-
-test("full project motion ignores device preferences and retired session choices", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.addInitScript(() => {
-    sessionStorage.setItem("domiorum-motion", "off");
-    sessionStorage.setItem("domiorum-project-motion", "off");
-  });
-  await page.goto("/projects/mirpur-dohs-interior");
-  await expect(page.locator(".brand-reveal")).toBeHidden();
-  await expect(page.locator(".project-motion-toggle")).toHaveCount(0);
-  for (const selector of ["#rooms"]) {
-    await expect(page.locator(selector)).toHaveAttribute(
-      "data-animated",
-      "true",
-    );
-  }
-  await page.locator(".next-project").click();
-  await expect(page).toHaveURL(/\/projects\/ruap-interior$/);
-  await expect(page.locator("h1")).toHaveText("RUAP");
-  await expect(page.locator("#rooms")).toHaveAttribute("data-animated", "true");
-  await page.reload();
-  await expect(page.locator("#rooms")).toHaveAttribute("data-animated", "true");
-});
-
-test("Doctors Residence shows all seven supplied exterior views in its animated gallery", async ({
-  page,
-  request,
-}) => {
+  await page.addInitScript(() =>
+    sessionStorage.setItem("domiorum-brand-intro-v1", "seen"),
+  );
   await page.goto("/projects/doctors-residence");
-  await expect(page.locator("h1")).toHaveText("Doctors Residence");
-  const gallery = page.locator("#rooms");
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  await expect(page.locator(".project-hero-image")).toHaveCount(1);
-  await expect(page.locator(".project-heading .eyebrow")).toContainText(
-    "Exteriors",
+  await expect(page.locator(".project-hero-image img")).toHaveCSS(
+    "object-fit",
+    "contain",
   );
-  await expect(gallery.locator(".project-gallery-kicker")).toContainText(
-    "Exterior views",
-  );
-  const sources = await gallery.locator("img").evaluateAll((images) =>
-    images.map((image) => {
-      const url = new URL((image as HTMLImageElement).src);
-      return url.searchParams.get("url") ?? url.pathname;
-    }),
-  );
-  expect(sources).toHaveLength(7);
-  expect(new Set(sources).size).toBe(7);
-  for (let index = 1; index <= 7; index++) {
-    const asset = `/images/projects/doctors-residence/${String(index).padStart(2, "0")}.webp`;
-    expect(sources).toContain(asset);
-    expect((await request.get(asset)).status()).toBe(200);
-  }
-  const controls = gallery.getByRole("group", {
-    name: "Choose an exterior view",
-  });
-  const buttons = controls.getByRole("button");
-  await expect(buttons).toHaveCount(4);
-  for (const index of [0, 1, 2, 3, 1, 0]) {
-    await buttons.nth(index).click();
-    await expect(buttons.nth(index)).toHaveAttribute("aria-pressed", "true");
-    await expectImagesLoaded(
-      gallery.locator(".project-gallery-scene").nth(index).locator("img"),
-    );
-  }
-  const portrait = gallery.locator("img[src*='04.webp']");
-  await expect(portrait).toHaveCSS("object-fit", "contain");
-  const image = page.locator(".project-hero-image img");
-  await expect(image).toHaveCount(1);
-  await expect(image).toHaveAttribute(
-    "alt",
-    "Exterior cover design visualization for Doctors Residence",
-  );
-  const source = new URL((await image.getAttribute("src"))!, page.url());
-  expect(source.searchParams.get("url") ?? source.pathname).toBe(
-    "/images/projects/doctors-residence/01.webp",
-  );
-  await expectImagesLoaded(image);
-  await expect(
-    page.locator(".project-hero-image .project-image-note"),
-  ).toHaveText("Design visualization");
-  if (test.info().project.name === "desktop") {
-    await buttons.nth(2).click();
-    await expect(buttons.nth(2)).toHaveAttribute("aria-pressed", "true");
-    await expectImagesLoaded(
-      gallery.locator(".project-gallery-scene").nth(2).locator("img"),
-    );
-    await page.screenshot({
-      path: "../output/website-review/doctors-exteriors-desktop.png",
-    });
+  const tiles = page
+    .getByRole("region", { name: "Exterior views" })
+    .getByRole("button", { name: /^Enlarge / });
+  await expect(tiles).toHaveCount(7);
+  for (const index of [0, 3, 6]) {
+    await tiles.nth(index).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("img")).toHaveCSS("object-fit", "contain");
+    await expect
+      .poll(() =>
+        dialog
+          .locator("img")
+          .evaluate(
+            (img) =>
+              img instanceof HTMLImageElement &&
+              img.complete &&
+              img.naturalWidth > 0,
+          ),
+      )
+      .toBe(true);
+    await dialog.getByRole("button", { name: "Close image" }).click();
+    await expect(dialog).toBeHidden();
   }
 });

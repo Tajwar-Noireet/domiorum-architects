@@ -28,7 +28,7 @@ test("the supplied reveal plays, releases the page and does not replay in the se
   await expect
     .poll(() => video.evaluate((v) => (v as HTMLVideoElement).currentTime))
     .toBeGreaterThan(0.2);
-  // Dismissing the film must not start a second invisible-text waiting period.
+  // The page text should be ready when the film ends.
   const heroLines = page.locator(".hero-line");
   await expect(heroLines).toHaveCount(2);
   for (const line of await heroLines.all()) {
@@ -46,11 +46,7 @@ test("the supplied reveal plays, releases the page and does not replay in the se
       () => document.documentElement.scrollWidth <= innerWidth + 1,
     ),
   ).toBe(true);
-  const bounds = await page
-    .getByRole("button", { name: "Skip intro" })
-    .boundingBox();
-  expect(bounds!.height).toBeGreaterThanOrEqual(44);
-  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  await expect(intro.getByRole("button")).toHaveCount(0);
   await video.evaluate((v) => (v as HTMLVideoElement).play());
   await expect(intro).toBeHidden({ timeout: 6000 });
   await expect(page.locator("#site-shell")).toHaveJSProperty("inert", false);
@@ -73,22 +69,32 @@ test("the supplied reveal plays, releases the page and does not replay in the se
   expect(errors).toEqual([]);
 });
 
-test("Skip intro and Escape release keyboard focus and scrolling", async ({
+test("Escape does not skip the intro and focus returns when playback ends", async ({
   page,
 }) => {
   await page.goto("/contact");
-  await expect(page.getByRole("button", { name: "Skip intro" })).toBeFocused();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".brand-reveal")).toBeHidden();
+  const intro = page.getByRole("dialog", {
+    name: "Welcome to Domiorum Architects",
+  });
+  const video = intro.locator("video");
+  await expect(intro).toBeFocused();
+  await expect
+    .poll(() =>
+      video.evaluate((player: HTMLVideoElement) => player.currentTime),
+    )
+    .toBeGreaterThan(0.2);
+  await video.evaluate((player: HTMLVideoElement) => player.pause());
+  await expect(intro.getByRole("button")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-brand-intro",
+    "playing",
+  );
+  await expect(page.locator("#site-shell")).toHaveJSProperty("inert", true);
+  await video.evaluate((player: HTMLVideoElement) => player.play());
+  await expect(intro).toBeHidden();
   await expect(page.locator("main")).toBeFocused();
   await expect(page.locator("#site-shell")).toHaveJSProperty("inert", false);
-  await page.evaluate((k) => sessionStorage.removeItem(k), key);
-  await page.reload();
-  await expect(page.getByRole("button", { name: "Skip intro" })).toBeFocused();
-  await page.keyboard.press("Escape");
-  await expect(page.locator(".brand-reveal")).toBeHidden();
-  await page.evaluate(() => window.scrollTo(0, 250));
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(100);
 });
 
 test("a video error never traps the page", async ({ page }) => {
@@ -138,7 +144,6 @@ test("the brand reveal follows the client full-motion choice on every device set
     "/brand/brand-reveal.mp4",
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.getByRole("button", { name: "Skip intro" }).click();
   await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator("#site-shell")).toHaveJSProperty("inert", false);
   await page.reload();

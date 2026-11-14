@@ -131,34 +131,3 @@ test("process and footer reveal without covering content or trapping navigation"
   await expect(page).toHaveURL(/\/book-consultation$/);
   await expect(page.locator("h1")).toHaveCSS("opacity", "1");
 });
-
-test("project scenes stay visible when jumping forward and backward", async ({
-  page,
-}) => {
-  await page.goto("/projects/mirpur-dohs-interior");
-  const gallery = page.locator(".project-scroll-gallery");
-  await expect(gallery).toHaveAttribute("data-animated", "true");
-  const buttons = gallery.locator(".project-gallery-controls button");
-  const count = await buttons.count();
-  expect(count).toBeGreaterThan(2);
-  for (const index of [count - 1, 0, Math.floor(count / 2)]) {
-    await buttons.nth(index).click();
-    await expect(buttons.nth(index)).toHaveAttribute("aria-pressed", "true");
-    const scene = gallery.locator(".project-gallery-scene").nth(index);
-    await expect(scene).toHaveAttribute("data-rendered", "true");
-    await expect(scene).toHaveCSS("visibility", "visible");
-    await expect
-      .poll(() =>
-        scene
-          .locator("img")
-          .first()
-          .evaluate(
-            (el: HTMLImageElement) => el.complete && el.naturalWidth > 0,
-          ),
-      )
-      .toBe(true);
-    expect(
-      await gallery.locator('[data-rendered="true"]').count(),
-    ).toBeLessThanOrEqual(3);
-  }
-});
