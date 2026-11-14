@@ -5,7 +5,7 @@ import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { services } from "@/content/services";
+import { homeServices } from "@/content/services";
 import { HoverText } from "@/components/ui/HoverText";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { useHomeMotion } from "./HomeMotion";
@@ -86,12 +86,7 @@ const technical =
 const guides = [0, 10]
   .flatMap((x) => [0, 8].map((y) => line([x, y, 0], [x, y, 17])))
   .join(" ");
-const labels = [
-  "Interior spaces",
-  "Roof and walls",
-  "Extensions",
-  "Drawings",
-];
+const labels = ["Interior spaces", "Roof and walls", "Extensions", "Drawings"];
 export function ServicesExplodedHouse() {
   const [active, setActive] = useState(1);
   const { enabled } = useHomeMotion();
@@ -173,10 +168,10 @@ export function ServicesExplodedHouse() {
         </div>
       </figure>
       <div className="home-service-links">
-        {services.map((service, index) => (
+        {homeServices.map((service, index) => (
           <Link
             data-reveal
-            href={`/services#service-${index + 1}`}
+            href={`/services#${service.anchor}`}
             key={service.title}
             onMouseEnter={() => setActive(index)}
             onFocus={() => setActive(index)}
@@ -187,7 +182,7 @@ export function ServicesExplodedHouse() {
               <h3>
                 <HoverText>{service.title}</HoverText>
               </h3>
-              <p>{service.items[0]}</p>
+              <p>{service.detail}</p>
             </div>
             <DirectionalArrow />
           </Link>

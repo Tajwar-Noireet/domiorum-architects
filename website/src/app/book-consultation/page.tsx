@@ -1,9 +1,27 @@
 import { HoverText } from "@/components/ui/HoverText";
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
+import { serviceDepartments } from "@/content/services";
 import { site } from "@/content/site";
 export const metadata: Metadata = { title: "Let’s talk" };
-export default function Consultation() {
+export default async function Consultation({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    department?: string | string[];
+    package?: string | string[];
+  }>;
+}) {
+  const query = await searchParams;
+  const department = serviceDepartments.find(
+    ({ id }) => id === query.department,
+  );
+  const plan = department?.packages?.find(({ id }) => id === query.package);
+  const packageSelection =
+    department && plan
+      ? { department: department.title, title: plan.title }
+      : undefined;
+
   return (
     <section className="section page-section">
       <div className="page-heading">
@@ -15,8 +33,9 @@ export default function Consultation() {
           </HoverText>
         </h1>
         <p data-folio-reveal>
-          An initial consultation is a chance to talk through your needs,
-          explore the possibilities and define the next steps.
+          {packageSelection
+            ? "Tell us about your project so we can discuss the package you selected."
+            : "An initial consultation is a chance to talk through your needs, explore the possibilities and define the next steps."}
         </p>
       </div>
       <div className="contact-grid">
@@ -38,14 +57,16 @@ export default function Consultation() {
             <li>Your approximate budget and timeline</li>
             <li>The scope and next steps</li>
           </ul>
-          <div className="consultation-note">
-            <p className="eyebrow">Before we meet</p>
-            <p>
-              Consultations are paid. The studio will confirm the fee, duration,
-              format and availability before you commit. Sending a request does
-              not confirm a booking or take a payment.
-            </p>
-          </div>
+          {!packageSelection && (
+            <div className="consultation-note">
+              <p className="eyebrow">Before we meet</p>
+              <p>
+                Consultations are paid. The studio will confirm the fee,
+                duration, format and availability before you commit. Sending a
+                request does not confirm a booking or take a payment.
+              </p>
+            </div>
+          )}
           <div className="consultation-contact">
             <p className="eyebrow">Speak with the studio</p>
             <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -53,7 +74,15 @@ export default function Consultation() {
             <p>{site.location}</p>
           </div>
         </aside>
-        <EnquiryForm consultation />
+        <EnquiryForm
+          key={
+            packageSelection
+              ? `${query.department}/${query.package}`
+              : "consultation"
+          }
+          consultation={!packageSelection}
+          packageSelection={packageSelection}
+        />
       </div>
     </section>
   );

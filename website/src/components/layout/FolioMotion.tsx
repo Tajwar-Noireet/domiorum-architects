@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scheduleScrollRefresh } from "@/lib/scroll-refresh";
+import { process as designProcess } from "@/content/services";
 
 const interactive = "a, button, input, select, textarea, summary, [tabindex]";
 
@@ -105,12 +106,28 @@ export function FolioMotion() {
             const line = section.querySelector("[data-process-progress]");
             if (!line) return;
             const heading = section.querySelector("[data-process-heading]");
-            const headings = [
-              "First, we listen.",
-              "Then, we explore.",
-              "We refine the design.",
-              "We prepare for the next stage.",
-            ];
+            const phases = section.querySelectorAll("[data-process-phase]");
+            let previousPhase = -1;
+            const updateHeading = ({ progress }: ScrollTrigger) => {
+              const step = Math.min(
+                designProcess.length - 1,
+                Math.floor(progress * designProcess.length),
+              );
+              if (
+                heading &&
+                heading.textContent !== designProcess[step].heading
+              )
+                heading.textContent = designProcess[step].heading;
+
+              // Keep the introduction until the stages enter the viewport.
+              const phase = progress > 0 ? step + 1 : 0;
+              if (!phases.length || phase === previousPhase) return;
+              phases[previousPhase]?.removeAttribute("data-active");
+              if (previousPhase === -1)
+                phases[0].removeAttribute("data-active");
+              phases[phase].setAttribute("data-active", "");
+              previousPhase = phase;
+            };
 
             gsap.fromTo(
               line,
@@ -123,17 +140,8 @@ export function FolioMotion() {
                   start: "top 88%",
                   end: "bottom 55%",
                   scrub: true,
-                  onUpdate: ({ progress }) => {
-                    const text =
-                      headings[
-                        Math.min(
-                          headings.length - 1,
-                          Math.floor(progress * headings.length),
-                        )
-                      ];
-                    if (heading && heading.textContent !== text)
-                      heading.textContent = text;
-                  },
+                  onUpdate: updateHeading,
+                  onRefresh: updateHeading,
                 },
               },
             );

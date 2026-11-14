@@ -147,6 +147,23 @@
 .process-section[data-process-track] .section-aside {
   max-width: 240px;
 }
+.services-process-chapters .section-heading {
+  position: sticky;
+  top: 100px;
+  z-index: 1;
+  padding-block: 12px;
+  background: var(--ivory);
+}
+.services-process-heading {
+  display: grid;
+}
+.services-process-heading [data-process-phase] {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.services-process-heading [data-active] {
+  visibility: visible;
+}
 .process-rule {
   width: 100%;
   height: 1px;
@@ -191,7 +208,7 @@
 .service-index {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0 28px;
   margin-top: 22px;
 }
@@ -249,28 +266,131 @@
   margin-top: 22px;
   font-size: 15px;
 }
-.service-description > p {
-  font-size: 20px;
-  line-height: 1.65;
-  max-width: 600px;
-}
 .service-details .service-description ul {
-  margin-top: 26px;
+  margin-top: 0;
 }
-.service-details li {
+.service-description li {
   padding-block: 15px;
   font-size: 16px;
+  scroll-margin-top: 20px;
 }
-.service-scope {
-  border-top: 0;
-  padding-top: 8px;
-  margin-top: 28px;
+.service-packages {
+  padding-bottom: clamp(44px, 6vw, 96px);
 }
-.service-scope dt {
+.service-packages > h3 {
+  margin-bottom: 26px;
+}
+.service-package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(12px, 1.8vw, 28px);
+}
+.service-package {
+  --package-ring: transparent;
+  position: relative;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  row-gap: 16px;
+  padding: clamp(16px, 2.75vw, 36px);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 0 0 4px var(--package-ring);
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms ease;
+}
+.service-package[data-featured] {
+  --package-ring: rgb(225 191 119 / 24%);
+  background: #fffdf8;
+  border-color: var(--gold);
+}
+.service-package:has(.service-package-enquiry:focus-visible) {
+  z-index: 1;
+  transform: translateY(-8px) scale(1.015);
+  box-shadow:
+    0 0 0 4px var(--package-ring),
+    0 16px 30px rgb(8 24 46 / 13%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-package:hover {
+    z-index: 1;
+    transform: translateY(-8px) scale(1.015);
+    box-shadow:
+      0 0 0 4px var(--package-ring),
+      0 16px 30px rgb(8 24 46 / 13%);
+  }
+  .service-package:hover::after {
+    /* Keep the pointer over the card while its bottom edge lifts. */
+    content: "";
+    position: absolute;
+    inset: 100% 0 auto;
+    height: 9px;
+  }
+}
+.service-package h4 {
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.service-details .service-package-heading p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.service-package-enquiry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  align-self: center;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--ivory);
   color: var(--navy);
+  font-size: 1rem;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease;
 }
-.service-scope dd {
-  line-height: 1.7;
+.service-package[data-featured] .service-package-enquiry {
+  background: var(--navy);
+  color: var(--ivory);
+  border-color: var(--navy);
+}
+.service-package .service-package-enquiry:is(:hover, :focus-visible) {
+  background: var(--gold);
+  color: var(--navy);
+  border-color: var(--gold);
+}
+.service-details .service-package ul {
+  margin: 8px 0 0;
+}
+.service-package li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-block: 5px;
+  font-size: 16px;
+  line-height: 1.4;
+  border: 0;
+}
+.service-package li::before {
+  content: "";
+  flex: 0 0 6px;
+  height: 10px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-1px) rotate(45deg);
+}
+.enquiry-form#enquiry-form {
+  scroll-margin-top: 16px;
 }
 .services-process .consultation-prompt {
   display: flex;
@@ -403,15 +523,11 @@
     font-size: clamp(48px, 6vw, 65px);
   }
   .service-index {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 30px;
   }
   .service-index a {
     min-height: 78px;
     padding-block: 20px;
-  }
-  .service-index a:nth-child(-n + 2) {
-    border-bottom: 0;
   }
   .footer-invitation {
     grid-template-columns: minmax(0, 1.3fr) minmax(240px, 0.9fr);
@@ -425,6 +541,9 @@
   }
 }
 @media (max-width: 899px) {
+  .services-process-chapters .section-heading {
+    top: 84px;
+  }
   .service-details article {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
@@ -435,12 +554,6 @@
   .service-title > p {
     max-width: 580px;
     margin-top: 20px;
-  }
-  .service-description > p {
-    font-size: 18px;
-  }
-  .service-details .service-description ul {
-    margin-top: 18px;
   }
   .service-description {
     padding-top: 8px;
@@ -484,17 +597,15 @@
     padding-bottom: 0;
   }
   .service-index {
+    grid-template-columns: minmax(0, 1fr);
     margin-top: 4px;
-    gap: 0 18px;
   }
   .service-index a {
-    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    min-height: 48px;
     gap: 8px;
     font-size: 15px;
-    padding-block: 18px;
-  }
-  .service-index .directional-arrow {
-    display: none;
+    padding-block: 10px;
   }
   .services-banner {
     margin-inline: 0;
@@ -513,10 +624,16 @@
   .service-details .service-title h2 {
     font-size: clamp(31px, 7vw, 44px);
   }
-  .service-title > p,
-  .service-description > p,
-  .service-scope dd {
+  .service-title > p {
     font-size: 16px;
+  }
+  .service-package-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .service-package {
+    grid-template-rows: auto;
+    grid-row: auto;
   }
   .home-studio {
     grid-template-columns: minmax(0, 1fr);
@@ -538,6 +655,13 @@
   }
   .process-section[data-process-track] .section-heading {
     margin-bottom: 35px;
+  }
+  .services-process-chapters .section-heading {
+    top: 78px;
+    gap: 10px;
+  }
+  .services-process-chapters .section-heading h2 {
+    font-size: clamp(27px, 7vw, 40px);
   }
   .process-section[data-process-track] .process-grid {
     grid-template-columns: minmax(0, 1fr);

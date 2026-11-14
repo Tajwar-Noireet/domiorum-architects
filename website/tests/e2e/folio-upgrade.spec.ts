@@ -11,15 +11,27 @@ test("service chapters navigate to readable content at every viewport", async ({
 }, info) => {
   await page.goto("/services");
   await expect(page.locator("h1")).toHaveCSS("opacity", "1");
-  const links = page.locator(".service-index a");
-  for (let index = 0; index < 4; index++) {
-    await links.nth(index).click();
-    const article = page.locator(`#service-${index + 1}`);
+  const links = page.getByRole("navigation", { name: "Services on this page" });
+  for (const [title, anchor] of [
+    ["Residential Interior", "service-1"],
+    ["Commercial Interior", "commercial-interior"],
+    ["Architecture Consultancy", "service-2"],
+  ]) {
+    await links.getByRole("link", { name: title }).click();
+    const article = page.locator(`#${anchor}`);
     await expect(article.locator("h2")).toBeInViewport();
     await expect(article).toHaveCSS("opacity", "1");
     await expect(
       article.getByRole("link", { name: "Discuss your project" }),
     ).toHaveAttribute("href", "/book-consultation");
+  }
+  for (const department of ["Residential Interior", "Commercial Interior"]) {
+    const section = page.getByRole("region", { name: department });
+    for (const name of ["Essentia", "Signature", "Prestige"]) {
+      await expect(
+        section.getByRole("heading", { name, exact: true }),
+      ).toBeVisible();
+    }
   }
   expect(
     await page.evaluate(
@@ -48,6 +60,75 @@ test("service chapters navigate to readable content at every viewport", async ({
     await page.screenshot({
       path: "../output/website-review/upgrade-services-desktop.png",
     });
+  }
+});
+
+test("package links open the enquiry form with the department and package selected", async ({
+  page,
+}) => {
+  await page.goto("/services");
+  for (const [department, plan] of [
+    ["Residential Interior", "Essentia"],
+    ["Residential Interior", "Signature"],
+    ["Residential Interior", "Prestige"],
+    ["Commercial Interior", "Essentia"],
+    ["Commercial Interior", "Signature"],
+    ["Commercial Interior", "Prestige"],
+  ]) {
+    await page
+      .getByRole("link", { name: `Enquire about ${plan} for ${department}` })
+      .click();
+    await expect(page).toHaveURL(/\/book-consultation\?.*#enquiry-form$/);
+    const heading = page.getByRole("heading", {
+      name: `Enquire about ${plan}`,
+    });
+    await expect(heading).toBeInViewport();
+    await expect(page.getByLabel("Department", { exact: true })).toHaveValue(
+      department,
+    );
+    await expect(page.getByLabel("Package", { exact: true })).toHaveValue(plan);
+    await page.getByLabel("Your name").fill("Test client");
+    await page.getByLabel("Email address").fill("client@example.com");
+    await page
+      .getByLabel("A little about your project")
+      .fill("A fit-out in Dhaka.");
+    await page.getByRole("button", { name: "Prepare my enquiry" }).click();
+    await expect(page.getByLabel("Prepared enquiry text")).toHaveValue(
+      new RegExp(`Department: ${department}\\nPackage: ${plan}`),
+    );
+    await page.goBack();
+  }
+});
+
+test("the Services process heading moves through all stages and resets on reverse scroll", async ({
+  page,
+}) => {
+  await page.goto("/services");
+  const process = page.locator(".services-process-chapters");
+  const grid = process.locator(".process-grid");
+  const heading = process.getByRole("heading", { level: 2 });
+  const scrollToProgress = (progress: number) =>
+    grid.evaluate((element, progress) => {
+      const rect = element.getBoundingClientRect();
+      const start = scrollY + rect.top - innerHeight * 0.88;
+      const distance = rect.height + innerHeight * 0.33;
+      window.scrollTo({
+        top: start + distance * progress,
+        behavior: "instant",
+      });
+    }, progress);
+
+  for (const [progress, title] of [
+    [0.125, "First, we listen."],
+    [0.375, "Then, we explore."],
+    [0.625, "We refine the design."],
+    [0.875, "We prepare for the next stage."],
+    [0.375, "Then, we explore."],
+    [-0.1, "A clear path from the first conversation."],
+  ] as const) {
+    await scrollToProgress(progress);
+    await expect(heading).toHaveAccessibleName(title);
+    await expect(heading).toBeInViewport();
   }
 });
 

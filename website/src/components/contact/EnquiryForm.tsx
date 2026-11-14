@@ -15,16 +15,26 @@ const services = [
 
 export function EnquiryForm({
   consultation = false,
+  packageSelection,
 }: {
   consultation?: boolean;
+  packageSelection?: { department: string; title: string };
 }) {
   const [draft, setDraft] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
+  const enquiryType = packageSelection
+    ? "Package enquiry"
+    : consultation
+      ? "Consultation request"
+      : "Project enquiry";
   function prepare(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const message = `${consultation ? "Consultation request" : "Project enquiry"}\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone") || "Not provided"}\nInterest: ${data.get("service")}\nLocation: ${data.get("location") || "To discuss"}\nApproximate area: ${data.get("area") || "To discuss"}\nPreferred timing: ${data.get("timing") || "To discuss"}\n\n${data.get("message")}`;
+    const interest = packageSelection
+      ? `Department: ${packageSelection.department}\nPackage: ${packageSelection.title}`
+      : `Interest: ${data.get("service")}`;
+    const message = `${enquiryType}\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone") || "Not provided"}\n${interest}\nLocation: ${data.get("location") || "To discuss"}\nApproximate area: ${data.get("area") || "To discuss"}\nPreferred timing: ${data.get("timing") || "To discuss"}\n\n${data.get("message")}`;
     setDraft(message);
     setCopied(false);
     setCopyError(false);
@@ -39,15 +49,29 @@ export function EnquiryForm({
     }
   }
   return (
-    <form className="enquiry-form" onSubmit={prepare}>
+    <form id="enquiry-form" className="enquiry-form" onSubmit={prepare}>
       <div className="form-heading">
         <h2>
-          {consultation
-            ? "Request a consultation"
-            : "Tell us about your project"}
+          {packageSelection
+            ? `Enquire about ${packageSelection.title}`
+            : consultation
+              ? "Request a consultation"
+              : "Tell us about your project"}
         </h2>
         <p>A few details are enough to start a conversation.</p>
       </div>
+      {packageSelection && (
+        <div className="form-row">
+          <label>
+            Department
+            <input readOnly value={packageSelection.department} />
+          </label>
+          <label>
+            Package
+            <input readOnly value={packageSelection.title} />
+          </label>
+        </div>
+      )}
       <div className="form-row">
         <label>
           Your name <span aria-hidden="true">*</span>
@@ -87,20 +111,22 @@ export function EnquiryForm({
           <input name="location" maxLength={150} placeholder="Area or city" />
         </label>
       </div>
-      <div className="form-choice">
-        <label htmlFor="service-choice" id="service-label">
-          I’m interested in
-        </label>
-        <AnimatedSelect
-          id="service-choice"
-          labelId="service-label"
-          name="service"
-          defaultValue={
-            consultation ? "Initial consultation" : "Interior design"
-          }
-          options={services}
-        />
-      </div>
+      {!packageSelection && (
+        <div className="form-choice">
+          <label htmlFor="service-choice" id="service-label">
+            I’m interested in
+          </label>
+          <AnimatedSelect
+            id="service-choice"
+            labelId="service-label"
+            name="service"
+            defaultValue={
+              consultation ? "Initial consultation" : "Interior design"
+            }
+            options={services}
+          />
+        </div>
+      )}
       <div className="form-row">
         <label>
           Approximate area <span className="optional">optional</span>
@@ -151,7 +177,7 @@ export function EnquiryForm({
           <div className="draft-actions">
             <a
               className="button flow-button"
-              href={`mailto:${site.email}?subject=${encodeURIComponent(consultation ? "Consultation request — Domiorum" : "Project enquiry — Domiorum")}&body=${encodeURIComponent(draft)}`}
+              href={`mailto:${site.email}?subject=${encodeURIComponent(`${enquiryType} — Domiorum`)}&body=${encodeURIComponent(draft)}`}
             >
               <FlowButtonContent>Open email app</FlowButtonContent>
             </a>
