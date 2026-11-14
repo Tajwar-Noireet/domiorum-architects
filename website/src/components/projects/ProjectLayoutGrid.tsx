@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { CircularGallery } from "@/components/ui/CircularGallery";
 import dimensions from "@/content/gallery-dimensions.json";
 import type { Project } from "@/types/project";
 
@@ -12,9 +13,18 @@ export function ProjectLayoutGrid({
   project: Project;
   credit?: string;
 }) {
+  const interior = project.category === "Interiors";
   const rail = useRef<HTMLDivElement>(null);
   const [center, setCenter] = useState(0);
   const move = (delta: number) => {
+    if (
+      interior &&
+      rail.current?.previousElementSibling?.getAttribute("data-ready") ===
+        "true"
+    ) {
+      setCenter((value) => wrap(value + delta));
+      return;
+    }
     const track = rail.current;
     if (!track) return;
     const next = Math.max(
@@ -27,6 +37,8 @@ export function ProjectLayoutGrid({
       behavior: "smooth",
     });
   };
+  const wrap = (value: number) =>
+    (value + project.images.length) % project.images.length;
   const viewer = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -48,6 +60,13 @@ export function ProjectLayoutGrid({
           ? "Exterior views"
           : "Inside the project"}
       </h2>
+      {interior && (
+        <CircularGallery
+          items={project.images}
+          index={center}
+          select={(value) => setCenter(wrap(value))}
+        />
+      )}
       <div
         ref={rail}
         className="project-carousel"
@@ -116,7 +135,11 @@ export function ProjectLayoutGrid({
         ))}
       </div>
       <div className="project-layout-viewer-controls project-carousel-controls">
-        <button type="button" onClick={() => move(-1)} disabled={center === 0}>
+        <button
+          type="button"
+          onClick={() => move(-1)}
+          disabled={!interior && center === 0}
+        >
           Previous view
         </button>
         <span>
@@ -125,11 +148,24 @@ export function ProjectLayoutGrid({
         <button
           type="button"
           onClick={() => move(1)}
-          disabled={center === project.images.length - 1}
+          disabled={!interior && center === project.images.length - 1}
         >
           Next view
         </button>
       </div>
+      {interior && (
+        <button
+          type="button"
+          className="project-circular-enlarge"
+          onClick={() => {
+            setIndex(center);
+            setOpen(true);
+            viewer.current?.showModal();
+          }}
+        >
+          Enlarge image
+        </button>
+      )}
       {credit && <p className="portfolio-credit">{credit}</p>}
       <dialog
         ref={viewer}
