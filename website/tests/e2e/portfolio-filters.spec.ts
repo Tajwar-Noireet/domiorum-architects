@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 for (const route of ["/", "/projects"]) {
   test(`portfolio filters keep project links and scrolling intact on ${route}`, async ({
     page,
-  }, info) => {
+  }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(route);
@@ -21,7 +21,7 @@ for (const route of ["/", "/projects"]) {
       .getByRole("button", { name: "Interiors", exact: true })
       .click();
     await expect(cards).toHaveCount(5);
-    await expect(page.locator(".showcase-index")).not.toContainText(
+    await expect(page.locator(".project-showcase")).not.toContainText(
       "Doctors Residence",
     );
     await filters
@@ -29,12 +29,8 @@ for (const route of ["/", "/projects"]) {
       .click();
     await expect(cards).toHaveCount(1);
     await expect(cards).toContainText("Doctors Residence");
-    await expect(page.locator(".project-showcase")).toHaveAttribute(
-      "data-stack",
-      "false",
-    );
     await page
-      .getByRole("link", { name: "Open Doctors Residence", exact: true })
+      .getByRole("link", { name: "Doctors Residence", exact: true })
       .click();
     await expect(page).toHaveURL(/\/projects\/doctors-residence$/);
     await expect(page.locator(".project-heading .eyebrow")).toContainText(
@@ -43,34 +39,6 @@ for (const route of ["/", "/projects"]) {
     await page.goBack();
     await filters.getByRole("button", { name: "All", exact: true }).click();
     await expect(cards).toHaveCount(6);
-    const desktop = ["desktop", "reduced-motion"].includes(info.project.name);
-    if (desktop) {
-      await expect(page.locator(".project-showcase")).toHaveAttribute(
-        "data-stack",
-        "true",
-      );
-      await page
-        .locator(".showcase-index a")
-        .filter({ hasText: "RUAP" })
-        .click();
-      await expect(
-        page.locator(".showcase-index a").filter({ hasText: "RUAP" }),
-      ).toHaveAttribute("aria-current", "true");
-      await expect(page.locator("#selected-ruap-interior")).not.toHaveAttribute(
-        "aria-hidden",
-        "true",
-      );
-      await page
-        .locator(".showcase-index a")
-        .filter({ hasText: "Aftabnagar" })
-        .click();
-      await expect(
-        page.locator(".showcase-index a").filter({ hasText: "Aftabnagar" }),
-      ).toHaveAttribute("aria-current", "true");
-      await expect(
-        page.locator("#selected-aftabnagar-interior"),
-      ).not.toHaveAttribute("aria-hidden", "true");
-    }
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth + 1,

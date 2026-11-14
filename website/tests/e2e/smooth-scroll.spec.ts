@@ -46,44 +46,9 @@ test("wheel scroll eases into GSAP scenes and stops before navigating", async ({
   await expect(page.locator("h1")).toBeInViewport();
   await expect(page.locator("html")).not.toHaveClass(/lenis-stopped/);
   await page.goBack();
-  await expect(page.locator(".project-showcase")).toHaveAttribute(
-    "data-stack",
-    "true",
-  );
-  await page.locator(".showcase-index a").nth(2).click();
-  await expect(page.locator(".showcase-project").nth(2)).not.toHaveAttribute(
-    "inert",
-    "",
-  );
-});
-
-test("short laptop windows retain large animated project covers", async ({
-  page,
-}, info) => {
-  test.skip(info.project.name !== "desktop");
-  await page.setViewportSize({ width: 1366, height: 650 });
-  await page.addInitScript(() =>
-    sessionStorage.setItem("domiorum-brand-intro-v1", "seen"),
-  );
-  await page.goto("/projects");
-  const showcase = page.locator(".project-showcase");
-  await expect(showcase).toHaveAttribute("data-stack", "true");
-  await showcase.locator(".showcase-index a").nth(1).click();
-  const card = showcase.locator(".showcase-project").nth(1);
-  await expect(card).not.toHaveAttribute("inert", "");
-  const cover = card.locator(".showcase-cover");
-  await expect
-    .poll(async () => (await cover.boundingBox())!.width)
-    .toBeGreaterThan(650);
-  const bounds = (await card.boundingBox())!;
-  expect(bounds.y).toBeGreaterThan(100);
-  expect(bounds.y + bounds.height).toBeLessThan(650);
-  await expect(
-    card.getByRole("link", { name: "View project", exact: true }),
-  ).toBeInViewport();
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(showcase).toHaveAttribute("data-stack", "true");
-  await expect(card).not.toHaveAttribute("inert", "");
+  const project = page.locator(".showcase-panel").nth(2);
+  await project.click();
+  await expect(page).toHaveURL(/\/projects\/edison-interior$/);
 });
 
 test("intro locks scrolling and releases the page on dismissal", async ({

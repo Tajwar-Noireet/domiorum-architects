@@ -106,11 +106,11 @@ test("brand composition fits phones, tablets and desktop", async ({
   }
   await page.setViewportSize({ width: 1440, height: 1600 });
   await page.goto("/projects");
-  await expect(page.locator(".showcase-index a")).toHaveCount(5);
+  await expect(page.locator(".showcase-panel")).toHaveCount(6);
   await expect
     .poll(() =>
       page
-        .locator(".showcase-cover img")
+        .locator(".showcase-image img")
         .first()
         .evaluate(
           (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,

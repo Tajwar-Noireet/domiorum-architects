@@ -71,12 +71,8 @@ test("co-founder profile is separate from the portfolio and its project credits"
   await expect(page.locator("main")).not.toContainText("Innova");
   await page.goto("/projects");
   await page
-    .locator(".showcase-index")
+    .locator(".project-showcase")
     .getByRole("link", { name: "Selim Residence", exact: true })
-    .click();
-  await page
-    .locator("#selected-selim-residence")
-    .getByRole("link", { name: "View project", exact: true })
     .click();
   await expect(page).toHaveURL(/\/projects\/selim-residence$/);
   await expect(page.locator("main")).not.toContainText("Innova");

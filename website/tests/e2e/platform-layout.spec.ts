@@ -60,12 +60,8 @@ test("key layouts fit portrait, landscape and PC sizes", async ({
         )
         .toBe(true);
       if (phone && route === "/projects") {
-        await expect(page.locator(".project-showcase")).toHaveAttribute(
-          "data-stack",
-          "false",
-        );
-        await page.locator(".showcase-index a").first().click();
-        const image = page.locator(".showcase-cover img").first();
+        const image = page.locator(".showcase-image img").first();
+        await image.scrollIntoViewIfNeeded();
         await expect
           .poll(() =>
             image.evaluate(

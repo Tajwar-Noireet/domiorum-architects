@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, allProjects, experienceCredit } from "@/content/projects";
-import { ProjectScrollHero } from "@/components/projects/ProjectScrollHero";
 import { ProjectScrollGallery } from "@/components/projects/ProjectScrollGallery";
 import { ProjectMotionProvider } from "@/components/projects/ProjectMotion";
 export function generateStaticParams() {
@@ -45,20 +44,16 @@ export default async function Project({
         </h1>
         <p className="project-standfirst">{project.summary}</p>
       </section>
-      {project.images.length > 0 ? (
-        <ProjectScrollHero project={project} />
-      ) : (
-        <div className="project-hero-image">
-          <Image
-            src={project.cover}
-            alt={project.coverAlt}
-            fill
-            sizes="100vw"
-            preload
-          />
-          <span className="project-image-note">Design visualization</span>
-        </div>
-      )}
+      <div className="project-hero-image">
+        <Image
+          src={project.cover}
+          alt={project.coverAlt}
+          fill
+          sizes="100vw"
+          preload
+        />
+        <span className="project-image-note">Design visualization</span>
+      </div>
       <section className="section project-story">
         <dl className="project-facts">
           {project.location && (

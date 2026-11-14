@@ -26,13 +26,12 @@ test("featured project links reach the project gallery", async ({
   await page.goto("/");
   await expect(page.locator(".brand-reveal")).toBeHidden();
   if (testInfo.project.name === "desktop") {
-    await page.locator(".showcase-index a").first().click();
     await page.locator(".showcase-project").first().screenshot({
       path: "../output/website-review/portfolio-desktop.png",
     });
   }
   await page
-    .getByRole("link", { name: "View project", exact: true })
+    .locator(".showcase-panel")
     .first()
     .click();
   await expect(page).toHaveURL(/\/projects\/aftabnagar-interior$/);

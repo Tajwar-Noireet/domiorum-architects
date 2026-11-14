@@ -15,7 +15,6 @@ import "@/styles/cursors.css";
 import "@/styles/refinements.css";
 import "@/styles/portfolio.css";
 import "@/styles/project-gallery-motion.css";
-import "@/styles/project-hero-motion.css";
 import "@/styles/editorial-motion.css";
 import "@/styles/discover-interactions.css";
 import "@/styles/brand-reveal.css";

@@ -204,42 +204,12 @@ test("client-selected full motion survives live device preference changes", asyn
   }
 });
 
-test("project cover opens and zooms with scroll regardless of device preference", async ({
-  page,
-}) => {
+test("project cover is a still image", async ({ page }) => {
   await page.goto("/projects/mirpur-dohs-interior");
-  await page.evaluate(() => document.fonts.ready);
-  const cover = page.locator(".project-scroll-hero");
-  const aperture = cover.locator(".project-hero-aperture");
-  const photo = cover.locator(".project-hero-photo");
-  const space = await cover.evaluate((element) => ({
-    top: element.getBoundingClientRect().top + scrollY,
-    height: (element as HTMLElement).offsetHeight,
-    viewportHeight: innerHeight,
-  }));
+  const cover = page.locator(".project-hero-image");
   await expectImagesLoaded(cover.locator("img"));
-  await scrollTo(page, Math.max(0, space.top - space.viewportHeight * 0.9));
-
-  await expect(cover).toHaveAttribute("data-animated", "true");
-  const inset = () =>
-    aperture.evaluate((element) =>
-      parseFloat(getComputedStyle(element).clipPath.replace("inset(", "")),
-    );
-  await expect.poll(inset).toBeGreaterThan(0.5);
-  const initialScale = await photo.evaluate(
-    (element) => new DOMMatrix(getComputedStyle(element).transform).a,
-  );
-  await scrollTo(page, space.top + space.height * 0.2);
-  await expect.poll(inset).toBeLessThan(0.01);
-  await expect
-    .poll(() =>
-      photo.evaluate(
-        (element) => new DOMMatrix(getComputedStyle(element).transform).a,
-      ),
-    )
-    .toBeLessThan(initialScale - 0.03);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(cover).toHaveAttribute("data-animated", "true");
+  await expect(cover.locator("video")).toHaveCount(0);
+  await expect(cover.locator("img")).toHaveCSS("transform", "none");
 });
 
 test("full project motion ignores device preferences and retired session choices", async ({
@@ -253,7 +223,7 @@ test("full project motion ignores device preferences and retired session choices
   await page.goto("/projects/mirpur-dohs-interior");
   await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator(".project-motion-toggle")).toHaveCount(0);
-  for (const selector of ["#rooms", ".project-scroll-hero"]) {
+  for (const selector of ["#rooms"]) {
     await expect(page.locator(selector)).toHaveAttribute(
       "data-animated",
       "true",
@@ -275,7 +245,7 @@ test("Doctors Residence shows all seven supplied exterior views in its animated 
   await expect(page.locator("h1")).toHaveText("Doctors Residence");
   const gallery = page.locator("#rooms");
   await expect(gallery).toHaveAttribute("data-animated", "true");
-  await expect(page.locator(".project-scroll-hero")).toHaveCount(1);
+  await expect(page.locator(".project-hero-image")).toHaveCount(1);
   await expect(page.locator(".project-heading .eyebrow")).toContainText(
     "Exteriors",
   );

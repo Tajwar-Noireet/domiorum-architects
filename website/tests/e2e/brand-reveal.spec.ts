@@ -104,8 +104,8 @@ test("a video error never traps the page", async ({ page }) => {
   await expect(page.locator("main h1")).toBeVisible();
   await expect(page.locator(".brand-reveal")).toBeHidden();
   await expect(page.locator("#site-shell")).toHaveJSProperty("inert", false);
-  await page.locator(".showcase-index a").first().click();
-  await expect(page.locator(".showcase-cover img").first()).toBeVisible();
+  await page.locator(".showcase-panel").first().click();
+  await expect(page.locator(".project-hero-image img")).toBeVisible();
 });
 
 test("blocked autoplay and unavailable session storage have working fallbacks", async ({
