@@ -5,6 +5,7 @@ import {
   Mesh,
   Plane,
   Program,
+  Raycast,
   Renderer,
   Texture,
   Transform,
@@ -19,14 +20,24 @@ export function CircularGallery({
   items,
   index,
   select,
+  openPhoto,
 }: {
   items: readonly Item[];
   index: number;
   select: (index: number) => void;
+  openPhoto: (index: number) => void;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const target = useRef(index);
-  const drag = useRef<{ x: number; index: number } | null>(null);
+  const drag = useRef<{
+    pointerId: number;
+    x: number;
+    y: number;
+    index: number;
+    photo: number;
+    moved: boolean;
+  } | null>(null);
+  const pickPhoto = useRef<(x: number, y: number) => number>(() => -1);
   const wheelTotal = useRef(0);
   const selectRef = useRef(select);
   useEffect(() => {
@@ -93,6 +104,19 @@ export function CircularGallery({
       return { mesh, photo, program, texture };
     });
     element.appendChild(gl.canvas);
+    const ray = new Raycast();
+    pickPhoto.current = (x, y) => {
+      const bounds = element.getBoundingClientRect();
+      ray.castMouse(camera, [
+        ((x - bounds.left) / bounds.width) * 2 - 1,
+        1 - ((y - bounds.top) / bounds.height) * 2,
+      ]);
+      const visibleMeshes = cards
+        .filter(({ mesh, photo }) => mesh.visible && photo.naturalWidth > 0)
+        .map(({ mesh }) => mesh);
+      const [hit] = ray.intersectBounds(visibleMeshes);
+      return cards.findIndex(({ mesh }) => mesh === hit);
+    };
     const lost = () => setReady(false);
     gl.canvas.addEventListener("webglcontextlost", lost);
     let aspect = 1;
@@ -155,6 +179,7 @@ export function CircularGallery({
     visibility.observe(element);
     return () => {
       disposed = true;
+      pickPhoto.current = () => -1;
       visibility.disconnect();
       observer.disconnect();
       cancelAnimationFrame(frame);
@@ -209,28 +234,47 @@ export function CircularGallery({
       data-ready={ready}
       aria-hidden="true"
       onPointerDown={(event) => {
-        if (event.button !== 0) return;
-        drag.current = { x: event.clientX, index };
+        if (event.button !== 0 || !event.isPrimary) return;
+        drag.current = {
+          pointerId: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+          index,
+          photo: pickPhoto.current(event.clientX, event.clientY),
+          moved: false,
+        };
         event.currentTarget.setPointerCapture(event.pointerId);
       }}
       onPointerMove={(event) => {
-        if (!drag.current) return;
+        const gesture = drag.current;
+        if (!gesture || gesture.pointerId !== event.pointerId) return;
+        const difference = gesture.x - event.clientX;
+        gesture.moved ||= Math.hypot(difference, gesture.y - event.clientY) > 8;
+        if (!gesture.moved) return;
         target.current =
-          drag.current.index +
-          (drag.current.x - event.clientX) /
-            Math.max(120, event.currentTarget.clientWidth * 0.55);
+          gesture.index +
+          difference / Math.max(120, event.currentTarget.clientWidth * 0.55);
       }}
-      onPointerCancel={() => {
+      onLostPointerCapture={(event) => {
+        if (drag.current?.pointerId !== event.pointerId) return;
         drag.current = null;
         target.current = index;
       }}
       onPointerUp={(event) => {
-        if (drag.current === null) return;
-        const { x, index: start } = drag.current;
-        const difference = x - event.clientX;
+        const gesture = drag.current;
+        if (!gesture || gesture.pointerId !== event.pointerId) return;
         drag.current = null;
+        const difference = gesture.x - event.clientX;
+        if (
+          !gesture.moved &&
+          Math.hypot(difference, gesture.y - event.clientY) <= 8
+        ) {
+          if (gesture.photo !== -1) openPhoto(gesture.photo);
+          return;
+        }
         target.current =
-          start + (Math.abs(difference) > 25 ? Math.sign(difference) : 0);
+          gesture.index +
+          (Math.abs(difference) > 25 ? Math.sign(difference) : 0);
         select(Math.round(target.current));
       }}
     />

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { CircularGallery } from "@/components/ui/CircularGallery";
+import { DirectionalArrow } from "@/components/ui/DirectionalArrow";
 import dimensions from "@/content/gallery-dimensions.json";
 import type { Project } from "@/types/project";
 
@@ -40,9 +41,15 @@ export function ProjectLayoutGrid({
   const wrap = (value: number) =>
     (value + project.images.length) % project.images.length;
   const viewer = useRef<HTMLDialogElement>(null);
+  const enlarge = useRef<HTMLButtonElement>(null);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const active = project.images[index];
+  const showPhoto = (position: number) => {
+    setIndex(position);
+    setOpen(true);
+    viewer.current?.showModal();
+  };
   const step = (delta: number) =>
     setIndex(
       (current) =>
@@ -65,6 +72,10 @@ export function ProjectLayoutGrid({
           items={project.images}
           index={center}
           select={(value) => setCenter(wrap(value))}
+          openPhoto={(position) => {
+            enlarge.current?.focus({ preventScroll: true });
+            showPhoto(position);
+          }}
         />
       )}
       <div
@@ -112,11 +123,7 @@ export function ProjectLayoutGrid({
               type="button"
               className="project-layout-tile"
               aria-label={`Enlarge ${image.caption}`}
-              onClick={() => {
-                setIndex(position);
-                setOpen(true);
-                viewer.current?.showModal();
-              }}
+              onClick={() => showPhoto(position)}
             >
               <Image
                 src={image.src}
@@ -135,7 +142,7 @@ export function ProjectLayoutGrid({
           </figure>
         ))}
       </div>
-      <div className="project-layout-viewer-controls project-carousel-controls">
+      <div className="project-carousel-controls">
         <button
           type="button"
           onClick={() => move(-1)}
@@ -156,13 +163,10 @@ export function ProjectLayoutGrid({
       </div>
       {interior && (
         <button
+          ref={enlarge}
           type="button"
           className="project-circular-enlarge"
-          onClick={() => {
-            setIndex(center);
-            setOpen(true);
-            viewer.current?.showModal();
-          }}
+          onClick={() => showPhoto(center)}
         >
           Enlarge image
         </button>
@@ -171,7 +175,8 @@ export function ProjectLayoutGrid({
       <dialog
         ref={viewer}
         className="project-layout-viewer"
-        aria-label="Project image"
+        aria-labelledby="project-viewer-title"
+        data-lenis-prevent
         onClose={() => setOpen(false)}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -180,8 +185,23 @@ export function ProjectLayoutGrid({
           }
         }}
       >
-        <form method="dialog">
-          <button type="submit">Close image</button>
+        <form method="dialog" className="project-viewer-header">
+          <h2 id="project-viewer-title">{project.title}</h2>
+          <button
+            type="submit"
+            className="project-viewer-button"
+            aria-label="Close image"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+              <path
+                d="m6 6 12 12M18 6 6 18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
         </form>
         {open && active && (
           <div className="project-layout-preview">
@@ -194,17 +214,32 @@ export function ProjectLayoutGrid({
             />
           </div>
         )}
-        <div className="project-layout-viewer-controls">
-          <button type="button" onClick={() => step(-1)}>
-            Previous
-          </button>
+        <footer className="project-viewer-footer">
           <p aria-live="polite">
-            {active?.caption} · {index + 1} / {project.images.length}
+            {active?.caption}
+            <span className="project-viewer-count">
+              {index + 1} / {project.images.length}
+            </span>
           </p>
-          <button type="button" onClick={() => step(1)}>
-            Next
-          </button>
-        </div>
+          <div className="project-viewer-navigation">
+            <button
+              type="button"
+              className="project-viewer-button"
+              aria-label="Previous image"
+              onClick={() => step(-1)}
+            >
+              <DirectionalArrow direction="left" />
+            </button>
+            <button
+              type="button"
+              className="project-viewer-button"
+              aria-label="Next image"
+              onClick={() => step(1)}
+            >
+              <DirectionalArrow />
+            </button>
+          </div>
+        </footer>
       </dialog>
     </section>
   );

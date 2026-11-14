@@ -1,4 +1,18 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
+
+async function positionCanvas(canvas: Locator) {
+  await canvas.evaluate(async (element) => {
+    const rect = element.getBoundingClientRect();
+    window.scrollTo({
+      top: scrollY + rect.top + (rect.height - innerHeight) / 2,
+      behavior: "instant",
+    });
+    // Let ScrollTrigger observe the new position before reading the counter.
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+  });
+}
 
 test("exterior grid shows all seven views and opens uncropped images", async ({
   page,
@@ -78,12 +92,68 @@ test("interior photos use the circular gallery and open the current photo", asyn
   await expect(counter).toHaveText("1 / 10");
   const next = gallery.getByRole("button", { name: "Next view" });
 
+  await positionCanvas(gallery.locator("canvas"));
   const current = Number((await counter.textContent())?.split("/")[0]);
-  await next.dispatchEvent("click");
+  await next.click();
   const expected = (current % 10) + 1;
   await expect(counter).toHaveText(`${expected} / 10`);
-  await gallery
-    .getByRole("button", { name: "Enlarge image", exact: true })
-    .dispatchEvent("click");
-  await expect(page.getByRole("dialog")).toContainText(`${expected} / 10`);
+  const enlarge = gallery.getByRole("button", {
+    name: "Enlarge image",
+    exact: true,
+  });
+  await enlarge.focus();
+  await enlarge.press("Enter");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.locator(".project-viewer-count")).toHaveText(
+    `${expected} / 10`,
+  );
+  await page.keyboard.press("Escape");
+  await expect(enlarge).toBeFocused();
+});
+
+test("tapping or clicking the canvas opens the photo and dragging browses", async ({
+  page,
+  hasTouch,
+}) => {
+  await page.addInitScript(() =>
+    sessionStorage.setItem("domiorum-brand-intro-v1", "seen"),
+  );
+  await page.goto("/projects/aftabnagar-interior");
+  const gallery = page.locator("#rooms");
+  const canvas = gallery.locator("canvas");
+  const counter = gallery.locator(".project-carousel-controls span");
+  const dialog = page.getByRole("dialog");
+  await expect(canvas).toBeVisible();
+  await positionCanvas(canvas);
+  if (hasTouch) await canvas.tap();
+  else await canvas.click();
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator(".project-viewer-count")).toHaveText(/\d+ \/ 10/);
+  await expect(dialog.locator("img")).toHaveCSS("object-fit", "contain");
+  const previousPhoto = await dialog.locator("img").getAttribute("alt");
+  await dialog.getByRole("button", { name: "Next image" }).click();
+  await expect(dialog.locator("img")).not.toHaveAttribute(
+    "alt",
+    previousPhoto ?? "",
+  );
+  await page.keyboard.press("ArrowLeft");
+  await expect(dialog.locator("img")).toHaveAttribute(
+    "alt",
+    previousPhoto ?? "",
+  );
+  await dialog.getByRole("button", { name: "Close image" }).click();
+  await expect(dialog).toBeHidden();
+
+  if (!hasTouch) {
+    const bounds = (await canvas.boundingBox())!;
+    const x = bounds.x + bounds.width / 2;
+    const y = bounds.y + bounds.height / 2;
+    const beforeDrag = await counter.textContent();
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x - 90, y, { steps: 5 });
+    await page.mouse.up();
+    await expect(counter).not.toHaveText(beforeDrag ?? "");
+    await expect(dialog).toBeHidden();
+  }
 });
